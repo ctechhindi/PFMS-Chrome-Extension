@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="css/buefy.min.css" rel="stylesheet">
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PFMS</title>
+    <style>
+        .unsortable {
+            background: #7b7474;
+            color: white;
+            opacity: .5;
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <section class="hero is-primary is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">PFMS</h1>
+                    <h2 class="subtitle" v-text="version"></h2>
+                </div>
+            </div>
+        </section>
+        <br>
+
+        <!-- Tabs -->
+        <section>
+            <b-tabs position="is-centered" class="block" type="is-boxed" v-model="activeTab">
+                <!-- App Data -->
+                <b-tab-item label="App Data" icon="sitemap">
+                    <div class="container">
+                        <div class="field">
+                            <b-switch v-model="appStatus">
+                                <div v-if="appStatus">
+                                    The application has started.
+                                    <p>
+                                        <code class="has-text-success">
+                                            एप्लीकेशन चालू हो गयी है
+                                        </code>
+                                    </p>
+                                </div>
+                                <div v-else>
+                                    Click to start the application.
+                                    <p>
+                                        <code>एप्लीकेशन को चालू करने के लिये क्लिक करे</code>
+                                    </p>
+                                </div>
+                            </b-switch>
+                        </div>
+                        <hr>
+                    </div>
+                </b-tab-item>
+
+                <!-- Custom Details -->
+                <b-tab-item label="Custom Details" icon="calendar-range">
+                    <div class="container">
+                        <section>
+                            <!-- Add Beneficiary :: Details -->
+                            <b-collapse class="panel">
+                                <div slot="trigger" class="panel-heading notification is-success">
+                                    <b-icon icon="account"></b-icon>
+                                    <strong> Add/Update Beneficiary</strong>
+                                </div>
+                                <div class="panel-block">
+                                    <div class="content is-small" style="width: -webkit-fill-available;">
+                                        <div class="field">
+                                            <b-switch v-model="addBeneficiary.isRunScript" size="is-medium" type="is-danger">Run App this Page </b-switch>
+                                        </div>
+                                        <div class="columns is-desktop" id="add_beneficiary" style="display: none;">
+                                            <!-- Personal Details -->
+                                            <div class="column">
+                                                <p class="is-size-6 has-text-danger has-text-weight-bold">Personal Details</p>
+                                                <section>
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isBeneficiaryType">Beneficiary Type</b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isBeneficiaryType">
+                                                        <b-select v-model="addBeneficiary.beneficiaryTypeValue" label="Rounded" expanded size="is-small" placeholder="Select">
+                                                            <option value="1284" title="4th Grade Staff">4th Grade Staff</option>
+                                                            <option value="391" title="A/C ASSIST">A/C ASSIST</option>
+                                                            <option value="166" title="Aanganwadi Worker">Aanganwadi Worker</option>
+                                                            <option value="272" title="Account Manager">Account Manager</option>
+                                                            <option value="230" title="Accountant">Accountant</option>
+                                                            <option value="205" title="Accountant (HO)/Data Officer/Computer Programmer">Accountant (HO)/Data Officer/Computer Programmer</option>
+                                                            <option value="273" title="Accountants">Accountants</option>
+                                                            <option value="274" title="Accounts Manager">Accounts Manager</option>
+                                                            <option value="193" title="Additional Director">Additional Director</option>
+                                                            <option value="275" title="Admin assistant cum DEO">Admin assistant cum DEO</option>
+                                                            <option value="245" title="Administrative Assistant">Administrative Assistant</option>
+                                                            <option value="588" title="Adolscent Health Counsellers">Adolscent Health Counsellers</option>
+                                                            <option value="234" title="AMO">AMO</option>
+                                                            <option value="169" title="Anesthetist/Assisting MO">Anesthetist/Assisting MO</option>
+                                                            <option value="171" title="ANM">ANM</option>
+                                                            <option value="276" title="ANM -Sub centers">ANM -Sub centers</option>
+                                                            <option value="440" title="ANM/GNM">ANM/GNM</option>
+                                                            <option value="354" title="ANW">ANW</option>
+                                                            <option value="163" title="ASHA">ASHA</option>
+                                                            <option value="277" title="ASHA Community Mobilizer">ASHA  Community Mobilizer</option>
+                                                            <option value="278" title="ASHA District Data Assistant">ASHA District Data Assistant</option>
+                                                            <option value="279" title="ASHA Facilitators">ASHA Facilitators</option>
+                                                            <option value="201" title="Assistant Health Finance Analyst">Assistant Health Finance Analyst</option>
+                                                            <option value="200" title="Assistant Manager - IT">Assistant Manager - IT</option>
+                                                            <option value="252" title="Basic Health Worker">Basic Health Worker</option>
+                                                            <option value="189" title="Block Accountants">Block Accountants</option>
+                                                            <option value="175" title="Block Community Mobiliser">Block Community Mobiliser</option>
+                                                            <option value="190" title="Block Health Manager">Block Health Manager</option>
+                                                            <option value="197" title="Block Programme Manager">Block Programme Manager</option>
+                                                            <option value="254" title="Blood Bank">Blood Bank</option>
+                                                            <option value="255" title="Blood Storage Unit">Blood Storage Unit</option>
+                                                            <option value="244" title="Budget cum AO">Budget cum AO</option>
+                                                            <option value="187" title="Citizen">Citizen</option>
+                                                            <option value="258" title="Class 4 Employee">Class 4 Employee</option>
+                                                            <option value="428" title="CLERK">CLERK</option>
+                                                            <option value="280" title="Computer Assistants">Computer Assistants</option>
+                                                            <option value="211" title="Computer Operator / Steno / Executive Assistant">Computer Operator / Steno / Executive Assistant</option>
+                                                            <option value="203" title="Consultant Finance – IDSP">Consultant Finance – IDSP</option>
+                                                            <option value="210" title="Coordinator - Mamta">Coordinator - Mamta</option>
+                                                            <option value="281" title="Coordinators">Coordinators</option>
+                                                            <option value="233" title="DAC">DAC</option>
+                                                            <option value="219" title="DAM">DAM</option>
+                                                            <option value="237" title="Data entry operator">Data entry operator</option>
+                                                            <option value="282" title="Data Entry Operators">Data Entry Operators</option>
+                                                            <option value="236" title="Data Manager">Data Manager</option>
+                                                            <option value="392" title="DATA MANAGER IDSP">DATA MANAGER IDSP</option>
+                                                            <option value="216" title="Data Operator (AYUSH)">Data Operator (AYUSH)</option>
+                                                            <option value="231" title="DCM">DCM</option>
+                                                            <option value="232" title="DDA">DDA</option>
+                                                            <option value="390" title="DEO BLINDNESS">DEO BLINDNESS</option>
+                                                            <option value="389" title="DEO NVBDCP">DEO NVBDCP</option>
+                                                            <option value="388" title="DEO Tuberculosis">DEO Tuberculosis</option>
+                                                            <option value="194" title="Deputy Director">Deputy Director</option>
+                                                            <option value="207" title="District Data Manager – IDSP">District Data Manager – IDSP</option>
+                                                            <option value="220" title="DMEO">DMEO</option>
+                                                            <option value="168" title="Doctor">Doctor</option>
+                                                            <option value="221" title="DPC">DPC</option>
+                                                            <option value="218" title="DPM">DPM</option>
+                                                            <option value="246" title="Driver">Driver</option>
+                                                            <option value="164" title="Employee">Employee</option>
+                                                            <option value="209" title="Entomologists- State">Entomologists- State</option>
+                                                            <option value="235" title="Epidemiologist">Epidemiologist</option>
+                                                            <option value="384" title="EYE ASSIST">EYE ASSIST</option>
+                                                            <option value="180" title="Eye Surgeon">Eye Surgeon</option>
+                                                            <option value="214" title="Family Planning Counselors">Family Planning Counselors</option>
+                                                            <option value="178" title="Field Worker">Field Worker</option>
+                                                            <option value="382" title="Financial &amp; Logistic Assistant">Financial &amp; Logistic Assistant</option>
+                                                            <option value="309" title="FP-Individual">FP-Individual</option>
+                                                            <option value="217" title="Guard (AYUSH)">Guard (AYUSH)</option>
+                                                            <option value="251" title="Health Educator">Health Educator</option>
+                                                            <option value="186" title="Health Facility">Health Facility</option>
+                                                            <option value="283" title="Health Manager">Health Manager</option>
+                                                            <option value="591" title="Hired Vaccinator">Hired Vaccinator</option>
+                                                            <option value="228" title="HMIS Supervisor">HMIS Supervisor</option>
+                                                            <option value="229" title="Hospital Manager">Hospital Manager</option>
+                                                            <option value="441" title="Hostellers">Hostellers</option>
+                                                            <option value="736" title="IUCD Beneficiary">IUCD Beneficiary</option>
+                                                            <option value="241" title="Lab. Technician">Lab. Technician</option>
+                                                            <option value="174" title="Lady Health Visitor">Lady Health Visitor</option>
+                                                            <option value="213" title="LT">LT</option>
+                                                            <option value="253" title="Mamta">Mamta</option>
+                                                            <option value="182" title="Medical College Hospital">Medical College Hospital</option>
+                                                            <option value="284" title="Medical Officer">Medical Officer</option>
+                                                            <option value="202" title="Microbiologists- State">Microbiologists- State</option>
+                                                            <option value="176" title="MO">MO</option>
+                                                            <option value="192" title="MOIC">MOIC</option>
+                                                            <option value="165" title="Mother">Mother</option>
+                                                            <option value="734" title="Motivator for Sterilization">Motivator for Sterilization</option>
+                                                            <option value="737" title="Motivator for Sterilization (Male)">Motivator for Sterilization (Male)</option>
+                                                            <option value="242" title="MPW">MPW</option>
+                                                            <option value="181" title="NGO">NGO</option>
+                                                            <option value="590" title="Non Medical Assistant Supervisor">Non Medical Assistant Supervisor</option>
+                                                            <option value="173" title="Nurse/ANM">Nurse/ANM</option>
+                                                            <option value="191" title="Nutrition Rehabilitation Centre">Nutrition Rehabilitation Centre</option>
+                                                            <option value="224" title="Office Assistant">Office Assistant</option>
+                                                            <option value="223" title="Office Assistant (Accounts)">Office Assistant (Accounts)</option>
+                                                            <option value="222" title="Office Assistant / DEO">Office Assistant / DEO</option>
+                                                            <option value="183" title="Optician">Optician</option>
+                                                            <option value="184" title="OT Technician/Helper">OT Technician/Helper</option>
+                                                            <option value="1283" title="Paediatrician">Paediatrician</option>
+                                                            <option value="1257" title="PAIUCD">PAIUCD</option>
+                                                            <option value="385" title="Para Medical Worker">Para Medical Worker</option>
+                                                            <option value="170" title="Paramedic">Paramedic</option>
+                                                            <option value="249" title="Part-Time Accountant">Part-Time Accountant</option>
+                                                            <option value="188" title="Patient">Patient</option>
+                                                            <option value="195" title="Personnel Officer">Personnel Officer</option>
+                                                            <option value="387" title="Physical Therapy Assistant">Physical Therapy Assistant</option>
+                                                            <option value="285" title="Planning Coordinator">Planning Coordinator</option>
+                                                            <option value="735" title="PPIUCD">PPIUCD</option>
+                                                            <option value="172" title="Private Nursing Home">Private Nursing Home</option>
+                                                            <option value="433" title="Private Providers">Private Providers</option>
+                                                            <option value="592" title="Private Vaccinator">Private Vaccinator</option>
+                                                            <option value="286" title="Program Manager">Program Manager</option>
+                                                            <option value="215" title="Programme Consultant (AYUSH)">Programme Consultant (AYUSH)</option>
+                                                            <option value="226" title="RAM">RAM</option>
+                                                            <option value="167" title="RKS">RKS</option>
+                                                            <option value="227" title="RME">RME</option>
+                                                            <option value="225" title="RPM">RPM</option>
+                                                            <option value="179" title="Senior Field Worker">Senior Field Worker</option>
+                                                            <option value="386" title="Senior Tuberculosis Supervisor">Senior Tuberculosis Supervisor</option>
+                                                            <option value="212" title="SN Grade-“A”">SN Grade-“A”</option>
+                                                            <option value="250" title="Sr. DOTS Plus">Sr. DOTS Plus</option>
+                                                            <option value="853" title="Staff Nurse">Staff Nurse</option>
+                                                            <option value="589" title="Staff Nurse PPIUCD">Staff Nurse PPIUCD</option>
+                                                            <option value="206" title="State Data Manager">State Data Manager</option>
+                                                            <option value="198" title="State Epidemiologist">State Epidemiologist</option>
+                                                            <option value="196" title="State Health Finance Analyst">State Health Finance Analyst</option>
+                                                            <option value="383" title="State Leprosy Society">State Leprosy Society</option>
+                                                            <option value="238" title="State Level Consultant">State Level Consultant</option>
+                                                            <option value="208" title="State Planning Assistant">State Planning Assistant</option>
+                                                            <option value="199" title="State Programme Manager">State Programme Manager</option>
+                                                            <option value="256" title="STLS">STLS</option>
+                                                            <option value="247" title="STS/STLS">STS/STLS</option>
+                                                            <option value="177" title="Supervisor">Supervisor</option>
+                                                            <option value="185" title="Surgeon">Surgeon</option>
+                                                            <option value="243" title="Surveillance MO">Surveillance MO</option>
+                                                            <option value="257" title="TB HIV Supervisor">TB HIV Supervisor</option>
+                                                            <option value="970" title="TB Notification(Pvt. Provider)">TB Notification(Pvt. Provider)</option>
+                                                            <option value="1321" title="TB Patient(Nutrition)">TB Patient(Nutrition)</option>
+                                                            <option value="969" title="TB Treatment Supporter">TB Treatment Supporter</option>
+                                                            <option value="248" title="TBHV">TBHV</option>
+                                                            <option value="204" title="Training Consultant – IDSP">Training Consultant – IDSP</option>
+                                                            <option value="968" title="Tribal TB Patient">Tribal TB Patient</option>
+                                                            <option value="239" title="VBD Consultants">VBD Consultants</option>
+                                                            <option value="240" title="VBD Tech. Supervisor">VBD Tech. Supervisor</option>
+                                                        </b-select>
+                                                    </b-field>
+
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isGender">Gender</b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isGender">
+                                                        <b-select v-model="addBeneficiary.gender" label="Rounded" expanded size="is-small" placeholder="Select">
+                                                            <option value="M" title="MALE">MALE</option>
+                                                            <option value="F" title="FEMALE">FEMALE</option>
+                                                        </b-select>
+                                                    </b-field>
+                                                </section>
+                                            </div>
+                                            <!-- Address Details -->
+                                            <div class="column">
+                                                <p class="is-size-6 has-text-danger has-text-weight-bold">Address Details</p>
+                                                <section>
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isState">State </b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isState">
+                                                        <b-select v-model="addBeneficiary.state" label="Rounded" expanded size="is-small" placeholder="Select">
+                                                            <option value="1" title="ANDAMAN AND NICOBAR ISLANDS">ANDAMAN AND NICOBAR ISLANDS</option>
+                                                            <option value="2" title="ANDHRA PRADESH">ANDHRA PRADESH</option>
+                                                            <option value="3" title="ARUNACHAL PRADESH">ARUNACHAL PRADESH</option>
+                                                            <option value="4" title="ASSAM">ASSAM</option>
+                                                            <option value="5" title="BIHAR">BIHAR</option>
+                                                            <option value="36" title="CENTRAL AGENCY">CENTRAL AGENCY</option>
+                                                            <option value="6" title="CHANDIGARH">CHANDIGARH</option>
+                                                            <option value="33" title="CHHATTISGARH">CHHATTISGARH</option>
+                                                            <option value="7" title="DADRA AND NAGAR HAVELI">DADRA AND NAGAR HAVELI</option>
+                                                            <option value="8" title="DAMAN AND DIU">DAMAN AND DIU</option>
+                                                            <option value="9" title="DELHI">DELHI</option>
+                                                            <option value="10" title="GOA">GOA</option>
+                                                            <option value="11" title="GUJARAT">GUJARAT</option>
+                                                            <option value="12" title="HARYANA">HARYANA</option>
+                                                            <option value="13" title="HIMACHAL PRADESH">HIMACHAL PRADESH</option>
+                                                            <option value="14" title="JAMMU AND KASHMIR">JAMMU AND KASHMIR</option>
+                                                            <option value="34" title="JHARKHAND">JHARKHAND</option>
+                                                            <option value="15" title="KARNATAKA">KARNATAKA</option>
+                                                            <option value="16" title="KERALA">KERALA</option>
+                                                            <option value="19" title="LAKSHADWEEP">LAKSHADWEEP</option>
+                                                            <option value="17" title="MADHYA PRADESH">MADHYA PRADESH</option>
+                                                            <option value="18" title="MAHARASHTRA">MAHARASHTRA</option>
+                                                            <option value="20" title="MANIPUR">MANIPUR</option>
+                                                            <option value="21" title="MEGHALAYA">MEGHALAYA</option>
+                                                            <option value="22" title="MIZORAM">MIZORAM</option>
+                                                            <option value="23" title="NAGALAND">NAGALAND</option>
+                                                            <option value="24" title="ODISHA">ODISHA</option>
+                                                            <option value="25" title="PUDUCHERRY">PUDUCHERRY</option>
+                                                            <option value="26" title="PUNJAB">PUNJAB</option>
+                                                            <option value="27" title="RAJASTHAN">RAJASTHAN</option>
+                                                            <option value="28" title="SIKKIM">SIKKIM</option>
+                                                            <option value="29" title="TAMIL NADU">TAMIL NADU</option>
+                                                            <option value="37" title="TELANGANA">TELANGANA</option>
+                                                            <option value="30" title="TRIPURA">TRIPURA</option>
+                                                            <option value="31" title="UTTAR PRADESH">UTTAR PRADESH</option>
+                                                            <option value="35" title="UTTARAKHAND">UTTARAKHAND</option>
+                                                            <option value="32" title="WEST BENGAL">WEST BENGAL</option>
+                                                        </b-select>
+                                                    </b-field>
+
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isDistrict">District </b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isDistrict">
+                                                        <b-input v-model="addBeneficiary.district" size="is-small" placeholder="Enter District Value"></b-input>
+                                                    </b-field>
+
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isRural">Rural/Urban <code>0,1</code></b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isRural">
+                                                        <b-input v-model="addBeneficiary.rural" size="is-small" placeholder="Enter Rural Value"></b-input>
+                                                    </b-field>
+
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isBlock">Block/Tehsil </b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isBlock">
+                                                        <b-input v-model="addBeneficiary.block" size="is-small" placeholder="Enter Block Value"></b-input>
+                                                    </b-field>
+
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isPanchayat">Panchayat/Town </b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isPanchayat">
+                                                        <b-input v-model="addBeneficiary.panchayat" size="is-small" placeholder="Enter Panchayat Value"></b-input>
+                                                    </b-field>
+
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isVillage">Village/Ward </b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isVillage">
+                                                        <b-input v-model="addBeneficiary.village" size="is-small" placeholder="Enter Village Value"></b-input>
+                                                    </b-field>
+                                                </section>
+                                            </div>
+                                            <!-- Bank Details -->
+                                            <div class="column">
+                                                <p class="is-size-6 has-text-danger has-text-weight-bold">Bank Details</p>
+                                                <section>
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isBank">Bank </b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isBank">
+                                                        <b-input v-model="addBeneficiary.bank" size="is-small" placeholder="Enter Bank Name"></b-input>
+                                                    </b-field>
+                                                    <hr style="margin: 0px 0px 15px;">
+                                                    <!-- Other Settings -->
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isRemoveLoading">Remove Page Loading </b-switch>
+                                                    </div>                                                    
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </b-collapse>
+                        </section>
+                    </div>
+                </b-tab-item>
+
+                <!-- Application Settings Tab -->
+                <b-tab-item label="Settings" icon="settings">
+                    <div class="container">
+                    </div>
+                    <br><br><br><br><br>
+                </b-tab-item>
+
+                <!-- About Tab -->
+                <b-tab-item label="About" icon="information-outline">
+                    <div class="container">
+                        <h2 class="subtitle" v-text="version"></h2>
+                    </div>
+                </b-tab-item>
+            </b-tabs>
+        </section>
+        <br>
+        <br>
+        <br>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/options.js"></script>
+</body>
+</html>
