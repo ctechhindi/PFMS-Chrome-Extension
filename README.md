@@ -1,11 +1,16 @@
-# PFMS V.0.0.1
+# PFMS V.0.0.2
 This extension is powered by `Jeevan Lal`.
+
+* https://github.com/ctechhindi/PFMS-Chrome-Extension
 
 ## Local Storage Keys in Page
 
 | Name | Variable Name |
 | ---- | ------------- |
 | Add/Update Beneficiary | `pfms_addBeneficiary` |
+| Import External Beneficiaries Data | `pfms_importExternalData` |
+| Know Your Payments | `pfms_knowPayment` |
+| Payment Process Beneficiary Search | `pfms_paymentProcessBeneficiarySearch` |
 
 ## Options Page
 
@@ -17,6 +22,9 @@ This extension is powered by `Jeevan Lal`.
 | Application Status | `switchVal__appStatus` |
 | Options Page Active Tabs | `tabVal__activeTabIndex` |
 | Add Beneficiary | `objectVal__addBeneficiaryDetails` |
+| Know Your Payments | `objectVal__knowPaymentDetails` |
+| Import External Beneficiaries Data | `objectVal__importExternalBeneData` |
+| Payment Process Beneficiary Search | `objectVal__paymentProcessBeneficiarySearch` |
 
 
 ## Settings Page
@@ -42,4 +50,8 @@ This extension is powered by `Jeevan Lal`.
 
 ## Porting Progress
 
-### 
+### **V.0.0.2**
+
+* Know Your Payments
+* Import External Beneficiaries Data
+* Payment Process Beneficiary Search

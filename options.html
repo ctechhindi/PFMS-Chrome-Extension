@@ -6,6 +6,8 @@
     <link href="css/materialdesignicons.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="js/json/jquery.jsonPresenter.css">
     <title>PFMS</title>
     <style>
         .unsortable {
@@ -61,9 +63,9 @@
                     <div class="container">
                         <section>
                             <!-- Add Beneficiary :: Details -->
-                            <b-collapse class="panel">
+                            <b-collapse class="panel" :open="false">
                                 <div slot="trigger" class="panel-heading notification is-success">
-                                    <b-icon icon="account"></b-icon>
+                                    <b-icon icon="account-plus"></b-icon>
                                     <strong> Add/Update Beneficiary</strong>
                                 </div>
                                 <div class="panel-block">
@@ -347,29 +349,187 @@
                                     <br>
                                 </div>
                             </b-collapse>
+
+                            <!-- Know Your Payments :: Details -->
+                            <b-collapse class="panel" :open="false">
+                                <div slot="trigger" class="panel-heading notification is-info">
+                                    <b-icon icon="currency-inr"></b-icon>
+                                    <strong> Know Your Payments</strong>
+                                </div>
+                                <div class="panel-block">
+                                    <div class="content is-small" style="width: -webkit-fill-available;">
+                                        <div class="field">
+                                            <b-switch v-model="knowPayment.isRunScript" size="is-medium" type="is-danger">Run Script </b-switch>
+                                        </div>
+                                    </div>
+                                </div>
+                            </b-collapse>
+
+                            <!-- Import External Beneficiaries Data :: Details -->
+                            <b-collapse class="panel" :open="false">
+                                <div slot="trigger" class="panel-heading notification is-primary">
+                                    <b-icon icon="file-import"></b-icon>
+                                    <strong> Import External Beneficiaries Data</strong>
+                                </div>
+                                <div class="panel-block">
+                                    <div class="content is-small" style="width: -webkit-fill-available;">
+                                        <div class="field">
+                                            <b-switch v-model="importExternalBeneData.isRunScript" size="is-medium" type="is-danger">Run Script </b-switch>
+                                        </div>
+                                        <!-- Columns -->
+                                        <br>
+										<div class="columns is-desktop" v-show="importExternalBeneData.isRunScript">
+                                            <div class="column">
+                                                <section>
+                                                    <!-- Scheme -->
+                                                    <div class="field">
+                                                        <b-switch v-model="importExternalBeneData.isScheme">Scheme</b-switch>
+                                                    </div>
+                                                    <b-field v-show="importExternalBeneData.isScheme">
+                                                        <b-input v-model="importExternalBeneData.scheme" size="is-small" placeholder="Enter Scheme Value"></b-input>
+                                                    </b-field>
+                                                </section>
+                                            </div>
+                                            <div class="column">
+                                                <section>
+                                                    <!-- Beneficiary Type -->
+                                                    <div class="field">
+                                                        <b-switch v-model="importExternalBeneData.isBenType">Beneficiary Type <code>163:ASHA, 165:Mother</code></b-switch>
+                                                    </div>
+                                                    <b-field v-show="importExternalBeneData.isBenType">
+                                                        <b-select v-model="importExternalBeneData.benType" label="Rounded" expanded size="is-small" placeholder="Select Beneficiary Type">
+                                                            <option value="163" title="ASHA">ASHA</option>
+                                                            <option value="165" title="Mother">Mother</option>
+                                                        </b-select>
+                                                    </b-field>
+                                                </section>
+                                            </div>
+                                            <div class="column">
+                                                <section>
+                                                    <!-- State -->
+                                                    <div class="field">
+                                                        <b-switch v-model="importExternalBeneData.isState">State Value : <code>Uttar Pradesh : 9</code></b-switch>
+                                                    </div>
+                                                    <b-field v-show="importExternalBeneData.isState">
+                                                        <b-input v-model="importExternalBeneData.state" size="is-small" placeholder="Enter State Value"></b-input>
+                                                    </b-field>
+                                                </section>
+                                            </div>
+                                            <div class="column">
+                                                <section>
+                                                    <!-- District -->
+                                                    <div class="field">
+                                                        <b-switch v-model="importExternalBeneData.isDist">District Value : <code>Moradabad : 4</code></b-switch>
+                                                    </div>
+                                                    <b-field v-show="importExternalBeneData.isDist">
+                                                        <b-input v-model="importExternalBeneData.dist" size="is-small" placeholder="Enter District Value"></b-input>
+                                                    </b-field>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <div class="columns is-desktop" v-show="importExternalBeneData.isRunScript">
+                                            <div class="column">
+                                                <section>
+                                                    <div class="field">
+                                                        <b-switch v-model="importExternalBeneData.isImportAllData">Import Beneficiaries Data with Select All Option</b-switch>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </b-collapse>
+
+                            <!-- Payment Process Beneficiary Search Data :: Details -->
+                            <b-collapse class="panel" :open="false">
+                                <div slot="trigger" class="panel-heading notification is-warning">
+                                    <b-icon icon="currency-inr"></b-icon>
+                                    <strong> Payment Process Beneficiary Search</strong>
+                                </div>
+                                <div class="panel-block">
+                                    <div class="content is-small" style="width: -webkit-fill-available;">
+                                        <div class="field">
+                                            <b-switch v-model="paymentProcessBeneficiarySearch.isRunScript" size="is-medium" type="is-danger">Run Script </b-switch>
+                                        </div>
+                                        <a target="_blank" href="https://drive.google.com/file/d/1E6s970fwxgzVXU-c4cFmz9pydid4Mc_5/view">Excel Simple File</a>
+                                        <br>
+                                        <a target="_blank" href="https://codebeautify.org/excel-to-json">Excel to Json Converter</a>
+                                        <!-- Json Viewer -->
+                                        <b-field label="Json Data">
+                                            <b-input id="json-input" v-model="paymentProcessBeneficiarySearch.importBeneficiaryArray" type="textarea"></b-input>
+                                        </b-field>
+                                        <button class="button is-success" @click="isValidJsonData()">
+                                            <b-icon icon="check"></b-icon>
+                                            <span>Check Json is Valid</span>
+                                        </button>
+                                        <hr>
+                                        <p class="jsonError has-text-danger" style="display: none;">There was a problem with the provided JSON. Please check that the JSON is valid.</p>
+                                        <div id="output-container" style="display: none;">
+                                            <h3>Output</h3>
+                                            <div id="json-container"></div>
+                                            <div class="demo-options">
+                                                <button @click="jsonDataExpanAll()" class="button is-primary is-small">Expand All</button>
+                                                <button @click="jsonDataCollapseAll()" class="button is-success is-small">Collapse All</button>
+                                                <button @click="jsonDataExpanLevels()" class="button is-danger is-small">Expand Levels</button>
+                                                Levels: <input type="text" id="levels" value="1" />
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- More Settings -->
+                                        <div class="columns is-desktop">
+                                            <div class="column">
+                                                <p class="is-size-6 has-text-danger has-text-weight-bold">Check Records : </p>
+                                                <section>
+                                                    <div class="field">
+                                                        <b-switch v-model="paymentProcessBeneficiarySearch.isPFMSId">PFMS ID</b-switch>
+                                                    </div>
+                                                    <div class="field">
+                                                        <b-switch v-model="paymentProcessBeneficiarySearch.isAadharNo">Aadhar Number</b-switch>
+                                                    </div>
+                                                    <div class="field">
+                                                        <b-switch v-model="paymentProcessBeneficiarySearch.isAccountNo">Account Number</b-switch>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                            <div class="column">
+                                                <p class="is-size-6 has-text-danger has-text-weight-bold">Show Import Data Logs : </p>
+                                                <section>
+                                                    <div class="field">
+                                                        <b-switch v-model="paymentProcessBeneficiarySearch.isSuccessLogs">Success Logs</b-switch>
+                                                    </div>
+                                                    <div class="field">
+                                                        <b-switch v-model="paymentProcessBeneficiarySearch.isErrorLogs">Error Logs</b-switch>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </b-collapse>
                         </section>
                     </div>
                 </b-tab-item>
 
                 <!-- Application Settings Tab -->
-                <b-tab-item label="Settings" icon="settings">
+                <!-- <b-tab-item label="Settings" icon="settings">
                     <div class="container">
                     </div>
                     <br><br><br><br><br>
-                </b-tab-item>
+                </b-tab-item> -->
 
                 <!-- About Tab -->
-                <b-tab-item label="About" icon="information-outline">
+                <!-- <b-tab-item label="About" icon="information-outline">
                     <div class="container">
                         <h2 class="subtitle" v-text="version"></h2>
                     </div>
-                </b-tab-item>
+                </b-tab-item> -->
             </b-tabs>
         </section>
         <br>
         <br>
         <br>
     </div>
+    <script src="js/json/jquery.jsonPresenter.js"></script>
     <script src="js/vue.min.js"></script>
     <script src="js/index.js"></script>
     <script src="js/options.js"></script>

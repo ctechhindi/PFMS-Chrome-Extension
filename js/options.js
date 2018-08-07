@@ -5,7 +5,7 @@ Vue.use(Buefy.default)
 new Vue({
     el: '#app',
     data: {
-        version: "v.0.0.1",
+        version: "v.0.0.2",
         // Application Status
         appStatus: false,
         // Active Tab
@@ -43,9 +43,87 @@ new Vue({
             bank: "STATE BANK OF INDIA(Y)",
             // Remove Loading
             isRemoveLoading: false,
-        }
+        },
+
+        // Know Your Payments
+        knowPayment: {
+            isRunScript: false,
+        },
+
+        // Import External Beneficiaries Data
+        importExternalBeneData: {
+            isRunScript: false,
+            importAllData: false,
+            isScheme: true,
+            scheme : 1948,
+            // 163:ASHA, 165:Mother
+            isBenType: true,
+            benType: 165,
+            isState: true,
+            state: 9, // Uttar Pradesh : 9
+            isDist: true,
+            dist: 4, // Moradabad : 4
+            // IF Import All Data
+            isImportAllData: false,
+        },
+
+        // Payment Process Beneficiary Search
+        paymentProcessBeneficiarySearch: {
+            isRunScript: false,
+            importBeneficiaryArray: '',
+            // Check Records : Field's
+            isPFMSId: true,
+            isAadharNo: false,
+            isAccountNo: false,
+            // Show Import Data Logs
+            isSuccessLogs: false,
+            isErrorLogs: false,
+        },
     },
     methods: {
+
+        /**
+         * Check is Valid Json Data
+         */
+        isValidJsonData: function () {
+            var jsonContainer = $('#json-container');
+
+            var error = false;
+            try {
+                var json = JSON.parse($('#json-input').val());
+            }
+            catch (e) {
+                error = true;
+            }
+
+            if (error === true) {
+                $('.jsonError').css('display', 'inline');
+                $('#output-container').css('display', 'none');
+            } else {
+                $('.jsonError').css('display', 'none');
+                $('#output-container').css('display', 'inline');
+            }
+
+            jsonContainer
+                .jsonPresenter('destroy') // Clear any previous JSON being presented through this plugin for this container
+                .jsonPresenter({ // Use the jquery.jsonPresenter plugin using the input from the textarea above
+                    json: json
+                })
+                .jsonPresenter('expand', 0); // Expand all JSON properties so that none of them are collapsed
+        },
+        jsonDataExpanAll: function () {
+            var jsonContainer = $('#json-container');
+            jsonContainer.jsonPresenter('expandAll');
+        },
+        jsonDataCollapseAll: function () {
+            var jsonContainer = $('#json-container');
+            jsonContainer.jsonPresenter('collapseAll');
+        },
+        jsonDataExpanLevels: function () {
+            var jsonContainer = $('#json-container');
+            var levels = parseInt($('#levels').val());
+            jsonContainer.jsonPresenter('expand', levels);
+        },
 
         /**
          * Set Extension Local Data in Vue js Variable
@@ -103,12 +181,42 @@ new Vue({
         addBeneficiary: {
             handler: function (newObject) {
                 this.setValueINExtensionStrorage(newObject, 'objectVal__addBeneficiaryDetails');
-                
+
                 if (newObject.isRunScript === true) {
                     document.getElementById('add_beneficiary').style.display = 'flex';
                 } else {
                     document.getElementById('add_beneficiary').style.display = 'none';
                 }
+            },
+            deep: true
+        },
+
+        // Customized Know Your Payments Details
+        knowPayment: {
+            handler: function (newObject) {
+                this.setValueINExtensionStrorage(newObject, 'objectVal__knowPaymentDetails');
+            },
+            deep: true
+        },
+
+        // Customized Import External Beneficiaries Data
+        importExternalBeneData: {
+            handler: function (newObject) {
+
+                if (newObject.isScheme === false) {
+                    this.importExternalBeneData.isBenType = false;
+                    this.importExternalBeneData.isState = false;
+                    this.importExternalBeneData.isDist = false;
+                }
+                this.setValueINExtensionStrorage(newObject, 'objectVal__importExternalBeneData');
+            },
+            deep: true
+        },
+
+        // Payment Process Beneficiary Search Data
+        paymentProcessBeneficiarySearch: {
+            handler: function (newObject) {
+                this.setValueINExtensionStrorage(newObject, 'objectVal__paymentProcessBeneficiarySearch');
             },
             deep: true
         },
@@ -127,5 +235,14 @@ new Vue({
 
         // Customized Add Beneficiary Details :: Checkbox
         this.setDataINVariable('objectVal__addBeneficiaryDetails', 'addBeneficiary');
+
+        // Customized Know Your Payments :: Checkbox
+        this.setDataINVariable('objectVal__knowPaymentDetails', 'knowPayment');
+
+        // Customized Import External Beneficiaries Data
+        this.setDataINVariable('objectVal__importExternalBeneData', 'importExternalBeneData');
+
+        // Payment Process Beneficiary Search Data
+        this.setDataINVariable('objectVal__paymentProcessBeneficiarySearch', 'paymentProcessBeneficiarySearch');
     }
 });

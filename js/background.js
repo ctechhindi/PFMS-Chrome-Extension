@@ -32,17 +32,27 @@ chrome.commands.onCommand.addListener(function (command) {
     }
 });
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if(changeInfo.status == "complete") {
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo.status == "complete") {
         // https://pfms.nic.in/BenificaryManagement/AddUpdateBenifeciary.aspx
         // console.log(tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/AddUpdateBenifeciary.aspx\/*/));
-        if(!tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/AddUpdateBenifeciary.aspx\/*/)) { return; } // Wrong scheme
-        chrome.tabs.executeScript( tabId, {
-            file: '/js/main_script/add_beneficiary.js'
-        }, function() {
-            if (chrome.runtime.lastError) {
-                console.error(chrome.runtime.lastError.message);
-            }
-        });
+
+        if (tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/AddUpdateBenifeciary.aspx\/*/)) {
+            chrome.tabs.executeScript(tabId, {
+                file: '/js/main_script/add_beneficiary.js'
+            }, function () {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError.message);
+                }
+            });
+        } else if (tab.url.match(/https:\/\/pfms.nic.in\/PaymentProcess\/PaymentProcessBeneficiarySearch.aspx\/*/)) {
+            chrome.tabs.executeScript(tabId, {
+                file: '/js/main_script/payment_process_beneficiary_search.js'
+            }, function () {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError.message);
+                }
+            });
+        }
     }
 });

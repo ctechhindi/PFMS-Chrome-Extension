@@ -1,0 +1,89 @@
+/**
+ * Main Function
+ */
+(function ($) {
+
+    var app = {
+
+        include: {
+            alasql: 'https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js',
+            xlsx: 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js',
+        },
+
+        generateScriptDataUrl: function (jscript) {
+            var b64 = 'data:text/javascript';
+            // base64 may be smaller, but does not handle unicode characters
+            // attempt base64 first, fall back to escaped text
+            try {
+                b64 += (';base64,' + btoa(jscript));
+            }
+            catch (e) {
+                b64 += (';charset=utf-8,' + encodeURIComponent(jscript));
+            }
+
+            return b64;
+        },
+
+        injectScript: function (src, where) {
+            var elm = document.createElement('script');
+            elm.src = src;
+            document[where || 'head'].appendChild(elm);
+        },
+
+        /**
+         * Get Application Data
+         */
+        getDataElement: {
+            paymentProcessBeneficiarySearch: "objectVal__paymentProcessBeneficiarySearch",
+        },
+
+        /**
+         * Check Application Status : [true/false]
+         */
+        checkApplicationStatus: function () {
+            return new Promise(function (resolve, reject) {
+                chrome.storage.local.get('switchVal__appStatus', function (budget) {
+                    if (budget.switchVal__appStatus === true) {
+                        resolve("Start");
+                    } else {
+                        reject("Application Stop");
+                    }
+                });
+            });
+        },
+    }
+
+    /**
+     * Check Application Status : [true/false]
+     */
+    app.checkApplicationStatus().then(function (resp) {
+
+        /**
+        * Custom Data : Fetch All Extension Local Storage Key Data
+        */
+        chrome.storage.local.get(app.getDataElement.paymentProcessBeneficiarySearch, function (budget) {
+            if (budget.objectVal__paymentProcessBeneficiarySearch !== undefined) {
+                // console.log(budget.objectVal__paymentProcessBeneficiarySearch);
+                localStorage.setItem("pfms_paymentProcessBeneficiarySearch", JSON.stringify(budget.objectVal__paymentProcessBeneficiarySearch));
+            }
+        });
+
+        /**
+        * Run Main Script
+        */
+        var script = `__INJECTION1__`;
+
+        var paymentProcessBeneficiarySearch_script = app.generateScriptDataUrl(script);
+
+        // include jquery
+        app.injectScript(app.include.alasql);
+        app.injectScript(app.include.xlsx);
+
+        setTimeout(function () {
+            app.injectScript(paymentProcessBeneficiarySearch_script, 'body');
+        }, 120); // [milliseconds]
+
+    }).catch(function (error) {
+        console.error(error);
+    });
+})();
