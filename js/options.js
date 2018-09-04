@@ -5,11 +5,17 @@ Vue.use(Buefy.default)
 new Vue({
     el: '#app',
     data: {
-        version: "v.0.0.2",
+        version: "v.0.0.3",
         // Application Status
         appStatus: false,
         // Active Tab
         activeTab: 0,
+
+        // Comman Data
+        commanData: {
+            isBeneficiaryType: false,
+            beneficiaryTypeValue: '',
+        },
 
         // Add Beneficiary Data Same in add_beneficiary.js
         addBeneficiary: {
@@ -220,6 +226,14 @@ new Vue({
             },
             deep: true
         },
+
+        // Comman Data
+        commanData: {
+            handler: function (newObject) {
+                this.setValueINExtensionStrorage(newObject, 'objectVal__commanData');
+            },
+            deep: true
+        },
     },
     mounted: function () {
         that = this;
@@ -244,5 +258,8 @@ new Vue({
 
         // Payment Process Beneficiary Search Data
         this.setDataINVariable('objectVal__paymentProcessBeneficiarySearch', 'paymentProcessBeneficiarySearch');
+
+        // Comman Data
+        this.setDataINVariable('objectVal__commanData', 'commanData');
     }
 });

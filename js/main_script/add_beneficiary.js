@@ -221,6 +221,7 @@ if (pfms.addBeneficiary.isRunScript === true) {
 
     // Input Bank
     if (pfms.addBeneficiary.isBank === true) {
+        console.log(pfms.el.bank().val());
         pfms.el.bank().val(pfms.addBeneficiary.bank);
     }
 }`;

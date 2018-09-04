@@ -34,20 +34,68 @@ chrome.commands.onCommand.addListener(function (command) {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status == "complete") {
-        // https://pfms.nic.in/BenificaryManagement/AddUpdateBenifeciary.aspx
-        // console.log(tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/AddUpdateBenifeciary.aspx\/*/));
-
+        
+        /**
+         * Add/Update Benifeciary
+         * @link: https://pfms.nic.in/BenificaryManagement/AddUpdateBenifeciary.aspx
+         */
         if (tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/AddUpdateBenifeciary.aspx\/*/)) {
             chrome.tabs.executeScript(tabId, {
-                file: '/js/main_script/add_beneficiary.js'
+                file: '/js/main_script/add_beneficiary.js',
+                // file: '/js/main_script/run_comman_script.js',
             }, function () {
                 if (chrome.runtime.lastError) {
                     console.error(chrome.runtime.lastError.message);
                 }
             });
+        
+        /**
+         * Payment Process Beneficiary Search
+         * @link: https://pfms.nic.in/PaymentProcess/PaymentProcessBeneficiarySearch.aspx
+         */
         } else if (tab.url.match(/https:\/\/pfms.nic.in\/PaymentProcess\/PaymentProcessBeneficiarySearch.aspx\/*/)) {
             chrome.tabs.executeScript(tabId, {
-                file: '/js/main_script/payment_process_beneficiary_search.js'
+                file: '/js/main_script/payment_process_beneficiary_search.js',
+                file: '/js/main_script/run_comman_script.js',
+            }, function () {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError.message);
+                }
+            });
+        
+        /**
+         * Beneficiaries Pending For Approval
+         * @link: https://pfms.nic.in/BenificaryManagement/MakerSefList.aspx
+         */
+        } else if (tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/MakerSefList.aspx\/*/)) {
+            chrome.tabs.executeScript(tabId, {
+                file: '/js/main_script/run_comman_script.js',
+            }, function () {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError.message);
+                }
+            });
+
+        /**
+         * Search Beneficiary
+         * @link: https://pfms.nic.in/BenificaryManagement/BenificarySearch.aspx
+         */
+        } else if (tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/BenificarySearch.aspx\/*/)) {
+            chrome.tabs.executeScript(tabId, {
+                file: '/js/main_script/run_comman_script.js',
+            }, function () {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError.message);
+                }
+            });
+
+        /**
+         * Payment Due Flag Process
+         * @link: https://pfms.nic.in/paymentprocess/ManualPaymentFlag.aspx
+         */
+        } else if (tab.url.match(/https:\/\/pfms.nic.in\/paymentprocess\/ManualPaymentFlag.aspx\/*/)) {
+            chrome.tabs.executeScript(tabId, {
+                file: '/js/main_script/run_comman_script.js',
             }, function () {
                 if (chrome.runtime.lastError) {
                     console.error(chrome.runtime.lastError.message);
