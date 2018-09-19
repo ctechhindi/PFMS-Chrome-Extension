@@ -1,4 +1,4 @@
-# PFMS V.0.0.3
+# PFMS V.0.0.4
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -51,6 +51,16 @@ This extension is powered by `Jeevan Lal`.
 3. options.html
 
 ## Porting Progress
+
+### Working Points
+
+* change bank name in update mother account if save bank already save
+* CHANGE PFMS DEFAULT LOADING STYLE
+
+### **V.0.0.4**
+
+* `Fix Bug :` BeneficiaryType problem in `AddNewBeneficiary.aspx` Page
+* `New :` Add Address1 and Pincode Fields in `/AddNewBeneficiary.aspx` Page
 
 ### **V.0.0.3**
 

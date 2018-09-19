@@ -1,5 +1,5 @@
 var pfms = {
-    // Add Beneficiary Data Same in Options.js
+    // Add Beneficiary Data Same in Options.js [NOT UPDATE]
     addBeneficiary: {
         isRunScript: false,
         // Beneficiary Type
@@ -8,6 +8,11 @@ var pfms = {
         // Gender
         isGender: false,
         gender: "F",
+        // Address1 , Pincode Field
+        isAddress1: false,
+        address1: "Mundapandey",
+        isPincode: false,
+        pincode: "244001",
         // State
         isState: false,
         state: '31',
@@ -32,23 +37,25 @@ var pfms = {
         // Remove Loading
         isRemoveLoading: false,
     },
-    
-	el: {
-		bType: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlSubCategory'); },
-		gender: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlGender'); },
-		state: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlState'); },
-		dist: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlDistrict'); },
-		block: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlTehsilBlock'); },
-		panchayat: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlTownPanchayat'); },
-		village: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlWardVillage'); },
-		bank: function () { return $('#ctl00_ctl00_cphBody_cphBody_txtBank'); },
+
+    el: {
+        bType: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlSubCategory'); },
+        gender: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlGender'); },
+        state: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlState'); },
+        dist: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlDistrict'); },
+        block: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlTehsilBlock'); },
+        panchayat: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlTownPanchayat'); },
+        village: function () { return $('#ctl00_ctl00_cphBody_cphBody_ddlWardVillage'); },
+        bank: function () { return $('#ctl00_ctl00_cphBody_cphBody_txtBank'); },
+        address1: function () { return $('#ctl00_ctl00_cphBody_cphBody_txtAddress1'); },
+        pincode: function () { return $('#ctl00_ctl00_cphBody_cphBody_txtPinCode'); },
     },
-    
-	removeLoading: function () {
-		if (pfms.addBeneficiary.isRemoveLoading === true) {
-			$("#shadow").css("display", "none");
-			$("#wait").css("display", "none");
-		}
+
+    removeLoading: function () {
+        if (pfms.addBeneficiary.isRemoveLoading === true) {
+            $("#shadow").css("display", "none");
+            $("#wait").css("display", "none");
+        }
     },
 
     /**
@@ -62,9 +69,27 @@ var pfms = {
     },
 
     // Select Gender
-    selectGender: function () { 
+    selectGender: function () {
         if (pfms.addBeneficiary.isGender === true) {
             pfms.el.gender().val(pfms.addBeneficiary.gender);
+        }
+    },
+
+    // Fill Address Another Fields Data
+    fillAnotherData: function () {
+
+        /**
+         * Fill Address1 Field : Custom Data
+         */
+        if (pfms.addBeneficiary.isAddress1 !== undefined && pfms.addBeneficiary.isAddress1 === true) {
+            pfms.el.address1().val(pfms.addBeneficiary.address1);
+        }
+
+        /**
+         * Fill Pincode Field : Custom Data
+         */
+        if (pfms.addBeneficiary.isPincode !== undefined && pfms.addBeneficiary.isPincode === true) {
+            pfms.el.pincode().val(pfms.addBeneficiary.pincode);
         }
     }
 }
@@ -83,18 +108,17 @@ if (pfms.addBeneficiary.isRunScript === true) {
     if (pfms.addBeneficiary.isBeneficiaryType === true) {
         pfms.el.bType().val(pfms.addBeneficiary.beneficiaryType);
     }
-    
-    
-    
+
+
     // Select State : [UTTAR PRADESH : 31]
     if (pfms.addBeneficiary.isState === true) {
         pfms.el.state().val(pfms.addBeneficiary.state).change();
     }
-    
-    
+
+
     Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(initRequestHandler);
     Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endRequestHandler);
-    
+
     function endRequestHandler(sender, args) {
         var elem = sender._postBackSettings.sourceElement.id;
         // console.log(elem);
@@ -106,57 +130,59 @@ if (pfms.addBeneficiary.isRunScript === true) {
             // Select Gender
             pfms.selectGender();
         }
-        
+
         if (elem === "ctl00_ctl00_cphBody_cphBody_ddlState") {
-    
+
             // Select District : [MORADABAD : 500]
             if (pfms.addBeneficiary.isDistrict === true) {
                 pfms.el.dist().val(pfms.addBeneficiary.district).change();
             }
-            
+
         } else if (elem === "ctl00_ctl00_cphBody_cphBody_ddlDistrict") {
-    
+
             // Check Rural : [0]
             if (pfms.addBeneficiary.isRural === true) {
                 if (pfms.addBeneficiary.rural == 0) {
                     $('#ctl00_ctl00_cphBody_cphBody_rdlRuralUrban_0').prop('checked', true).trigger("click");
                 }
-    
+
                 if (pfms.addBeneficiary.rural == 1) {
                     $('#ctl00_ctl00_cphBody_cphBody_rdlRuralUrban_1').prop('checked', true).trigger("click");
                 }
             }
-            
+
         } else if (elem === "ctl00_ctl00_cphBody_cphBody_rdlRuralUrban_0") {
-    
+
             // Select Block : [MUNDA PANDEY : 169]
             if (pfms.addBeneficiary.isBlock === true) {
                 pfms.el.block().val(pfms.addBeneficiary.block).change();
-            }        
+            }
         } else if (elem === "ctl00_ctl00_cphBody_cphBody_ddlTehsilBlock") {
-    
+
             // Select Panchayat : [MUNDHA PANDE : 33134]
             if (pfms.addBeneficiary.isPanchayat === true) {
                 pfms.el.panchayat().val(pfms.addBeneficiary.panchayat).change();
             }
-    
+
         } else if (elem === "ctl00_ctl00_cphBody_cphBody_ddlTownPanchayat") {
-    
+
             // Select Village : [MUNDHA PANDE : 598954]
             if (pfms.addBeneficiary.isVillage === true) {
                 pfms.el.village().val(pfms.addBeneficiary.village);
             }
         }
     }
-    
+
     function initRequestHandler(sender, args) {
         pfms.removeLoading();
     }
 
     // Input Bank
     if (pfms.addBeneficiary.isBank === true) {
-        console.log(pfms.el.bank().val());
-        if (== "")
+        // console.log(pfms.el.bank().val());
         pfms.el.bank().val(pfms.addBeneficiary.bank);
     }
+
+    // Fill Another Data
+    pfms.fillAnotherData();
 }

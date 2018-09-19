@@ -236,7 +236,7 @@
                                                         <b-switch v-model="addBeneficiary.isBeneficiaryType">Beneficiary Type</b-switch>
                                                     </div>
                                                     <b-field v-show="addBeneficiary.isBeneficiaryType">
-                                                        <b-select v-model="addBeneficiary.beneficiaryTypeValue" label="Rounded" expanded size="is-small" placeholder="Select">
+                                                        <b-select v-model="addBeneficiary.beneficiaryType" label="Rounded" expanded size="is-small" placeholder="Select">
                                                             <option value="1284" title="4th Grade Staff">4th Grade Staff</option>
                                                             <option value="391" title="A/C ASSIST">A/C ASSIST</option>
                                                             <option value="166" title="Aanganwadi Worker">Aanganwadi Worker</option>
@@ -393,6 +393,20 @@
                                                             <option value="M" title="MALE">MALE</option>
                                                             <option value="F" title="FEMALE">FEMALE</option>
                                                         </b-select>
+                                                    </b-field>
+                                                    <!-- Address1: Field -->
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isAddress1">Address1</b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isAddress1">
+                                                        <b-input v-model="addBeneficiary.address1" size="is-small" placeholder="Enter Address1 Field Value"></b-input>
+                                                    </b-field>
+                                                    <!-- Pincode: Field -->
+                                                    <div class="field">
+                                                        <b-switch v-model="addBeneficiary.isPincode">Pincode</b-switch>
+                                                    </div>
+                                                    <b-field v-show="addBeneficiary.isPincode">
+                                                        <b-input v-model="addBeneficiary.pincode" size="is-small" placeholder="Enter Pincode Field Value"></b-input>
                                                     </b-field>
                                                 </section>
                                             </div>

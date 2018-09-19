@@ -5,19 +5,19 @@ Vue.use(Buefy.default)
 new Vue({
     el: '#app',
     data: {
-        version: "v.0.0.3",
+        version: "v.0.0.4",
         // Application Status
         appStatus: false,
         // Active Tab
         activeTab: 0,
 
-        // Comman Data
+        // Comman Data For Update ALL Random Page
         commanData: {
             isBeneficiaryType: false,
             beneficiaryTypeValue: '',
         },
 
-        // Add Beneficiary Data Same in add_beneficiary.js
+        // Add Beneficiary Data Same in add_beneficiary.js [NOT UPDATE]
         addBeneficiary: {
             isRunScript: false,
             // Beneficiary Type
@@ -26,6 +26,11 @@ new Vue({
             // Gender
             isGender: false,
             gender: "F",
+            // Address1 , Pincode Field
+            isAddress1: false,
+            address1: "Mundapandey",
+            isPincode: false,
+            pincode: "244001",
             // State
             isState: false,
             state: '31',
