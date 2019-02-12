@@ -4,6 +4,9 @@
 (function ($) {
 
     var app = {
+        include: {
+            // analytics: 'https://ssl.google-analytics.com/ga.js',
+        },
         generateScriptDataUrl: function (jscript) {
             var b64 = 'data:text/javascript';
             // base64 may be smaller, but does not handle unicode characters
@@ -23,6 +26,12 @@
             document[where || 'head'].appendChild(elm);
         },
 
+        injectStyle: function (str, where) {
+            var node = document.createElement('style');
+            node.innerHTML = str;
+            document[where || 'head'].appendChild(node);
+        },
+        
         /**
          * Get Application Data
          */
@@ -70,6 +79,7 @@
 
         setTimeout(function () {
             app.injectScript(add_beneficiary_script, 'body');
+            // app.injectStyle('input#ctl00_ctl00_cphBody_cphBody_txtFname:focus { background-color: bisque; font-weight: 600;}', 'body');
         }, 120); // [milliseconds]
 
     }).catch(function (error) {

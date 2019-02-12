@@ -5,7 +5,7 @@ Vue.use(Buefy.default)
 new Vue({
     el: '#app',
     data: {
-        version: "v.0.0.4",
+        version: "v.0.0.6",
         // Application Status
         appStatus: false,
         // Active Tab
@@ -26,6 +26,9 @@ new Vue({
             // Gender
             isGender: false,
             gender: "F",
+            // Scheme Specific ID
+            isSpecificID: false,
+            specificID: "090401903",
             // Address1 , Pincode Field
             isAddress1: false,
             address1: "Mundapandey",
@@ -54,6 +57,17 @@ new Vue({
             bank: "STATE BANK OF INDIA(Y)",
             // Remove Loading
             isRemoveLoading: false,
+            // Set tabIndex in Input Element's
+            isSetTabIndex: false,
+            // Uppercase First Name
+            isUppercaseFName: false,
+            // Uppercase Father/Husband Name
+            isUppercaseHName: false,
+            // Uppercase Address1
+            isUppercaseAdd1Name: false,
+            // Village Name AutoComplete
+            isAutoCompleteAdd: false,
+            villageDataBase: "AKKA PANDAY BHOJPUR,BARWARA KHAS MUSTAHKAM,BHADASANA,BHAEPUR,BHIT KHERA,BIKANPUR,BIRPUR BARYAN URF KHARAG,BIRPUR THAN,BISAHAT JAITPURA,BUJHPUR ASHA,BUJPUR MAAN,CHAMRAUA,CHANDANPUR ISAPUR,DALPATPUR,DAULARA,DAULARI,DAULATPUR AZAMATPUR,DEVAPUR MUSTAHKAM,DHATURA MEGHA NAGLA MUSTAHKAM,DILARI,DILRA RAIPUR,DUPERA,GADAI KHERA,GANESH GHAT AHATMALI,GANESH GHAT MUSTAHKAM,GATAURA,GHAUNDA MUSTAHKAM,GOVERDHANPUR MUSTAHKAM,GOVINDPUR KALAN,ILAR RASULABAD,JAITIA SADULLAPUR,KARANPUR,KERA KHATA,KHABARIYA BHUR MUSTAHKAM,KHAI KHERA,KHANPUR LAKKHI,KHARAGPUR BAZE,KHARAGPUR JAGATPUR,LAL TIKAR MAHESH NAGLI MUSTAHK,LALPUR TITRI,LAXMIPUR URF KATEI,MACHHARIYA,MADNAPUR,MANKARA,MANPUR PATTI MUSTAHKAM,MATI URF MAINI,MOHAMMADPUR,MUNDHA PANDE,MUNDIA MALUKPUR MUSTAHKAM,MUNEMPUR,NAR KHERA,NAZARPUR,NIAMATPUR IKROSIA,PARSUPURA BAZE,RAMPUR BHILA,RANIATHER,RAUNDA MUSTAHKAM,RUSTAMPUR BADHMAR AHATMALI,SAIFPUR PALLA,SAIJNA,SAKTU NAGLA,SALEMPUR,SAMDI,SARKARA KHAS,SEHARIA,SIHORA BAZ,SIKANDARPUR PATTI,SIRAS KHERA,SIRSA INAYATPUR,JAGATPUR RAMRAY,RAFATPUR,SHIVPURI,TAHANAYAK",
         },
 
         // Know Your Payments
