@@ -87,20 +87,20 @@
         reset: function() {
             return document.getElementById('btnReset');
         },
-        captcha: function() {
-            return document.getElementById('txtCaptcha');
-        },
-        imgCaptcha: function() {
-            return document.getElementById('imgCaptcha');
-        }
+        // captcha: function() {
+        //     return document.getElementById('txtCaptcha');
+        // },
+        // imgCaptcha: function() {
+        //     return document.getElementById('imgCaptcha');
+        // }
     },
 
     // Get Captcha Image Text
-    getCaptchaText: function() {
-        var url = know.el.imgCaptcha().src;
-        var split = url.split("=");
-        return split[1];
-    },
+    // getCaptchaText: function() {
+    //     var url = know.el.imgCaptcha().src;
+    //     var split = url.split("=");
+    //     return split[1];
+    // },
 
     /**
      * Settings for Account Number
@@ -114,7 +114,7 @@
             know.el.confirmAccount().value = v;
         };
         
-        know.el.captcha().value = know.getCaptchaText();
+        // know.el.captcha().value = know.getCaptchaText();
     },
 
     /**
@@ -138,19 +138,19 @@ know.setLocalData();
  */
 if (know.knowPayment.isRunScript === true) {
 
-    Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endRequestHandler);
-    function endRequestHandler(sender, args) {
-        var elem = sender._postBackSettings.sourceElement.id;
-        // console.log(elem);
-        if (document.getElementById('divAccountPayment')) {
-            // Account Number Script
-            know.runAccountNumber();
-        } else {
-            // Aadhar Number Script
-        }
-    }
-}
-`;
+    // Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endRequestHandler);
+    // function endRequestHandler(sender, args) {
+    //     var elem = sender._postBackSettings.sourceElement.id;
+    //     // console.log(elem);
+    //     if (document.getElementById('divAccountPayment')) {
+    //         // Account Number Script
+    //     } else {
+    //         // Aadhar Number Script
+    //     }
+    // }
+
+    know.runAccountNumber();
+}`;
 
         var know_payment_script = app.generateScriptDataUrl(script);
 

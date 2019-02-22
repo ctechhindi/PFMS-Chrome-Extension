@@ -1,6 +1,6 @@
 {
 	"name": "PFMS",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "Easily Work in PFMS",
 	"icons": {
 		"16": "img/icon16.png",
@@ -55,7 +55,17 @@
 		},
 		{
 			"matches": [
-				"https://pfms.nic.in/Static/KnowYourPayment.aspx"
+				"https://pfms.nic.in/PaymentProcess/PaymentProcessBeneficiarySearch.aspx*"
+			],
+			"js": [
+				"js/main_script/payment_process_search.js"
+			],
+			"all_frames": true
+		},
+		{
+			"matches": [
+				"https://pfms.nic.in/Static/KnowYourPayment_new.aspx",
+				"https://pfms.nic.in/static/KnowYourPayment_new.aspx"
 			],
 			"js": [
 				"js/main_script/know_your_payment.js"
