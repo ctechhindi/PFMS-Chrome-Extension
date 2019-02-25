@@ -1,7 +1,7 @@
 {
 	"name": "PFMS",
-	"version": "0.0.7",
-	"description": "Easily Work in PFMS",
+	"version": "0.0.8",
+	"description": "To work smoothly on PFMS",
 	"icons": {
 		"16": "img/icon16.png",
 		"32": "img/icon32.png",
@@ -58,7 +58,9 @@
 				"https://pfms.nic.in/PaymentProcess/PaymentProcessBeneficiarySearch.aspx*"
 			],
 			"js": [
-				"js/main_script/payment_process_search.js"
+				"js/main_script/payment_process_search.js",
+				"js/main_script/payment_process_beneficiary_search.js",
+				"js/main_script/run_common_script.js"
 			],
 			"all_frames": true
 		},

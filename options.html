@@ -9,6 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="js/jquery-1.8.3.min.js"></script>
   <link rel="stylesheet" href="js/json/jquery.jsonPresenter.css">
+  <link href="css/custom.css" rel="stylesheet">
   <title>PFMS</title>
   <style>
     .unsortable {
@@ -21,20 +22,53 @@
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" v-cloak>
     <section class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">PFMS</h1>
-          <h2 class="subtitle" v-text="version"></h2>
+          <nav class="level">
+            <!-- Left side -->
+            <div class="level-left">
+              <div class="level-item">
+                <div>
+                  <p class="title" style="font-family: cursive;">
+                    {{ title }}
+                    <span class="tag is-dark" v-text="version"></span>
+                  </p>
+                  <p style="padding-top: 10px; font-size: 13px;" class="heading" v-text="description"></p>
+                </div>
+              </div>
+            </div>
+            <!-- Right side -->
+            <div class="level-right">
+              <p class="level-item is-shady"><a href="https://bit.ly/ctechhindi-channel" target="_black" title="YouTube">
+                  <b-icon icon="youtube-tv" type="is-white"></b-icon>
+                </a></p>
+              <p class="level-item is-shady"><a href="https://www.facebook.com/speedtypingtutor" target="_black" title="Facebook">
+                  <b-icon icon="facebook" type="is-white"></b-icon>
+                </a></p>
+              <p class="level-item is-shady"><a href="https://github.com/ctechhindi" target="_black" title="GitHub">
+                  <b-icon icon="github-circle" type="is-white"></b-icon>
+                </a></p>
+              <p class="level-item is-shady"><a href="https://stackoverflow.com/users/9976176/c-tech-hindi" target="_black"
+                  title="Stack Overflow">
+                  <b-icon icon="stack-overflow" type="is-white"></b-icon>
+                </a></p>
+              <p class="level-item is-shady"><a href="https://twitter.com/ctechindi" target="_black" title="Twitter">
+                  <b-icon icon="twitter" type="is-white"></b-icon>
+                </a></p>
+              <p class="level-item is-shady"><a href="https://jeevan15498.github.io" target="_black" title="Site">
+                  <b-icon icon="web" type="is-white"></b-icon>
+                </a></p>
+            </div>
+          </nav>
+          <p style="font-family: cursive; margin: -19px 0px -20px;">@jeevan15498</p>
         </div>
       </div>
     </section>
-    <br>
-
     <!-- Tabs -->
     <section>
-      <b-tabs position="is-centered" class="block" type="is-boxed" v-model="activeTab">
+      <b-tabs v-model="activeTab" position="is-centered" expanded class="block">
         <!-- App Data -->
         <b-tab-item label="App Data" icon="sitemap">
           <div class="container">
@@ -58,11 +92,10 @@
             </div>
             <hr>
             <div class="field">
-              <b-switch v-model="commanData.isBeneficiaryType">Select All Page Beneficiary Type</b-switch>
+              <b-switch v-model="commonData.isBeneficiaryType">Select All Page Beneficiary Type</b-switch>
             </div>
-            <b-field v-show="commanData.isBeneficiaryType">
-              <b-select v-model="commanData.beneficiaryTypeValue" label="Rounded" expanded size="is-small"
-                placeholder="Select">
+            <b-field v-show="commonData.isBeneficiaryType">
+              <b-select v-model="commonData.beneficiaryTypeValue" label="Rounded" expanded size="is-small" placeholder="Select">
                 <option value="">Select Beneficiary Type</option>
                 <option value="1284" title="4th Grade Staff">4th Grade Staff</option>
                 <option value="391" title="A/C ASSIST">A/C ASSIST</option>
@@ -235,8 +268,8 @@
         </b-tab-item>
 
         <!-- Custom Details -->
-        <b-tab-item label="Custom Details" icon="calendar-range">
-          <div class="container">
+        <b-tab-item label="Custom Details" icon="settings">
+          <div class="">
             <section>
               <!-- Add Beneficiary :: Details -->
               <b-collapse class="panel" :open="false">
@@ -247,7 +280,8 @@
                 <div class="panel-block">
                   <div class="content is-small" style="width: -webkit-fill-available;">
                     <div class="field">
-                      <b-switch v-model="addBeneficiary.isRunScript" size="is-medium" type="is-danger">Run App this Page
+                      <b-switch v-model="addBeneficiary.isRunScript" size="is-medium" type="is-danger">Run App this
+                        Page
                       </b-switch>
                     </div>
                     <div class="columns is-desktop" id="add_beneficiary" style="display: none;">
@@ -525,8 +559,7 @@
                               ID</b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isSpecificID">
-                            <b-input v-model="addBeneficiary.specificID" size="is-small"
-                              placeholder="Enter Scheme Specific ID"></b-input>
+                            <b-input v-model="addBeneficiary.specificID" size="is-small" placeholder="Enter Scheme Specific ID"></b-input>
                           </b-field>
                           <!-- Address1: Field -->
                           <div class="field">
@@ -534,16 +567,14 @@
                             </b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isAddress1">
-                            <b-input v-model="addBeneficiary.address1" size="is-small"
-                              placeholder="Enter Address1 Field Value"></b-input>
+                            <b-input v-model="addBeneficiary.address1" size="is-small" placeholder="Enter Address1 Field Value"></b-input>
                           </b-field>
                           <!-- Pincode: Field -->
                           <div class="field">
                             <b-switch v-model="addBeneficiary.isPincode">Pincode</b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isPincode">
-                            <b-input v-model="addBeneficiary.pincode" size="is-small"
-                              placeholder="Enter Pincode Field Value"></b-input>
+                            <b-input v-model="addBeneficiary.pincode" size="is-small" placeholder="Enter Pincode Field Value"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -614,8 +645,7 @@
                             </b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isDistrict">
-                            <b-input v-model="addBeneficiary.district" size="is-small"
-                              placeholder="Enter District Value"></b-input>
+                            <b-input v-model="addBeneficiary.district" size="is-small" placeholder="Enter District Value"></b-input>
                           </b-field>
 
                           <div class="field">
@@ -641,8 +671,7 @@
                             </b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isPanchayat">
-                            <b-input v-model="addBeneficiary.panchayat" size="is-small"
-                              placeholder="Enter Panchayat Value"></b-input>
+                            <b-input v-model="addBeneficiary.panchayat" size="is-small" placeholder="Enter Panchayat Value"></b-input>
                           </b-field>
 
                           <div class="field">
@@ -701,10 +730,8 @@
                             <b-switch v-model="addBeneficiary.isAutoCompleteAdd">Village
                               Name AutoComplete </b-switch>
                           </div>
-                          <b-field label="Village Name: Comma seperated values"
-                            v-show="addBeneficiary.isAutoCompleteAdd">
-                            <b-input type="textarea" v-model="addBeneficiary.villageDataBase"
-                              placeholder="Village Name"></b-input>
+                          <b-field label="Village Name: Comma seperated values" v-show="addBeneficiary.isAutoCompleteAdd">
+                            <b-input type="textarea" v-model="addBeneficiary.villageDataBase" placeholder="Village Name"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -753,8 +780,7 @@
                             </b-switch>
                           </div>
                           <b-field v-show="importExternalBeneData.isScheme">
-                            <b-input v-model="importExternalBeneData.scheme" size="is-small"
-                              placeholder="Enter Scheme Value"></b-input>
+                            <b-input v-model="importExternalBeneData.scheme" size="is-small" placeholder="Enter Scheme Value"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -782,8 +808,7 @@
                               <code>Uttar Pradesh : 9</code></b-switch>
                           </div>
                           <b-field v-show="importExternalBeneData.isState">
-                            <b-input v-model="importExternalBeneData.state" size="is-small"
-                              placeholder="Enter State Value"></b-input>
+                            <b-input v-model="importExternalBeneData.state" size="is-small" placeholder="Enter State Value"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -795,8 +820,7 @@
                               : <code>Moradabad : 4</code></b-switch>
                           </div>
                           <b-field v-show="importExternalBeneData.isDist">
-                            <b-input v-model="importExternalBeneData.dist" size="is-small"
-                              placeholder="Enter District Value"></b-input>
+                            <b-input v-model="importExternalBeneData.dist" size="is-small" placeholder="Enter District Value"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -815,11 +839,11 @@
                 </div>
               </b-collapse>
 
-              <!-- Payment Process Beneficiary Search Data :: Details -->
+              <!-- Beneficiary Amount Import with JSON Data :: Details -->
               <b-collapse class="panel" :open="false">
                 <div slot="trigger" class="panel-heading notification is-warning">
                   <b-icon icon="currency-inr"></b-icon>
-                  <strong> Payment Process Beneficiary Search</strong>
+                  <strong> Beneficiary Amount Import with JSON Data</strong>
                 </div>
                 <div class="panel-block">
                   <div class="content is-small" style="width: -webkit-fill-available;">
@@ -827,16 +851,14 @@
                       <b-switch v-model="paymentProcessBeneficiarySearch.isRunScript" size="is-medium" type="is-danger">
                         Run Script </b-switch>
                     </div>
-                    <a target="_blank"
-                      href="https://drive.google.com/file/d/1E6s970fwxgzVXU-c4cFmz9pydid4Mc_5/view">Excel
+                    <a target="_blank" href="https://drive.google.com/file/d/1E6s970fwxgzVXU-c4cFmz9pydid4Mc_5/view">Excel
                       Simple File</a>
                     <br>
                     <a target="_blank" href="https://codebeautify.org/excel-to-json">Excel to Json
                       Converter</a>
                     <!-- Json Viewer -->
                     <b-field label="Json Data">
-                      <b-input id="json-input" v-model="paymentProcessBeneficiarySearch.importBeneficiaryArray"
-                        type="textarea"></b-input>
+                      <b-input id="json-input" v-model="paymentProcessBeneficiarySearch.importBeneficiaryArray" type="textarea"></b-input>
                     </b-field>
                     <button class="button is-success" @click="isValidJsonData()">
                       <b-icon icon="check"></b-icon>
@@ -890,6 +912,23 @@
                           </div>
                         </section>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </b-collapse>
+
+              <!-- Backup/Import Fill Beneficiaries Amount :: Details -->
+              <b-collapse class="panel" :open="false">
+                <div slot="trigger" class="panel-heading notification is-danger">
+                  <b-icon icon="database"></b-icon>
+                  <strong> Backup/Import Fill Beneficiaries Amount</strong>
+                </div>
+                <div class="panel-block">
+                  <div class="content is-small" style="width: -webkit-fill-available;">
+                    <div class="field">
+                      <b-switch v-model="paymentProcessBeneficiary_BackupImportAmount.isRunScript" size="is-medium"
+                        type="is-danger">
+                        Run Script </b-switch>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-# PFMS V.0.0.7
+# PFMS V.0.0.8
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -11,8 +11,9 @@ This extension is powered by `Jeevan Lal`.
 | Add/Update Beneficiary | `pfms_addBeneficiary` |
 | Import External Beneficiaries Data | `pfms_importExternalData` |
 | Know Your Payments | `pfms_knowPayment` |
-| Payment Process Beneficiary Search | `pfms_paymentProcessBeneficiarySearch` |
-| Comman Data | `pfms_commanData` |
+| Beneficiary Amount Import with JSON Data | `pfms_paymentProcessBeneficiarySearch` |
+| Common Data | `pfms_commonData` |
+| Backup/Import Fill Beneficiaries Amount | `pfms_paymentProcessBeneficiary_BackupImportAmount` |
 
 ## Options Page
 
@@ -26,8 +27,9 @@ This extension is powered by `Jeevan Lal`.
 | Add Beneficiary | `objectVal__addBeneficiaryDetails` |
 | Know Your Payments | `objectVal__knowPaymentDetails` |
 | Import External Beneficiaries Data | `objectVal__importExternalBeneData` |
-| Payment Process Beneficiary Search | `objectVal__paymentProcessBeneficiarySearch` |
-| Comman Data | `objectVal__commanData` |
+| Beneficiary Amount Import with JSON Data | `objectVal__paymentProcessBeneficiarySearch` |
+| Common Data | `objectVal__commonData` |
+| Backup/Import Fill Beneficiaries Amount | `objectVal__paymentProcessBeneficiary_BackupImportAmount` |
 
 
 ## Settings Page
@@ -43,7 +45,7 @@ This extension is powered by `Jeevan Lal`.
 ## Features
 
 * Shortcut key `Ctrl+Shift+6` Start/Pause Application
-* Add and Update Benifeciary Select Information's
+* Add and Update Beneficiary Select Information's
 
 
 ## Change Minify File
@@ -57,8 +59,14 @@ This extension is powered by `Jeevan Lal`.
 
 * change bank name in update mother account if save bank already save
 * CHANGE PFMS DEFAULT LOADING STYLE
-* JSY Payment Amount Fill: Backup and Restore
 
+### **V.0.0.8**
+
+* `Update :` Options Page Layout
+* `New :` Select Beneficiary Type For: https://pfms.nic.in/BenificaryManagement/BulkEditAfterApproval.aspx
+* `Update :` Delete Backup Data, ON/OFF Button in Options Page `[https://pfms.nic.in/PaymentProcess/PaymentProcessBeneficiarySearch.aspx]`
+* `Fix Bug :` Script not run: `[js\main_script\payment_process_beneficiary_search.src]`
+* `Update :` Village Name
 
 ### **V.0.0.7**
 
@@ -81,7 +89,7 @@ This extension is powered by `Jeevan Lal`.
 ### **V.0.0.4**
 
 * `Fix Bug :` BeneficiaryType problem in `AddNewBeneficiary.aspx` Page
-* `New :` Add Address1 and Pincode Fields in `/AddNewBeneficiary.aspx` Page
+* `New :` Add Address1 and Pin Code Fields in `/AddNewBeneficiary.aspx` Page
 
 ### **V.0.0.3**
 

@@ -4,6 +4,7 @@
 (function ($) {
 
     var app = {
+
         generateScriptDataUrl: function (jscript) {
             var b64 = 'data:text/javascript';
             // base64 may be smaller, but does not handle unicode characters
@@ -17,10 +18,18 @@
 
             return b64;
         },
+
         injectScript: function (src, where) {
             var elm = document.createElement('script');
             elm.src = src;
             document[where || 'head'].appendChild(elm);
+        },
+
+        /**
+         * Get Application Data
+         */
+        getDataElement: {
+            backupImportSettings: "objectVal__paymentProcessBeneficiary_BackupImportAmount",
         },
 
         /**
@@ -43,6 +52,16 @@
      * Check Application Status : [true/false]
      */
     app.checkApplicationStatus().then(function (resp) {
+
+        /**
+         * Custom Data : Fetch All Extension Local Storage Key Data
+         */
+        chrome.storage.local.get(app.getDataElement.backupImportSettings, function (budget) {
+            if (budget.objectVal__paymentProcessBeneficiary_BackupImportAmount !== undefined) {
+                // console.log(budget.objectVal__paymentProcessBeneficiary_BackupImportAmount);
+                localStorage.setItem("pfms_paymentProcessBeneficiary_BackupImportAmount", JSON.stringify(budget.objectVal__paymentProcessBeneficiary_BackupImportAmount));
+            }
+        });
 
         /**
         * Run Main Script

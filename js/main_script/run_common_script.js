@@ -1,4 +1,4 @@
-var commanScript = {
+var commonScript = {
 
     el: {
         beneficiaryType: function() {
@@ -10,7 +10,7 @@ var commanScript = {
      * Get Application Data
      */
     getDataElement: {
-        commanData: "objectVal__commanData",
+        commonData: "objectVal__commonData",
     },
 
     /**
@@ -32,24 +32,24 @@ var commanScript = {
 /**
  * Check Application Status : [true/false]
  */
-commanScript.checkApplicationStatus().then(function (resp) {
+commonScript.checkApplicationStatus().then(function (resp) {
 
     /**
      * Custom Data : Fetch All Extension Local Storage Key Data
      */
-    chrome.storage.local.get(commanScript.getDataElement.commanData, function (budget) {
-        if (budget.objectVal__commanData !== undefined) {
-            // console.log(budget.objectVal__commanData);
+    chrome.storage.local.get(commonScript.getDataElement.commonData, function (budget) {
+        if (budget.objectVal__commonData !== undefined) {
+            // console.log(budget.objectVal__commonData);
 
-            if (budget.objectVal__commanData.isBeneficiaryType === true) {
-                if (budget.objectVal__commanData.beneficiaryTypeValue !== "") {
+            if (budget.objectVal__commonData.isBeneficiaryType === true) {
+                if (budget.objectVal__commonData.beneficiaryTypeValue !== "") {
 
                     /**
                      * Select Beneficiary Type: Mother
                      */
-                    if (commanScript.el.beneficiaryType() !== null) {
-                        if (commanScript.el.beneficiaryType().value === "0") {
-                            commanScript.el.beneficiaryType().value = budget.objectVal__commanData.beneficiaryTypeValue; // 165 : Mother
+                    if (commonScript.el.beneficiaryType() !== null) {
+                        if (commonScript.el.beneficiaryType().value === "0") {
+                            commonScript.el.beneficiaryType().value = budget.objectVal__commonData.beneficiaryTypeValue; // 165 : Mother
                         }
                     }
                 }

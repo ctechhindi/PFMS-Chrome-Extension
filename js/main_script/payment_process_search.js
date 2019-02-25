@@ -4,6 +4,7 @@
 (function ($) {
 
     var app = {
+
         generateScriptDataUrl: function (jscript) {
             var b64 = 'data:text/javascript';
             // base64 may be smaller, but does not handle unicode characters
@@ -17,10 +18,18 @@
 
             return b64;
         },
+
         injectScript: function (src, where) {
             var elm = document.createElement('script');
             elm.src = src;
             document[where || 'head'].appendChild(elm);
+        },
+
+        /**
+         * Get Application Data
+         */
+        getDataElement: {
+            backupImportSettings: "objectVal__paymentProcessBeneficiary_BackupImportAmount",
         },
 
         /**
@@ -45,6 +54,16 @@
     app.checkApplicationStatus().then(function (resp) {
 
         /**
+         * Custom Data : Fetch All Extension Local Storage Key Data
+         */
+        chrome.storage.local.get(app.getDataElement.backupImportSettings, function (budget) {
+            if (budget.objectVal__paymentProcessBeneficiary_BackupImportAmount !== undefined) {
+                // console.log(budget.objectVal__paymentProcessBeneficiary_BackupImportAmount);
+                localStorage.setItem("pfms_paymentProcessBeneficiary_BackupImportAmount", JSON.stringify(budget.objectVal__paymentProcessBeneficiary_BackupImportAmount));
+            }
+        });
+
+        /**
         * Run Main Script
         */
         var script = `/**
@@ -58,6 +77,12 @@ var payPS = {
     locKey: "PFMS_PAYMENT_FILL_BENEFICIARY",
     el: {
         bType: function () { return $('#ctl00_ctl00_cphBody_cphBody_lblBenfType'); },
+        BeneficiaryTable: function () { return $('#ctl00_ctl00_cphBody_cphBody_grdBeneficiaryDetails'); },
+    },
+
+    // Backup/Import Fill Beneficiaries Amount
+    paymentProcessBeneficiary_BackupImportAmount: {
+        isRunScript: false,
     },
 
     /**
@@ -171,12 +196,14 @@ var payPS = {
 
                 var modelTableData = "<table style='background-color:White;border-color:Black;border-width:1px;border-style:Solid;width:100%;border-collapse:collapse;'>";
                 modelTableData += "<thead>";
-                modelTableData += "<tr><th>Beneficiary Type</th><th>Time</th><th>Total Beneficiary</th><th>Total Amount</th><th>Action</th></tr>";
+                modelTableData += "<tr><th>Beneficiary Type</th><th>Time</th><th>Total Beneficiary</th><th>Total Amount</th><th>Action</th><th>Action</th></tr>";
                 modelTableData += "</thead>";
                 modelTableData += "<tbody>";
 
                 localDataArray.forEach(function (v, i) {
-                    modelTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.beneficiaryType + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.time + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.totalBeneficiary + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.totalAmount + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'><a onclick='payPS.restoreBackupData(" + i + ")'>Restore Data</a></td></tr>";
+                    if (v !== undefined && v !== null && v !== "") {
+                        modelTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.beneficiaryType + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.time + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.totalBeneficiary + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.totalAmount + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'><a onclick='payPS.restoreBackupData(" + i + ")'>Restore Data</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'><a onclick='payPS.deleteBackupData(" + i + ")'>Delete Data</a></td></tr>";
+                    }
                 });
 
                 // modelTableData += "<tr><td style='border: 1px solid #000000;text-align: center;'>January</td><td style='border: 1px solid #000000;text-align: center;'>3</td><td style='border: 1px solid #000000;text-align: center;'>3</td></tr>";
@@ -208,9 +235,14 @@ var payPS = {
             var localDataArray = JSON.parse(localData);
             if (localDataArray.length > 0) {
 
-                var restoreData = localDataArray[array_index].data;
+                var restoreData = localDataArray[array_index];
                 if (restoreData !== null && restoreData !== undefined && restoreData !== "")
                 {
+                    if (restoreData.data !== null && restoreData.data !== undefined && restoreData.data !== "") {
+                        console.error("Array Data Object : "+ array_index + " Data Not Found!");
+                        return false;
+                    }
+
                     var totalRestoreAmount = 0;
                     var totalRestoreBeneficiary = 0;
                     restoreData.forEach(function (v) {
@@ -251,6 +283,47 @@ var payPS = {
     },
 
     /**
+     * [SECOND] Restore Backup Data
+     * @param: {int} array index
+     */
+    deleteBackupData: function (array_index) {
+        var localData = localStorage.getItem(payPS.locKey);
+
+        if (localData !== null && localData !== undefined && localData !== "") {
+            var localDataArray = JSON.parse(localData);
+            if (localDataArray.length > 0) {
+
+                var existData = localDataArray[array_index];
+                if (existData !== null && existData !== undefined && existData !== "")
+                {
+                    var isDeleteData = confirm("Are you sure delete data?");
+                    if (isDeleteData) {
+
+                        delete localDataArray[array_index];
+
+                        localStorage.setItem(payPS.locKey, JSON.stringify(localDataArray));
+                        
+                        // Model Close Button
+                        $("#popup_ok").click();
+                    }
+                    return false;
+
+                } else {
+                    console.error("Array Index : "+ array_index + " Data Not Found!");
+                    alert("Array Index : "+ array_index + " Data Not Found!");
+                }
+
+            } else {
+                console.error("LocalStorage Data not Found!");
+                alert("LocalStorage Data not Found!");
+            }
+        } else {
+            console.error("LocalStorage Data not Found!");
+            alert("LocalStorage Data not Found!");
+        }
+    },
+
+    /**
 	 * InnerHTML: Button
 	 */
     innerHTML: function () {
@@ -262,11 +335,41 @@ var payPS = {
                 </td> \
             </tr> \
         ');
-    }
+    },
+
+    /**
+     * Set Extensions LocalStorage Data
+     */
+    setLocalData: function () {
+        var custom_local_data = (JSON.parse(localStorage.getItem('pfms_paymentProcessBeneficiary_BackupImportAmount')));
+        if (custom_local_data !== null) {
+            payPS.paymentProcessBeneficiary_BackupImportAmount = custom_local_data;
+        }
+    },
 }
 
-payPS.setAttributesForImportPayment();
-payPS.innerHTML();
+/**
+ * Set Extensions LocalStorage Data
+ */
+payPS.setLocalData();
+
+/**
+ * Check Run Script
+ */
+if (payPS.paymentProcessBeneficiary_BackupImportAmount.isRunScript === true) {
+
+    /**
+     * Check is Exists Beneficiary Search Table
+     */
+    if (payPS.el.BeneficiaryTable().length > 0) {
+
+        payPS.setAttributesForImportPayment();
+        payPS.innerHTML();
+    }
+
+} else {
+    console.error("Application Script Stop");
+}
 
 
 
