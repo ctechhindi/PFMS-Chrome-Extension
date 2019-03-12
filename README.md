@@ -1,4 +1,4 @@
-# PFMS V.0.0.8
+# PFMS V.0.0.9
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -59,6 +59,11 @@ This extension is powered by `Jeevan Lal`.
 
 * change bank name in update mother account if save bank already save
 * CHANGE PFMS DEFAULT LOADING STYLE
+
+### **V.0.0.9**
+
+* `Fix Bug :` Beneficial Type Change on Update Beneficial Page
+* `New :` Add New Village `MUNDIYA MALUKPUR`
 
 ### **V.0.0.8**
 
