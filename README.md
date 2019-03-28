@@ -1,4 +1,4 @@
-# PFMS V.0.0.9
+# PFMS V.0.1.0
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -59,6 +59,14 @@ This extension is powered by `Jeevan Lal`.
 
 * change bank name in update mother account if save bank already save
 * CHANGE PFMS DEFAULT LOADING STYLE
+* Vender
+
+### **V.0.1.0**
+
+* `Fix Bug :` Restore Backup Data in `Payment Initialization`
+* `New :` Show Backup Data in Alert Model
+* `New :` Add Beneficiary Name in Backup Data
+* `Update :` Add Beneficiary Script
 
 ### **V.0.0.9**
 

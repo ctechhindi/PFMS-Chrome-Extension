@@ -36,12 +36,23 @@ var payPS = {
         table.find('tr').each(function (i, el) {
             var $tds = $(this).find('td');
             var pfms_id = $tds.eq(1);
+            var ben_name = $tds.eq(3); // Beneficiary Name Registered/AsPerBank	
             var aadhar_no = $tds.eq(5);
             var account_no = $tds.eq(6);
             var payment = $tds.eq(10);
 
+            var benShortName = "";
+            // Beneficiary Name Split
+            if (ben_name.text() !== "") {
+                var benNameArray = ben_name.text().split("/");
+                if (benNameArray[0] !== "") {
+                    benShortName = benNameArray[0];
+                }
+            }
+
             // Set Attributes 
-            payment.attr("data-pfmsId", pfms_id.text());
+            payment.attr("data-benname", benShortName);
+            payment.attr("data-pfmsid", pfms_id.text());
             payment.attr("data-aadhar", aadhar_no.text());
             payment.attr("data-account", account_no.text());
         });
@@ -54,7 +65,7 @@ var payPS = {
         var backupData = [];
         var totalBeneficiary = 0;
         var totalAmount = 0;
-        var beneficiaryType = payPS.el.bType().html(); 
+        var beneficiaryType = payPS.el.bType().html();
 
         $("[data-pfmsId]").each(function (i, el1) {
             $(el1).find('input').each(function (i, el2) {
@@ -65,8 +76,10 @@ var payPS = {
 
                     totalAmount += parseInt(stateShare);
 
-                    var beneficiaryID = $(el1).attr("data-pfmsId");
+                    var beneficiaryID = $(el1).attr("data-pfmsid");
+                    var beneficiaryName = $(el1).attr("data-benname");
                     var beneficiaryData = {
+                        "BeneficiaryName": beneficiaryName,
                         "BeneficiaryCode": beneficiaryID,
                         "StateShare": stateShare,
                     };
@@ -97,7 +110,7 @@ var payPS = {
                 }
 
             } else {
-                // Save First Time LocalStroage Data
+                // Save First Time LocalStorage Data
                 var d = [];
                 d.push({
                     time: payPS.formatDate(new Date()),
@@ -128,13 +141,13 @@ var payPS = {
 
                 var modelTableData = "<table style='background-color:White;border-color:Black;border-width:1px;border-style:Solid;width:100%;border-collapse:collapse;'>";
                 modelTableData += "<thead>";
-                modelTableData += "<tr><th>Beneficiary Type</th><th>Time</th><th>Total Beneficiary</th><th>Total Amount</th><th>Action</th><th>Action</th></tr>";
+                modelTableData += "<tr><th>Beneficiary Type</th><th>Time</th><th>Total Beneficiary</th><th>Total Amount</th><th>Action</th><th>Action</th><th>Action</th></tr>";
                 modelTableData += "</thead>";
                 modelTableData += "<tbody>";
 
                 localDataArray.forEach(function (v, i) {
                     if (v !== undefined && v !== null && v !== "") {
-                        modelTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.beneficiaryType + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.time + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.totalBeneficiary + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.totalAmount + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'><a onclick='payPS.restoreBackupData(" + i + ")'>Restore Data</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'><a onclick='payPS.deleteBackupData(" + i + ")'>Delete Data</a></td></tr>";
+                        modelTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.beneficiaryType + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.time + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.totalBeneficiary + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.totalAmount + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'><a onclick='payPS.restoreBackupData(" + i + ")'>Restore Data</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'><a onclick='payPS.deleteBackupData(" + i + ")'>Delete Data</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'><a onclick='payPS.showBackupData(" + i + ")'>Show Data</a></td></tr>";
                     }
                 });
 
@@ -168,16 +181,16 @@ var payPS = {
             if (localDataArray.length > 0) {
 
                 var restoreData = localDataArray[array_index];
-                if (restoreData !== null && restoreData !== undefined && restoreData !== "")
-                {
-                    if (restoreData.data !== null && restoreData.data !== undefined && restoreData.data !== "") {
-                        console.error("Array Data Object : "+ array_index + " Data Not Found!");
+                if (restoreData !== null && restoreData !== undefined && restoreData !== "") {
+                    if (restoreData.data === null || restoreData.data === undefined || restoreData.data === "") {
+                        console.error("Array Data Object : " + array_index + " Data Not Found!");
                         return false;
                     }
 
                     var totalRestoreAmount = 0;
                     var totalRestoreBeneficiary = 0;
-                    restoreData.forEach(function (v) {
+
+                    restoreData.data.forEach(function (v) {
                         if (v.StateShare !== "") {
                             var id = $("[data-pfmsid=" + v.BeneficiaryCode + "]")
                             if (id.length === 1) {
@@ -191,17 +204,19 @@ var payPS = {
                                 totalRestoreAmount += parseInt(v.StateShare);
                                 ++totalRestoreBeneficiary;
 
+                                // console.log("Payment Inserted: " + v.BeneficiaryCode + " , Amount: " + v.StateShare)
+
                             } else {
                                 console.error("Payment Not Insert: " + v.BeneficiaryCode + " , Amount: " + v.StateShare)
                             }
                         }
                     });
 
-                    alert("Total Restore Beneficiary: "+ totalRestoreBeneficiary + ", Total Restore Amount: "+ totalRestoreAmount);
+                    alert("Total Restore Beneficiary: " + totalRestoreBeneficiary + ", Total Restore Amount: " + totalRestoreAmount);
 
                 } else {
-                    console.error("Array Index : "+ array_index + " Data Not Found!");
-                    alert("Array Index : "+ array_index + " Data Not Found!");
+                    console.error("Array Index : " + array_index + " Data Not Found!");
+                    alert("Array Index : " + array_index + " Data Not Found!");
                 }
 
             } else {
@@ -215,7 +230,7 @@ var payPS = {
     },
 
     /**
-     * [SECOND] Restore Backup Data
+     * [THIRD] Restore Backup Data
      * @param: {int} array index
      */
     deleteBackupData: function (array_index) {
@@ -226,23 +241,73 @@ var payPS = {
             if (localDataArray.length > 0) {
 
                 var existData = localDataArray[array_index];
-                if (existData !== null && existData !== undefined && existData !== "")
-                {
+                if (existData !== null && existData !== undefined && existData !== "") {
                     var isDeleteData = confirm("Are you sure delete data?");
                     if (isDeleteData) {
 
                         delete localDataArray[array_index];
 
                         localStorage.setItem(payPS.locKey, JSON.stringify(localDataArray));
-                        
+
                         // Model Close Button
                         $("#popup_ok").click();
                     }
                     return false;
 
                 } else {
-                    console.error("Array Index : "+ array_index + " Data Not Found!");
-                    alert("Array Index : "+ array_index + " Data Not Found!");
+                    console.error("Array Index : " + array_index + " Data Not Found!");
+                    alert("Array Index : " + array_index + " Data Not Found!");
+                }
+
+            } else {
+                console.error("LocalStorage Data not Found!");
+                alert("LocalStorage Data not Found!");
+            }
+        } else {
+            console.error("LocalStorage Data not Found!");
+            alert("LocalStorage Data not Found!");
+        }
+    },
+
+    /**
+     * [FOURTH] Show Backup Data
+     * @param {int} array_index 
+     */
+    showBackupData: function (array_index) {
+        var localData = localStorage.getItem(payPS.locKey);
+
+        if (localData !== null && localData !== undefined && localData !== "") {
+            var localDataArray = JSON.parse(localData);
+            if (localDataArray.length > 0) {
+
+                var beneficiary = localDataArray[array_index];
+                if (beneficiary !== null && beneficiary !== undefined && beneficiary !== "") {
+                    if (beneficiary.data === null || beneficiary.data === undefined || beneficiary.data === "") {
+                        console.error("Array Data Object : " + array_index + " Data Not Found!");
+                        return false;
+                    }
+
+                    var modelShowTableData = "<table style='background-color:White;border-color:Black;border-width:1px;border-style:Solid;width:100%;border-collapse:collapse;'>";
+                    modelShowTableData += "<thead>";
+                    modelShowTableData += "<tr><th>Beneficiary Code</th><th>Beneficiary Name</th><th>Total Amount</th></tr>";
+                    modelShowTableData += "</thead>";
+                    modelShowTableData += "<tbody>";
+
+                    beneficiary.data.forEach(function (v, i) {
+                        if (v !== undefined && v !== null && v !== "") {
+                            modelShowTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.BeneficiaryCode + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.BeneficiaryName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;'>" + v.StateShare + "</td></tr>";
+                        }
+                    });
+
+                    modelShowTableData += "</tbody>";
+                    modelShowTableData += "</table>";
+
+                    jAlert(modelShowTableData, "Backup LocalStorage Database");
+                    $("#popup_message").css('padding-left', '0px');
+
+                } else {
+                    console.error("Array Index : " + array_index + " Data Not Found!");
+                    alert("Array Index : " + array_index + " Data Not Found!");
                 }
 
             } else {
@@ -302,6 +367,3 @@ if (payPS.paymentProcessBeneficiary_BackupImportAmount.isRunScript === true) {
 } else {
     console.error("Application Script Stop");
 }
-
-
-

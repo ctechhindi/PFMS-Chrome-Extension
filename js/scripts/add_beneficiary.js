@@ -94,7 +94,9 @@ var pfms = {
     // Select Gender
     selectGender: function () {
         if (pfms.addBeneficiary.isGender === true) {
-            pfms.el.gender().val(pfms.addBeneficiary.gender);
+            if (pfms.el.gender().val() === "-1") {
+                pfms.el.gender().val(pfms.addBeneficiary.gender);
+            }
         }
     },
 
@@ -105,21 +107,27 @@ var pfms = {
          * Fill Address1 Field : Custom Data
          */
         if (pfms.addBeneficiary.isAddress1 !== undefined && pfms.addBeneficiary.isAddress1 === true) {
-            pfms.el.address1().val(pfms.addBeneficiary.address1);
+            if (pfms.el.address1().val() === "") {
+                pfms.el.address1().val(pfms.addBeneficiary.address1);
+            }
         }
 
         /**
          * Fill Pincode Field : Custom Data
          */
         if (pfms.addBeneficiary.isPincode !== undefined && pfms.addBeneficiary.isPincode === true) {
-            pfms.el.pincode().val(pfms.addBeneficiary.pincode);
+            if (pfms.el.pincode().val() === "") {
+                pfms.el.pincode().val(pfms.addBeneficiary.pincode);
+            }
         }
 
         /**
          * Fill Scheme Specific ID / Reg No : Custom Data
          */
         if (pfms.addBeneficiary.isSpecificID !== undefined && pfms.addBeneficiary.isSpecificID === true) {
-            pfms.el.specifiedId().val(pfms.addBeneficiary.specificID);
+            if (pfms.el.specifiedId().val() === "") {
+                pfms.el.specifiedId().val(pfms.addBeneficiary.specificID);
+            }
         }
     },
 
@@ -171,7 +179,7 @@ var pfms = {
      * Uppercase Text in Address1 Field
      */
     uppAddress1Field: function () {
-        var isAddress1Name = pfms.addBeneficiary.isUppercaseAdd1Name;;
+        var isAddress1Name = pfms.addBeneficiary.isUppercaseAdd1Name;
 
         // Uppercase Text in Address1 Field
         if (isAddress1Name !== undefined && isAddress1Name === true) {
@@ -233,6 +241,8 @@ if (pfms.addBeneficiary.isRunScript === true) {
     if (pfms.addBeneficiary.isBeneficiaryType === true) {
         if (pfms.el.bType().val() === "0") {
             pfms.el.bType().val(pfms.addBeneficiary.beneficiaryType);
+            // color
+            $("#ctl00_ctl00_cphBody_cphBody_ddlSubCatgoryUpadtePanel").css("background-color", "rgb(9, 232, 181)");
         }
     }
 
