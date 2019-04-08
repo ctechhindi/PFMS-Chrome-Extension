@@ -326,7 +326,7 @@ var payPS = {
     innerHTML: function () {
         $("#main_page2 > div:nth-child(9) > div:nth-child(1) > fieldset > table > tbody").append('\
             <tr> \
-                <td> \
+                <td style="float: left;"> \
                     <a onclick="payPS.backupData()" style="background-color: #555555; border: none; color: white; padding: 5px 9px; text-align: center; text-decoration: none; display: inline-block; font-size: 11px;">Backup Data</a> \
                     <a onclick="payPS.showLocalStorageData()" style="background-color: #555555; border: none; color: white; padding: 5px 9px; text-align: center; text-decoration: none; display: inline-block; font-size: 11px;">Show LocalStorage Data</a> \
                 </td> \

@@ -5,9 +5,9 @@
 SetBatchLines -1
 
 
-srcFileF = F:\Project\_Projects\pfms\js\scripts\import_external_beneficiary_data.js
-tmpFileF = F:\Project\_Projects\pfms\js\main_script\import_external_beneficiary_data.src
-cmpFileF = F:\Project\_Projects\pfms\js\main_script\import_external_beneficiary_data.js
+srcFileF = F:\Projects\pfms\js\scripts\import_external_beneficiary_data.js
+tmpFileF = F:\Projects\pfms\js\main_script\import_external_beneficiary_data.src
+cmpFileF = F:\Projects\pfms\js\main_script\import_external_beneficiary_data.js
 
 #g::
 	GoSub readSrcTmplAndCompile

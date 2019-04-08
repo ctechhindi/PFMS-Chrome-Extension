@@ -7,7 +7,7 @@ new Vue({
     data: {
         title: "PFMS",
         description: "To work smoothly on PFMS",
-        version: "V0.1.0",
+        version: "V0.1.1",
         // Application Status
         appStatus: false,
         // Active Tab
@@ -19,7 +19,10 @@ new Vue({
             beneficiaryTypeValue: '',
         },
 
-        // Add Beneficiary Data Same in add_beneficiary.js [NOT UPDATE]
+        /**
+         * Add Beneficiary Data Same in add_beneficiary.js [NOT UPDATE]
+         * js\scripts\add_beneficiary.js
+         */
         addBeneficiary: {
             isRunScript: false,
             // Beneficiary Type
@@ -72,9 +75,34 @@ new Vue({
             villageDataBase: "AFJALPUR,AHROLA,AKKA DILARI,AKKA PANDAY BHOJPUR,AKKA PANDEY,AKKA RAIPUR,BARWARA KHAS,BHADASANA,BHAEPUR,BHAJAN PURI,BHAYPUR,BHEET KHERA,BHIT KHERA,BIKANPUR,BINA BALA,BIRPUR BARYAN,BIRPUR THAN,BOOJ PUR ASHA,BOOJ PUR MAAN,BUJHPUR ASHA,BUJPUR MAAN,CHAK LAL PUR,CHAMAR PURA DAAN,CHAMARPURA,CHAMRAUA,CHANDAN PUR,CHANDANPUR ISAPUR,CHAPARA,CHATAR NATKA KHERA,DALPATPUR,DAULARA,DAULARI,DAULATPUR,DAULATPUR AZMATPUR,DEVAPUR,DHATURA MEGHA NAGLA,DILARI,DILRA RAIPUR,DUPERA,DUPERA KA MANJHRA,GADAI KHERA,GANESH GHAT,GATAURA,GAUTORA,GHOSHI PURA,GOVERDHANPUR,GOVIND PUR KALA,GOVIND PUR KHURD,HALA NAGLA,HARDIYA PUR,HARSAIN PUR,HASAN GANJ,HEERAN KHERA,HIRAN KHEDA,ILAR RASULABAD,IMLAKH,JAGATPUR,JAGATPUR RAMRAY,JAGRAMPURA,JAIT PUR BISAT,JAITIA SADULLAPUR,JAITPURA BISHAT,JAITYA,JHONDA,KAMRU,KARANPUR,KHABARIYA BHUR,KHAI KHERA,KHAIR KHATA,KHAN PUR,KHANPUR LAKKHI,KHARAGPUR BAZE,KHARAGPUR JAGATPUR,KISVA NAGLA,LADPUR,LAL TIKAR,LALPUR TITRI,LAXMIPUR KATII,LODHI PUR BASU,MAAN PUR PATTI,MACHARIYA,MACHHARIYA,MADNAPUR,MAHESHPUR BHEELA,MANI MATI PUR,MANJHARA JHANDAIL,MANKARA,MANPUR PATTI,MATI URF MAINI,MAULA GARH,MILAK BHOBHI,MILAK BOOJ PUR ASHA,MILAK DAULARI,MILAK DHOBI,MILAK DHOVI VALI,MILAK DILARI,MILAK GAUTORA,MILAK KHADAKPUR BAJE,MILAK KUNDA,MILAK MANKARA,MILAK SAIF PUR PALLA,MILAK SAIJNA,MILAK SIHORA,MILAK KHAIR KHATA,MOHAAMAD KULIPUR URF NAGALA,MOHAMADPUR,MUDIYA ETMALI,MUDIYA MALUKPUR,MUNDAPANDEY,MUNDIYA BAHI PUR,MUNEMPUR,NABABPURA,NABBA NAGLA,NAJAR PUR BHARAT SINGH,NAR KHERA,NARKHERA,NAZARPUR,NIYAMATPUR,PAIPATPURA,PARSUPURA,PARSUPURA BAZE,PEDURIYA,RAFATPUR,RAJHODA,RAMPUR BHEELA,RANIYA THER,RASUL PUR NAGLI,RONDA,RUSTAMPUR BADHMAR,SAHARIYA,SAIFPUR PALLA,SAIJANA,SAKTU NAGLA,SALEMPUR,SAMDA,SAMDA RAM SHAHAY,SAMDI,SARKADA KHAS,SEHARIYA,SHARIYA,SHIVPURI,SIHORA BAJE,SIKANDARPUR PATTI,SIRAS KHEDA,SIRSA INAYATPUR,TAHANAYAK,VEERPUR THAN,VEERPUR VARYAR,VIKAN PUR,JETPUR VISHAT,PEPTPURA,MUNDIYA MALUKPUR",
         },
 
-        // Know Your Payments
+        /**
+         * Store Beneficiary Data in Local Storage and Make Payment in the E-Payment [NOT UPDATE]
+         * js\scripts\add_beneficiary_backup.js
+         * js\scripts\add_beneficiary_make_payment.js
+         */
+        makeBeneficiaryPayment: {
+            isRunScript: false,
+        },
+
+        // Know Your Payments 
         knowPayment: {
             isRunScript: false,
+        },
+
+        /**
+         * Create New Vendor [NOT UPDATE]
+         * js\options.js
+         * js\scripts\create_new_vendor.js
+         */
+        createNewVendor: {
+            isRunScript: false,
+            isAddress1: false,
+            address1: "MUNDAPANDEY",
+            isCity: false,
+            city: "MORADABAD",
+            isPincode: false,
+            pincode: "244001",
+            isMobileNoAvailable: false,
         },
 
         // Import External Beneficiaries Data
@@ -82,7 +110,7 @@ new Vue({
             isRunScript: false,
             importAllData: false,
             isScheme: true,
-            scheme : 1948,
+            scheme: 1948,
             // 163:ASHA, 165:Mother
             isBenType: true,
             benType: 165,
@@ -223,6 +251,20 @@ new Vue({
             deep: true
         },
 
+        // Create New Vendor
+        createNewVendor: {
+            handler: function (newObject) {
+                this.setValueINExtensionStrorage(newObject, 'objectVal__createNewVendorDetails');
+
+                if (newObject.isRunScript === true) {
+                    document.getElementById('create_new_vendor').style.display = 'flex';
+                } else {
+                    document.getElementById('create_new_vendor').style.display = 'none';
+                }
+            },
+            deep: true
+        },
+
         // Customized Know Your Payments Details
         knowPayment: {
             handler: function (newObject) {
@@ -230,6 +272,16 @@ new Vue({
             },
             deep: true
         },
+
+        // Store Beneficiary Data in Local Storage and Make Payment in the E-Payment
+        makeBeneficiaryPayment: {
+            handler: function (newObject) {
+                this.setValueINExtensionStrorage(newObject, 'objectVal__makeBeneficiaryPaymentDetails');
+            },
+            deep: true
+        },
+
+
 
         // Customized Import External Beneficiaries Data
         importExternalBeneData: {
@@ -284,15 +336,21 @@ new Vue({
         // Customized Add Beneficiary Details :: Checkbox
         this.setDataINVariable('objectVal__addBeneficiaryDetails', 'addBeneficiary');
 
+        // Local Data: Create New Vendor
+        this.setDataINVariable('objectVal__createNewVendorDetails', 'createNewVendor');
+
         // Customized Know Your Payments :: Checkbox
         this.setDataINVariable('objectVal__knowPaymentDetails', 'knowPayment');
+
+        // Store Beneficiary Data in Local Storage and Make Payment in the E-Payment
+        this.setDataINVariable('objectVal__makeBeneficiaryPaymentDetails', 'makeBeneficiaryPayment');
 
         // Customized Import External Beneficiaries Data
         this.setDataINVariable('objectVal__importExternalBeneData', 'importExternalBeneData');
 
         // Import External Beneficiaries Data
         this.setDataINVariable('objectVal__paymentProcessBeneficiarySearch', 'paymentProcessBeneficiarySearch');
-        
+
         // Backup/Import Fill Beneficiaries Amount
         this.setDataINVariable('objectVal__paymentProcessBeneficiary_BackupImportAmount', 'paymentProcessBeneficiary_BackupImportAmount');
 

@@ -1,7 +1,8 @@
-# PFMS V.0.1.0
+# PFMS V.0.1.1
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
+* https://chrome.google.com/webstore/detail/pfms/kinmlnacnnclmpnciggkfbmjlmalkcmp
 * Compile Script `Win+G`
 
 ## Local Storage Keys in Page
@@ -14,6 +15,8 @@ This extension is powered by `Jeevan Lal`.
 | Beneficiary Amount Import with JSON Data | `pfms_paymentProcessBeneficiarySearch` |
 | Common Data | `pfms_commonData` |
 | Backup/Import Fill Beneficiaries Amount | `pfms_paymentProcessBeneficiary_BackupImportAmount` |
+| Store Beneficiary Data in Local Storage and Make Payment in the E-Payment | `pfms_beneficiaryMakePayment` |
+| Create New Vendor | `pfms_createNewVendor_Details` |
 
 ## Options Page
 
@@ -30,6 +33,8 @@ This extension is powered by `Jeevan Lal`.
 | Beneficiary Amount Import with JSON Data | `objectVal__paymentProcessBeneficiarySearch` |
 | Common Data | `objectVal__commonData` |
 | Backup/Import Fill Beneficiaries Amount | `objectVal__paymentProcessBeneficiary_BackupImportAmount` |
+| Store Beneficiary Data in Local Storage and Make Payment in the E-Payment | `objectVal__makeBeneficiaryPaymentDetails` |
+| Create New Vendor | `objectVal__createNewVendorDetails` |
 
 
 ## Settings Page
@@ -59,7 +64,12 @@ This extension is powered by `Jeevan Lal`.
 
 * change bank name in update mother account if save bank already save
 * CHANGE PFMS DEFAULT LOADING STYLE
-* Vender
+
+### **V.0.1.1**
+
+* `New :` Store Beneficiary Data in Local Storage and Make Payment in the E-Payment
+* `New :` Script for Create Vendor Page
+* `Update :` tabIndex="8", Submit Button in Add Beneficiary Page
 
 ### **V.0.1.0**
 

@@ -221,6 +221,7 @@
             pfms.el.address1().attr('tabIndex', 5);
             pfms.el.bank().attr('tabIndex', 6);
             pfms.el.accountNo().attr('tabIndex', 7);
+            pfms.el.subBtn.attr('tabIndex', 8);
 
             // Focus Field
             pfms.el.bFName().focus();

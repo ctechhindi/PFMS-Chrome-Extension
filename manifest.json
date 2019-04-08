@@ -1,6 +1,6 @@
 {
 	"name": "PFMS",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "To work smoothly on PFMS",
 	"icons": {
 		"16": "img/icon16.png",
@@ -37,10 +37,21 @@
 			],
 			"js": [
 				"js/jquery-1.8.3.min.js",
-				"js/main_script/add_beneficiary.js"
+				"js/main_script/add_beneficiary.js",
+				"js/main_script/add_beneficiary_backup.js"
 			],
 			"css": [
 				"css/jquery-ui.min.css"
+			],
+			"all_frames": true
+		},
+		{
+			"matches": [
+				"https://pfms.nic.in/ImplementingAgency/VendorBeneficiaryManagement/AddNewVendorBeneficiary.aspx"
+			],
+			"js": [
+				"js/jquery-1.8.3.min.js",
+				"js/main_script/create_new_vendor.js"
 			],
 			"all_frames": true
 		},
@@ -60,7 +71,8 @@
 			"js": [
 				"js/main_script/payment_process_search.js",
 				"js/main_script/payment_process_beneficiary_search.js",
-				"js/main_script/run_common_script.js"
+				"js/main_script/run_common_script.js",
+				"js/main_script/add_beneficiary_make_payment.js"
 			],
 			"all_frames": true
 		},

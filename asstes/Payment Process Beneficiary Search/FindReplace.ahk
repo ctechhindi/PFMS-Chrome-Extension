@@ -5,9 +5,9 @@
 SetBatchLines -1
 
 
-srcFileF = F:\Project\_Projects\pfms\js\scripts\payment_process_beneficiary_search.js
-tmpFileF = F:\Project\_Projects\pfms\js\main_script\payment_process_beneficiary_search.src
-cmpFileF = F:\Project\_Projects\pfms\js\main_script\payment_process_beneficiary_search.js
+srcFileF = F:\Projects\pfms\js\scripts\payment_process_beneficiary_search.js
+tmpFileF = F:\Projects\pfms\js\main_script\payment_process_beneficiary_search.src
+cmpFileF = F:\Projects\pfms\js\main_script\payment_process_beneficiary_search.js
 
 #g::
 	GoSub readSrcTmplAndCompile

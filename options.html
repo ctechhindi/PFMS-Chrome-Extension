@@ -41,17 +41,19 @@
             </div>
             <!-- Right side -->
             <div class="level-right">
-              <p class="level-item is-shady"><a href="https://bit.ly/ctechhindi-channel" target="_black" title="YouTube">
+              <p class="level-item is-shady"><a href="https://bit.ly/ctechhindi-channel" target="_black"
+                  title="YouTube">
                   <b-icon icon="youtube-tv" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a href="https://www.facebook.com/speedtypingtutor" target="_black" title="Facebook">
+              <p class="level-item is-shady"><a href="https://www.facebook.com/speedtypingtutor" target="_black"
+                  title="Facebook">
                   <b-icon icon="facebook" type="is-white"></b-icon>
                 </a></p>
               <p class="level-item is-shady"><a href="https://github.com/ctechhindi" target="_black" title="GitHub">
                   <b-icon icon="github-circle" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a href="https://stackoverflow.com/users/9976176/c-tech-hindi" target="_black"
-                  title="Stack Overflow">
+              <p class="level-item is-shady"><a href="https://stackoverflow.com/users/9976176/c-tech-hindi"
+                  target="_black" title="Stack Overflow">
                   <b-icon icon="stack-overflow" type="is-white"></b-icon>
                 </a></p>
               <p class="level-item is-shady"><a href="https://twitter.com/ctechindi" target="_black" title="Twitter">
@@ -95,7 +97,8 @@
               <b-switch v-model="commonData.isBeneficiaryType">Select All Page Beneficiary Type</b-switch>
             </div>
             <b-field v-show="commonData.isBeneficiaryType">
-              <b-select v-model="commonData.beneficiaryTypeValue" label="Rounded" expanded size="is-small" placeholder="Select">
+              <b-select v-model="commonData.beneficiaryTypeValue" label="Rounded" expanded size="is-small"
+                placeholder="Select">
                 <option value="">Select Beneficiary Type</option>
                 <option value="1284" title="4th Grade Staff">4th Grade Staff</option>
                 <option value="391" title="A/C ASSIST">A/C ASSIST</option>
@@ -280,8 +283,8 @@
                 <div class="panel-block">
                   <div class="content is-small" style="width: -webkit-fill-available;">
                     <div class="field">
-                      <b-switch v-model="addBeneficiary.isRunScript" size="is-medium" type="is-danger">Run App this
-                        Page
+                      <b-switch v-model="addBeneficiary.isRunScript" size="is-medium" type="is-danger">Add/Update
+                        Beneficiary Run Script
                       </b-switch>
                     </div>
                     <div class="columns is-desktop" id="add_beneficiary" style="display: none;">
@@ -559,7 +562,8 @@
                               ID</b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isSpecificID">
-                            <b-input v-model="addBeneficiary.specificID" size="is-small" placeholder="Enter Scheme Specific ID"></b-input>
+                            <b-input v-model="addBeneficiary.specificID" size="is-small"
+                              placeholder="Enter Scheme Specific ID"></b-input>
                           </b-field>
                           <!-- Address1: Field -->
                           <div class="field">
@@ -567,14 +571,16 @@
                             </b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isAddress1">
-                            <b-input v-model="addBeneficiary.address1" size="is-small" placeholder="Enter Address1 Field Value"></b-input>
+                            <b-input v-model="addBeneficiary.address1" size="is-small"
+                              placeholder="Enter Address1 Field Value"></b-input>
                           </b-field>
                           <!-- Pincode: Field -->
                           <div class="field">
                             <b-switch v-model="addBeneficiary.isPincode">Pincode</b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isPincode">
-                            <b-input v-model="addBeneficiary.pincode" size="is-small" placeholder="Enter Pincode Field Value"></b-input>
+                            <b-input v-model="addBeneficiary.pincode" size="is-small"
+                              placeholder="Enter Pincode Field Value"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -645,7 +651,8 @@
                             </b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isDistrict">
-                            <b-input v-model="addBeneficiary.district" size="is-small" placeholder="Enter District Value"></b-input>
+                            <b-input v-model="addBeneficiary.district" size="is-small"
+                              placeholder="Enter District Value"></b-input>
                           </b-field>
 
                           <div class="field">
@@ -671,7 +678,8 @@
                             </b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isPanchayat">
-                            <b-input v-model="addBeneficiary.panchayat" size="is-small" placeholder="Enter Panchayat Value"></b-input>
+                            <b-input v-model="addBeneficiary.panchayat" size="is-small"
+                              placeholder="Enter Panchayat Value"></b-input>
                           </b-field>
 
                           <div class="field">
@@ -730,14 +738,79 @@
                             <b-switch v-model="addBeneficiary.isAutoCompleteAdd">Village
                               Name AutoComplete </b-switch>
                           </div>
-                          <b-field label="Village Name: Comma seperated values" v-show="addBeneficiary.isAutoCompleteAdd">
-                            <b-input type="textarea" v-model="addBeneficiary.villageDataBase" placeholder="Village Name"></b-input>
+                          <b-field label="Village Name: Comma seperated values"
+                            v-show="addBeneficiary.isAutoCompleteAdd">
+                            <b-input type="textarea" v-model="addBeneficiary.villageDataBase"
+                              placeholder="Village Name"></b-input>
                           </b-field>
                         </section>
                       </div>
                     </div>
+                    <hr>
+                    <div class="field">
+                      <b-switch v-model="makeBeneficiaryPayment.isRunScript" size="is-medium" type="is-danger">Store
+                        Beneficiary Data in Local Storage and Make Payment in the E-Payment
+                      </b-switch>
+                    </div>
                   </div>
                   <br>
+                </div>
+              </b-collapse>
+
+              <!-- Create Vendor :: Details -->
+              <b-collapse class="panel" :open="false">
+                <div slot="trigger" class="panel-heading notification is-danger">
+                  <b-icon icon="account-plus"></b-icon>
+                  <strong>Create Vendor</strong>
+                </div>
+                <div class="panel-block">
+                  <div class="content is-small" style="width: -webkit-fill-available;">
+                    <div class="field">
+                      <b-switch v-model="createNewVendor.isRunScript" size="is-medium" type="is-success">Run Script
+                      </b-switch>
+                    </div>
+                    <div class="columns is-desktop" id="create_new_vendor" style="display: none;">
+                      <!-- Personal Details -->
+                      <div class="column">
+                        <p class="is-size-6 has-text-danger has-text-weight-bold">Basic Details</p>
+                        <section>
+                          <!-- Address 1: Field -->
+                          <div class="field">
+                            <b-switch v-model="createNewVendor.isAddress1">Address1</b-switch>
+                          </div>
+                          <b-field v-show="createNewVendor.isAddress1">
+                            <b-input v-model="createNewVendor.address1" size="is-small"
+                              placeholder="Enter Address1 Field Value"></b-input>
+                          </b-field>
+                          <!-- City : Field -->
+                          <div class="field">
+                            <b-switch v-model="createNewVendor.isCity">City</b-switch>
+                          </div>
+                          <b-field v-show="createNewVendor.isCity">
+                            <b-input v-model="createNewVendor.city" size="is-small"
+                              placeholder="Enter City Field Value"></b-input>
+                          </b-field>
+                          <!-- Pincode: Field -->
+                          <div class="field">
+                            <b-switch v-model="createNewVendor.isPincode">Pincode</b-switch>
+                          </div>
+                          <b-field v-show="createNewVendor.isPincode">
+                            <b-input v-model="createNewVendor.pincode" size="is-small"
+                              placeholder="Enter Pincode Field Value"></b-input>
+                          </b-field>
+                        </section>
+                      </div>
+                      <div class="column">
+                        <p class="is-size-6 has-text-danger has-text-weight-bold">Settings</p>
+                        <section>
+                          <!-- Not Available Mobile No: Field -->
+                          <div class="field">
+                            <b-switch v-model="createNewVendor.isMobileNoAvailable">Not Available Mobile No</b-switch>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </b-collapse>
 
@@ -780,7 +853,8 @@
                             </b-switch>
                           </div>
                           <b-field v-show="importExternalBeneData.isScheme">
-                            <b-input v-model="importExternalBeneData.scheme" size="is-small" placeholder="Enter Scheme Value"></b-input>
+                            <b-input v-model="importExternalBeneData.scheme" size="is-small"
+                              placeholder="Enter Scheme Value"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -808,7 +882,8 @@
                               <code>Uttar Pradesh : 9</code></b-switch>
                           </div>
                           <b-field v-show="importExternalBeneData.isState">
-                            <b-input v-model="importExternalBeneData.state" size="is-small" placeholder="Enter State Value"></b-input>
+                            <b-input v-model="importExternalBeneData.state" size="is-small"
+                              placeholder="Enter State Value"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -820,7 +895,8 @@
                               : <code>Moradabad : 4</code></b-switch>
                           </div>
                           <b-field v-show="importExternalBeneData.isDist">
-                            <b-input v-model="importExternalBeneData.dist" size="is-small" placeholder="Enter District Value"></b-input>
+                            <b-input v-model="importExternalBeneData.dist" size="is-small"
+                              placeholder="Enter District Value"></b-input>
                           </b-field>
                         </section>
                       </div>
@@ -851,14 +927,16 @@
                       <b-switch v-model="paymentProcessBeneficiarySearch.isRunScript" size="is-medium" type="is-danger">
                         Run Script </b-switch>
                     </div>
-                    <a target="_blank" href="https://drive.google.com/file/d/1E6s970fwxgzVXU-c4cFmz9pydid4Mc_5/view">Excel
+                    <a target="_blank"
+                      href="https://drive.google.com/file/d/1E6s970fwxgzVXU-c4cFmz9pydid4Mc_5/view">Excel
                       Simple File</a>
                     <br>
                     <a target="_blank" href="https://codebeautify.org/excel-to-json">Excel to Json
                       Converter</a>
                     <!-- Json Viewer -->
                     <b-field label="Json Data">
-                      <b-input id="json-input" v-model="paymentProcessBeneficiarySearch.importBeneficiaryArray" type="textarea"></b-input>
+                      <b-input id="json-input" v-model="paymentProcessBeneficiarySearch.importBeneficiaryArray"
+                        type="textarea"></b-input>
                     </b-field>
                     <button class="button is-success" @click="isValidJsonData()">
                       <b-icon icon="check"></b-icon>
@@ -936,20 +1014,6 @@
             </section>
           </div>
         </b-tab-item>
-
-        <!-- Application Settings Tab -->
-        <!-- <b-tab-item label="Settings" icon="settings">
-                    <div class="container">
-                    </div>
-                    <br><br><br><br><br>
-                </b-tab-item> -->
-
-        <!-- About Tab -->
-        <!-- <b-tab-item label="About" icon="information-outline">
-                    <div class="container">
-                        <h2 class="subtitle" v-text="version"></h2>
-                    </div>
-                </b-tab-item> -->
       </b-tabs>
     </section>
     <br>
