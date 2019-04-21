@@ -7,7 +7,7 @@ new Vue({
     data: {
         title: "PFMS",
         description: "To work smoothly on PFMS",
-        version: "V0.1.1",
+        version: "V0.1.2",
         // Application Status
         appStatus: false,
         // Active Tab

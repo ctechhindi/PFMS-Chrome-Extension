@@ -26,23 +26,23 @@ var addBen = {
     },
 
     el: {
-        type: $("#ctl00_ctl00_cphBody_cphBody_ddlSubCategory"),
-        fName: $("#ctl00_ctl00_cphBody_cphBody_txtFname"),
-        fatherName: $("#ctl00_ctl00_cphBody_cphBody_FatherHusbandName"),
-        gender: $("#ctl00_ctl00_cphBody_cphBody_ddlGender"),
-        id: $("#ctl00_ctl00_cphBody_cphBody_txtSchemeSpecifiedId"),
-        uid: $("#ctl00_ctl00_cphBody_cphBody_txtUIDNumber"),
-        address: $("#ctl00_ctl00_cphBody_cphBody_txtAddress1"),
-        bank: $("#ctl00_ctl00_cphBody_cphBody_txtBank"),
-        bankNo: $("#ctl00_ctl00_cphBody_cphBody_txtAccountNo"),
-        submit: $("#ctl00_ctl00_cphBody_cphBody_btnSubmit"),
-        clear: $("#ctl00_ctl00_cphBody_cphBody_btnClear"),
+        type: function () { return $("#ctl00_ctl00_cphBody_cphBody_ddlSubCategory"); },
+        fName: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtFname"); },
+        fatherName: function () { return $("#ctl00_ctl00_cphBody_cphBody_FatherHusbandName"); },
+        gender: function () { return $("#ctl00_ctl00_cphBody_cphBody_ddlGender"); },
+        id: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtSchemeSpecifiedId"); },
+        uid: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtUIDNumber"); },
+        address: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtAddress1"); },
+        bank: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtBank"); },
+        bankNo: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtAccountNo"); },
+        submit: function () { return $("#ctl00_ctl00_cphBody_cphBody_btnSubmit"); },
+        clear: function () { return $("#ctl00_ctl00_cphBody_cphBody_btnClear"); },
     },
 
     /**
      * Fetch/Set Extensions LocalStorage Data
      */
-     setLocalData: function () {
+    setLocalData: function () {
         var custom_local_data = (JSON.parse(localStorage.getItem('pfms_beneficiaryMakePayment')));
         if (custom_local_data !== null) {
             addBen.makeBeneficiaryPayment = custom_local_data;
@@ -57,17 +57,17 @@ var addBen = {
         var genderName = document.getElementById("ctl00_ctl00_cphBody_cphBody_ddlGender");
 
         var benData = {
-            "typeID": addBen.el.type.val(),
+            "typeID": addBen.el.type().val(),
             "typeName": typeID.options[typeID.selectedIndex].text,
-            "fName": addBen.el.fName.val(),
-            "fatherName": addBen.el.fatherName.val(),
-            "genderID": addBen.el.gender.val(),
+            "fName": addBen.el.fName().val(),
+            "fatherName": addBen.el.fatherName().val(),
+            "genderID": addBen.el.gender().val(),
             "genderName": genderName.options[genderName.selectedIndex].text,
-            "id": addBen.el.id.val(),
-            "uid": addBen.el.uid.val(),
-            "address": addBen.el.address.val(),
-            "bank": addBen.el.bank.val(),
-            "bankNo": addBen.el.bankNo.val(),
+            "id": addBen.el.id().val(),
+            "uid": addBen.el.uid().val(),
+            "address": addBen.el.address().val(),
+            "bank": addBen.el.bank().val(),
+            "bankNo": addBen.el.bankNo().val(),
             "message": ""
         };
 
@@ -80,10 +80,13 @@ var addBen = {
     setBeneficiaryData: function () {
 
         var genderElem = document.getElementById("ctl00_ctl00_cphBody_cphBody_ddlGender");
-        var genderText = genderElem.options[genderElem.selectedIndex].text
 
         // Data Validation
-        if (addBen.el.fName.val() === "" || addBen.el.type.val() === "0" || addBen.el.gender.val() === "-1" || genderText === "----Select----" || addBen.el.address.val() === "") {
+        if (addBen.el.fName().val() === "" || addBen.el.type().val() === "0" || addBen.el.address().val() === "") {
+            return false;
+        }
+
+        if (addBen.el.gender().val() === "-1" && genderElem.options[genderElem.selectedIndex].text === "----Select----") {
             return false;
         }
 
@@ -220,7 +223,7 @@ var addBen = {
                         // console.log(index);
                         benJSONData.splice(index, 1);
                         // console.log(benJSONData);
-                        
+
                         localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", JSON.stringify(benJSONData));
 
                         addBen.construct();
@@ -266,12 +269,12 @@ addBen.setLocalData();
 if (addBen.makeBeneficiaryPayment.isRunScript === true) {
 
     addBen.appendHTML();
-    
+
     addBen.construct();
-    
+
     addBen.updateBeneficiaryMessage();
     // Click Submit Button
-    addBen.el.submit.click(function (e) {
+    addBen.el.submit().click(function (e) {
         addBen.setBeneficiaryData();
     });
 }

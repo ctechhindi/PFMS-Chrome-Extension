@@ -1,4 +1,4 @@
-# PFMS V.0.1.1
+# PFMS V.0.1.2
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -64,6 +64,11 @@ This extension is powered by `Jeevan Lal`.
 
 * change bank name in update mother account if save bank already save
 * CHANGE PFMS DEFAULT LOADING STYLE
+
+### **V.0.1.2**
+
+* `New :` Make Payment with Beneficiary Aadhaar Number
+* `Fix Bug :` Store Beneficiary Data in Local Storage and Make Payment in the E-Payment
 
 ### **V.0.1.1**
 

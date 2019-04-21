@@ -104,6 +104,9 @@
                 <td style="float: left;"> \
                     <a onclick="makeBenPay.showBeneficiaryData()" style="background-color: #1644ab; border: none; color: white; padding: 5px 9px; text-align: center; text-decoration: none; display: inline-block; font-size: 11px;">Show Beneficiary Data and Make Payment</a> \
                 </td> \
+                <td style="float: left;"> \
+                    <a onclick="makeBenPay.showAadharPaymentModel()" style="background-color: #44b757; border: none; color: white; padding: 5px 9px; text-align: center; text-decoration: none; display: inline-block; font-size: 11px;">Make Payment With Aadhar No</a> \
+                </td> \
             </tr> \
         ');
     },
@@ -233,7 +236,7 @@
 
                     } else if (benBankNo !== undefined && benBankNo !== "") {
                         var benBankNoExist = $("[data-account=" + benBankNo + "]");
-                        
+
                         // Second Step: Fill Payment with Account No
                         if (benBankNoExist.length === 1) {
                             benBankNoExist.find('input').each(function (i, el) {
@@ -260,6 +263,78 @@
             }
         }
         return false;
+    },
+
+    /**
+     * [NEW] [MODEL] Make Payment with Beneficiary Aadhaar Number
+     */
+    showAadharPaymentModel: function () {
+        var modelShowTableData = "";
+        modelShowTableData += "Beneficiary Default Amount Set : <input type='text' id='defaultBenAmount_ForAadharPayment' style='margin: 0px 0px 11px;'></input>";
+        modelShowTableData += "<br>";
+        modelShowTableData += "<span style='font-size: larger;color: red;'>Beneficiary Aadhaar Numbers/Comma separated values can be used for searching multiple records:</span>";
+        modelShowTableData += "<br><br>";
+        modelShowTableData += '<textarea rows="8" cols="80" id="benAadharNo_ForAadharPayment" style="border: 1px solid rgba(0, 0, 0, 0.4);"></textarea>';
+        modelShowTableData += "<br><br>";
+        modelShowTableData += '<a onclick="makeBenPay.makePaymentWithAadhaarNo()" style="font-size: larger;">Make Payment with Aadhaar</a>';
+
+        jAlert(modelShowTableData, "Make Payment with Beneficiary Aadhaar Number");
+        $("#popup_message").css('padding-left', '0px');
+        document.getElementById("popup_container").style["max-width"] = "100%";
+        document.getElementById("popup_content").style["background-image"] = "none";
+    },
+
+    /**
+     * [NEW] Make Payment with Beneficiary Aadhaar Number
+     */
+    makePaymentWithAadhaarNo: function () {
+        var defAmount = $("#defaultBenAmount_ForAadharPayment");
+        var benAadhaarNo = $("#benAadharNo_ForAadharPayment");
+
+        if (defAmount.val() === undefined || defAmount.val() === "" || defAmount.val() === null) {
+            alert("Please Enter Beneficiary Default Amount");
+            return false;
+        } else if (benAadhaarNo.val() === undefined || benAadhaarNo.val() === "" || benAadhaarNo.val() === null) {
+            alert("Please Enter Beneficiary Aadhaar Number");
+            return false;
+        } else {
+
+            var benAadhaarArray = benAadhaarNo.val().split(",");
+            if (benAadhaarArray.length > 0) {
+                // {LOOP}
+                benAadhaarArray.forEach(function (aadhaarNo) {
+                    if (aadhaarNo.length === 12) {
+                        var benAadharNoExist = $("[data-aadhar=" + aadhaarNo + "]");
+                        if (benAadharNoExist.length === 1) {
+    
+                            benAadharNoExist.find('input').each(function (i, el) {
+                                // Fill Beneficiary Default Amount
+                                if (defAmount.val() !== undefined && defAmount.val() !== "") {
+                                    var onKeyFunction = $(el).attr("onkeyup");
+                                    $(el).val(defAmount.val());
+                                    $(el).css("background-color", "#6eff23");
+                                    eval(onKeyFunction)
+                                }
+                                // Focus Field
+                                $(el).focus();
+                                $(el).css("background-color", "#6eff23");
+                            });
+    
+                        } else {
+                            alert("Error :: Aadhaar No Not Found : " + aadhaarNo);
+                            console.error("Error :: Aadhaar No Not Found : " + aadhaarNo);
+                        }
+                    } else {
+                        alert("Beneficiary Aadhaar Number Invalid : "+ aadhaarNo);
+                        return false;
+                    }
+                });
+
+            } else {
+                alert("Beneficiary Aadhaar Number Not Found!");
+                return false;
+            }
+        }
     }
 };
 
