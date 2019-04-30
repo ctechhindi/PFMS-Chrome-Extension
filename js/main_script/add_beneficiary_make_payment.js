@@ -127,13 +127,13 @@
                 modelShowTableData += "Beneficiary Default Amount Set : <input type='text' id='defaultBenAmount' style='margin: 0px 0px 11px;'></input>";
                 modelShowTableData += "<table style='background-color:White;border-color:Black;border-width:1px;border-style:Solid;width:100%;border-collapse:collapse;'>";
                 modelShowTableData += "<thead>";
-                modelShowTableData += "<tr><th>Type</th><th>Name</th><th>Husband</th><th>Account</th><th>Aadhaar</th><th>Message</th><th>Action</th><th>Action</th></tr>";
+                modelShowTableData += "<tr><th>S.No.</th><th>Type</th><th>Name</th><th>Husband</th><th>Account</th><th>Aadhaar</th><th>Message</th><th>Action</th><th>Action</th></tr>";
                 modelShowTableData += "</thead>";
                 modelShowTableData += "<tbody>";
 
                 benJSONData.forEach(function (v, i) {
                     if (v !== undefined && v !== null && v !== "") {
-                        modelShowTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.typeName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fatherName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.bankNo + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.uid + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.message + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='makeBenPay.deleteBeneficiaryData(" + i + ")'>Delete</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='makeBenPay.addBeneficiaryPayment(" + i + ")'>Make Payment</a></td></tr>";
+                        modelShowTableData += "<tr id='benTableTr" + i + "'><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + (i + 1) + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.typeName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fatherName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.bankNo + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.uid + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.message + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='makeBenPay.deleteBeneficiaryData(" + i + ")' style='color:red;'>Delete</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='makeBenPay.addBeneficiaryPayment(" + i + ")'>Make Payment</a></td></tr>";
                     }
                 });
 
@@ -142,8 +142,12 @@
 
                 jAlert(modelShowTableData, "Beneficiary Local Data");
                 $("#popup_message").css('padding-left', '0px');
-                document.getElementById("popup_container").style["max-width"] = "100%";
                 document.getElementById("popup_content").style["background-image"] = "none";
+                document.getElementById("popup_container").style["max-width"] = "100%";
+                document.getElementById("popup_container").style["height"] = "100%";
+                document.getElementById("popup_container").style["overflow"] = "scroll";
+                document.getElementById("popup_container").style["right"] = "100px";
+                document.getElementById("popup_container").style["left"] = "100px";
             }
         }
     },
@@ -167,19 +171,11 @@
                 if (isExist !== null && isExist !== undefined && isExist !== "") {
                     var isDeleteData = confirm("Are you sure delete data?");
                     if (isDeleteData) {
-
-                        // TODO: Delete Fix
-                        // console.log(benJSONData);
-                        // console.log(index);
                         benJSONData.splice(index, 1);
-                        // console.log(benJSONData);
-
                         localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", JSON.stringify(benJSONData));
-
-                        addBen.construct();
-
-                        // Model Close Button
-                        $("#popup_ok").click();
+                        // Hide Beneficiary Table ROW
+                        var tableBenTr = $("#benTableTr" + index);
+                        tableBenTr.hide();
                     }
                 }
             }
@@ -270,18 +266,32 @@
      */
     showAadharPaymentModel: function () {
         var modelShowTableData = "";
-        modelShowTableData += "Beneficiary Default Amount Set : <input type='text' id='defaultBenAmount_ForAadharPayment' style='margin: 0px 0px 11px;'></input>";
+        modelShowTableData += "<span style='font-size: larger;'>Beneficiary Default Amount Set : </span><input type='text' id='defaultBenAmount_ForAadharPayment' style='margin: 0px 0px 11px;'></input>";
         modelShowTableData += "<br>";
         modelShowTableData += "<span style='font-size: larger;color: red;'>Beneficiary Aadhaar Numbers/Comma separated values can be used for searching multiple records:</span>";
         modelShowTableData += "<br><br>";
-        modelShowTableData += '<textarea rows="8" cols="80" id="benAadharNo_ForAadharPayment" style="border: 1px solid rgba(0, 0, 0, 0.4);"></textarea>';
+        modelShowTableData += '<textarea rows="8" cols="80" onchange="makeBenPay.countTotalAadhaarNo(this)" id="benAadharNo_ForAadharPayment" style="border: 1px solid rgba(0, 0, 0, 0.4);"></textarea>';
         modelShowTableData += "<br><br>";
-        modelShowTableData += '<a onclick="makeBenPay.makePaymentWithAadhaarNo()" style="font-size: larger;">Make Payment with Aadhaar</a>';
+        modelShowTableData += "<strong style='float: right;font-size: small;color: brown;' id='totalCountAadhaarNo' title='Total Aadhaar Number'>(0)</strong>";
+        modelShowTableData += '<a onclick="makeBenPay.makePaymentWithAadhaarNo()" style="background-color: #4CAF50;border: none;color: white;padding: 6px 13px;text-align: center;text-decoration: none;display: inline-block;font-size: 13px;cursor: pointer;">Make Payment with Aadhaar</a>';
+        modelShowTableData += "<br><br>";
+        modelShowTableData += '<div>';
+        modelShowTableData += '<span style="font-size: larger;color: #3da224;">Total Pay Aadhaar No : </span>';
+        modelShowTableData += '<strong style="font-size: larger;color: #3da224;" id="totalPayAadhaarNo">(0)</strong>';
+        modelShowTableData += '</div>';
+        modelShowTableData += '<div style="margin: 5px 0px 0px;">';
+        modelShowTableData += '<span style="font-size: larger;color: #e82916fa;">Total Not Pay Aadhaar No : </span>';
+        modelShowTableData += '<strong style="font-size: larger;color: #e82916fa;" id="totalNotPayAadhaarNo">(0)</strong>';
+        modelShowTableData += '</div>';
 
         jAlert(modelShowTableData, "Make Payment with Beneficiary Aadhaar Number");
         $("#popup_message").css('padding-left', '0px');
         document.getElementById("popup_container").style["max-width"] = "100%";
         document.getElementById("popup_content").style["background-image"] = "none";
+        // document.getElementById("popup_container").style["height"] = "100%";
+        // document.getElementById("popup_container").style["overflow"] = "scroll";
+        // document.getElementById("popup_container").style["right"] = "100px";
+        // document.getElementById("popup_container").style["left"] = "100px";
     },
 
     /**
@@ -302,39 +312,64 @@
             var benAadhaarArray = benAadhaarNo.val().split(",");
             if (benAadhaarArray.length > 0) {
                 // {LOOP}
+                var totalSuccessAadhaar = 0;
+                var totalErrorAadhaar = 0;
                 benAadhaarArray.forEach(function (aadhaarNo) {
                     if (aadhaarNo.length === 12) {
                         var benAadharNoExist = $("[data-aadhar=" + aadhaarNo + "]");
                         if (benAadharNoExist.length === 1) {
-    
+
                             benAadharNoExist.find('input').each(function (i, el) {
                                 // Fill Beneficiary Default Amount
                                 if (defAmount.val() !== undefined && defAmount.val() !== "") {
                                     var onKeyFunction = $(el).attr("onkeyup");
                                     $(el).val(defAmount.val());
                                     $(el).css("background-color", "#6eff23");
-                                    eval(onKeyFunction)
+                                    eval(onKeyFunction);
+                                    ++totalSuccessAadhaar;
                                 }
                                 // Focus Field
                                 $(el).focus();
                                 $(el).css("background-color", "#6eff23");
                             });
-    
+
                         } else {
+                            ++totalErrorAadhaar;
                             alert("Error :: Aadhaar No Not Found : " + aadhaarNo);
                             console.error("Error :: Aadhaar No Not Found : " + aadhaarNo);
                         }
                     } else {
-                        alert("Beneficiary Aadhaar Number Invalid : "+ aadhaarNo);
+                        ++totalErrorAadhaar;
+                        alert("Beneficiary Aadhaar Number Invalid : " + aadhaarNo);
                         return false;
                     }
                 });
+
+                $("#totalPayAadhaarNo").html("(" + totalSuccessAadhaar + ")");
+                $("#totalNotPayAadhaarNo").html("(" + totalErrorAadhaar + ")");
+
+                console.log("Total Pay Aadhaar Numbers : " + totalSuccessAadhaar);
+                console.log("Total Not Pay Aadhaar Numbers : " + totalErrorAadhaar);
 
             } else {
                 alert("Beneficiary Aadhaar Number Not Found!");
                 return false;
             }
         }
+    },
+
+    /**
+     * [Event] {onChange}
+     * Count Total Aadhaar Numbers
+     * @param {object} Element
+     */
+    countTotalAadhaarNo: function (el) {
+        var aadharElm = $(el);
+        if (aadharElm.val() !== undefined && aadharElm.val() !== "" && aadharElm.val() !== null) {
+            var aadhaarNoArray = aadharElm.val().split(",");
+            $("#totalCountAadhaarNo").html("(" + aadhaarNoArray.length + ")");
+        }
+        return false;
     }
 };
 

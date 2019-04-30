@@ -158,8 +158,17 @@ var addBen = {
                 <td class= "right" width = "20%" ></td > \
                 <td class="left" width="30%"></td> \
                 <td style="text-align: right;" width="20%">No of Beneficiary: </td> \
-                <td class="left" width="30%" id="benLocalData"></td> \
-			</tr> \
+                <td class="left" width="30%"> \
+                    <span id="benLocalData"></span> \
+                    <span> | \
+                        <a onclick="addBen.importBenLocalDataModel()" style="color: mediumvioletred;font-size: 11px; font-weight: 600;">Import JSON Data</a> \
+                    </span> \
+                    <span> | \
+                        <a id="downloadAnchorElem" style="display:none"></a> \
+                        <a onclick="addBen.exportBenLocalData()" style="color: #068c3cbd;font-size: 11px; font-weight: 600;">Export Data</a> \
+                    </span> \
+                </td> \
+            </tr> \
 		');
     },
 
@@ -178,13 +187,13 @@ var addBen = {
                 var modelShowTableData = "";
                 modelShowTableData = "<table style='background-color:White;border-color:Black;border-width:1px;border-style:Solid;width:100%;border-collapse:collapse;'>";
                 modelShowTableData += "<thead>";
-                modelShowTableData += "<tr><th>Type</th><th>Name</th><th>Husband</th><th>Account</th><th>Aadhaar</th><th>Message</th><th>Action</th></tr>";
+                modelShowTableData += "<tr><th>Type</th><th>Name</th><th>Husband</th><th>Account</th><th>Aadhaar</th><th>Message</th><th>Action</th><th>Action</th></tr>";
                 modelShowTableData += "</thead>";
                 modelShowTableData += "<tbody>";
 
                 benJSONData.forEach(function (v, i) {
                     if (v !== undefined && v !== null && v !== "") {
-                        modelShowTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.typeName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fatherName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.bankNo + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.uid + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.message + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.deleteBeneficiaryData(" + i + ")'>Delete</a></td></tr>";
+                        modelShowTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.typeName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fatherName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.bankNo + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.uid + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.message + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.deleteBeneficiaryData(" + i + ")' style='color:red;'>Delete</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.restoreBeneficiaryData(" + i + ")' style='color: black;'>Restore</a></td></tr>";
                     }
                 });
 
@@ -194,6 +203,10 @@ var addBen = {
                 jAlert(modelShowTableData, "Beneficiary Local Data");
                 $("#popup_message").css('padding-left', '0px');
                 document.getElementById("popup_container").style["max-width"] = "100%";
+                document.getElementById("popup_container").style["height"] = "100%";
+                document.getElementById("popup_container").style["overflow"] = "scroll";
+                document.getElementById("popup_container").style["right"] = "100px";
+                document.getElementById("popup_container").style["left"] = "100px";
             }
         }
     },
@@ -238,6 +251,118 @@ var addBen = {
     },
 
     /**
+     * Restore Beneficiary Data in Page (AddNewBeneficiary.aspx)
+     * @param {int} array_index
+     */
+    restoreBeneficiaryData: function (index) {
+        if (index === undefined) {
+            return false;
+        }
+
+        var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
+        if (benData !== null) {
+            var benJSONData = JSON.parse(benData);
+            if (benJSONData.length === 0) {
+                return false;
+            } else {
+                var isExist = benJSONData[index];
+                if (isExist !== null && isExist !== undefined && isExist !== "") {
+                    addBen.el.type().val(isExist.typeID);
+                    addBen.el.fName().val(isExist.fName);
+                    addBen.el.fatherName().val(isExist.fatherName);
+                    addBen.el.gender().val(isExist.genderID);
+                    addBen.el.id().val(isExist.id);
+                    addBen.el.uid().val(isExist.uid);
+                    addBen.el.address().val(isExist.address);
+                    addBen.el.bank().val(isExist.bank);
+                    addBen.el.bankNo().val(isExist.bankNo);
+                    // Click Model OK Button
+                    $("#popup_ok").click();
+                }
+            }
+        }
+        return false;
+    },
+
+    /**
+     * [MODEL] Show Model for Import Beneficiary JSON Data in the LocalStorage
+     */
+    importBenLocalDataModel: function () {
+
+        var modelShowTableData = '<textarea rows="8" cols="80" id="JSONDataElm" style="border: 1px solid rgba(0, 0, 0, 0.4);" placeholder="Enter Beneficiary JSON Data"></textarea>';
+        modelShowTableData += "<br><br>";
+        modelShowTableData += '<a onclick="addBen.importBenLocalData()" style="background-color: #1397ad;border: none;color: white;padding: 6px 13px;text-align: center;text-decoration: none;display: inline-block;font-size: 13px;cursor: pointer;">Import Data</a>';
+        modelShowTableData += "";
+
+        jAlert(modelShowTableData, "JSON Beneficiary Data");
+        $("#popup_message").css('padding-left', '0px');
+        document.getElementById("popup_container").style["max-width"] = "100%";
+    },
+
+    /**
+     * Import Beneficiary JSON Data in the LocalStorage
+     */
+    importBenLocalData: function () {
+        var jsonDataString = $("#JSONDataElm").val();
+        if (jsonDataString !== undefined && jsonDataString !== "" && jsonDataString !== null) {
+            try {
+                var jsonData = JSON.parse(jsonDataString);
+
+                // Check OLD Beneficiary Data
+                var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
+                if (benData !== null) {
+                    // Update Data
+                    var benJSONData = JSON.parse(benData);
+                    if (benJSONData.length !== 0) {
+                        benJSONData = benJSONData.concat(jsonData);
+                        localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", JSON.stringify(benJSONData));
+                        // Empty Data
+                        $("#JSONDataElm").val("");
+                        alert("JSON Data has been inserted successfully.");
+                        location.reload();
+                    } else {
+                        // Insert Data
+                        localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", jsonDataString);
+                    }
+                } else {
+                    // Insert Data
+                    localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", jsonDataString);
+                }
+
+            } catch (err) {
+                alert("ERROR:: Invalid JSON Data.");
+                console.error("ERROR:: Invalid JSON Data.");
+                return false;
+            }
+        }
+        return false;
+    },
+
+    /**
+     * Export Beneficiary Data in JSON Format
+     */
+    exportBenLocalData: function () {
+        // Check OLD Beneficiary Data
+        var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
+        if (benData !== null) {
+            var benJSONData = JSON.parse(benData);
+            if (benJSONData.length !== 0) {
+                var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(benJSONData));
+                var dlAnchorElem = document.getElementById('downloadAnchorElem');
+                dlAnchorElem.setAttribute("href", dataStr);
+                dlAnchorElem.setAttribute("download", "beneficiary_data.json");
+                dlAnchorElem.click();
+                return true;
+            } else {
+                alert("No Data Found!");
+                return false;
+            }
+        }
+        alert("No Data Found!");
+        return false;
+    },
+
+    /**
      * Run First Function
      */
     construct: function () {
@@ -246,14 +371,14 @@ var addBen = {
             var benJSONData = JSON.parse(benData);
             if (benJSONData.length === 0) {
                 // Local Storage Data Not Found!
-                $("#benLocalData").html("<p style='color:#ea671a;'>Local Storage Data Not Found!</p>");
+                $("#benLocalData").html("<span style='color:#ea671a;'>Local Storage Data Not Found!</span>");
             } else {
                 // Local Storage Data Found!
-                $("#benLocalData").html("<p style='color: #0e0e0d; font-size: 14px; font-weight: 700;'><a onclick='addBen.showBeneficiaryData()'>" + benJSONData.length + "</a></p>");
+                $("#benLocalData").html("<span style='color: #0e0e0d; font-size: 14px; font-weight: 700;'><a onclick='addBen.showBeneficiaryData()'>" + benJSONData.length + "</a></span>");
             }
 
         } else {
-            $("#benLocalData").html("<p style='color:#ea671a;'>Local Storage Data Not Found!</p>");
+            $("#benLocalData").html("<span style='color:#ea671a;'>Local Storage Data Not Found!</span>");
         }
     },
 };

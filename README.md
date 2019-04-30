@@ -1,4 +1,4 @@
-# PFMS V.0.1.2
+# PFMS V.0.1.3
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -64,6 +64,15 @@ This extension is powered by `Jeevan Lal`.
 
 * change bank name in update mother account if save bank already save
 * CHANGE PFMS DEFAULT LOADING STYLE
+* `New :` Rest Automatic Page with Time Difference in the `Add Beneficiary Page`
+
+### **V.0.1.3**
+
+* `New :` Count Total Aadhaar Number and Total `Success/Not Match` Aadhar Numbers in the `Make Payment with Beneficiary Aadhaar Number` Script
+* `New :` Restore Beneficiary Data (LocalStorage Data) in this Page (AddNewBeneficiary.aspx)
+* `New :` Import Beneficiary JSON Data in the LocalStorage Database (AddNewBeneficiary.aspx)
+* `Fix Bug :` Scroll Problem in Show Local Beneficiary Data
+* `Fix Bug :` Delete Beneficial Data in this Page (PaymentProcessBeneficiarySearch.aspx)
 
 ### **V.0.1.2**
 

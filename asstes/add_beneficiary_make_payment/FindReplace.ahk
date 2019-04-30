@@ -5,10 +5,9 @@
 SetBatchLines -1
 
 
-srcFileF = F:\Projects\pfms\js\scripts\add_beneficiary_backup.js
-tmpFileF = F:\Projects\pfms\js\main_script\add_beneficiary_backup.src
-cmpFileF = F:\Projects\pfms\js\main_script\add_beneficiary_backup.js
-
+srcFileF = F:\Projects\pfms\js\scripts\add_beneficiary_make_payment.js
+tmpFileF = F:\Projects\pfms\js\main_script\add_beneficiary_make_payment.src
+cmpFileF = F:\Projects\pfms\js\main_script\add_beneficiary_make_payment.js
 
 #g::
 	GoSub readSrcTmplAndCompile
