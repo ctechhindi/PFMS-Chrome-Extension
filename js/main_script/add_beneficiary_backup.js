@@ -220,6 +220,13 @@ var addBen = {
                     localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", JSON.stringify(array));
                 }
             }
+
+            // Automatic Reset (AddNewBeneficiary.aspx) Page: 2 seconds
+            if (mesg === "Records Saved Successfully") {
+                setTimeout(function () {
+                    $("#ctl00_ctl00_cphBody_cphBody_btnClear").click();
+                }, 2000);
+            }
         }
         return false;
     },
@@ -260,15 +267,40 @@ var addBen = {
             } else {
 
                 var modelShowTableData = "";
-                modelShowTableData = "<table style='background-color:White;border-color:Black;border-width:1px;border-style:Solid;width:100%;border-collapse:collapse;'>";
+                modelShowTableData += '<table style="padding-left: 20px" cellpadding="2" cellspacing="1" width="100%"><tbody>';
+                modelShowTableData += '<tr><td class="right" width="20%"></td><td class="left" width="30%"></td><td class="right" width="0%" valign="top"></td>';
+                modelShowTableData += '<td class="left" valign="top" width="45%">';
+                modelShowTableData += '<select style="margin-right: 5px;" id="select_custom_checkbox" onchange="addBen.selectCustomCheckbox()"><option value="">Select Checkbox</option><option value="s">Green</option><option value="w">Yellow</option><option value="d">Red</option></select>';
+                modelShowTableData += '<button style="margin-right: 5px;" onclick="addBen.exportBenLocalDataWithCheckbox()" title="Export JSON Data">Download JSON Data</button>';
+                modelShowTableData += '<button onclick="addBen.deleteBeneficiaryWithCheckbox()" title="Multiple Beneficiary Delete">Delete Beneficiary</button>';
+                modelShowTableData += '<button style="margin-left: 5px;" onclick="addBen.closeModel()" title="Close Model">Close</button>';
+                modelShowTableData += '</td></tr></tbody></table>';
+
+                modelShowTableData += "<table style='background-color:White;border-color:Black;border-width:1px;border-style:Solid;width:100%;border-collapse:collapse;'>";
                 modelShowTableData += "<thead>";
-                modelShowTableData += "<tr><th>Type</th><th>Name</th><th>Husband</th><th>Account</th><th>Aadhaar</th><th>Message</th><th>Action</th><th>Action</th></tr>";
+                modelShowTableData += "<tr><th><input type='checkbox' id='select_all'/></th><th>Type</th><th>Name</th><th>Husband</th><th>Account</th><th>Aadhaar</th><th>Message</th><th>Action</th><th>Action</th></tr>";
                 modelShowTableData += "</thead>";
                 modelShowTableData += "<tbody>";
 
                 benJSONData.forEach(function (v, i) {
                     if (v !== undefined && v !== null && v !== "") {
-                        modelShowTableData += "<tr><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.typeName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fatherName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.bankNo + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.uid + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.message + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.deleteBeneficiaryData(" + i + ")' style='color:red;'>Delete</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.restoreBeneficiaryData(" + i + ")' style='color: black;'>Restore</a></td></tr>";
+                        // Payment Status
+                        var statusBackgroundColor = "none;";
+                        if (v.status !== undefined && v.status !== "") {
+                            if (v.status === "s") {
+                                statusBackgroundColor = "#24e82487;";
+                            } else if (v.status === "w") {
+                                statusBackgroundColor = "#f1f142ab;";
+                            } else if (v.status === "d") {
+                                statusBackgroundColor = "#ea292959;";
+                            }
+                        }
+                        // Payment Status Message
+                        var statusMsg = "";
+                        if (v.status_msg !== undefined && v.status_msg !== "") {
+                            statusMsg = v.status_msg;
+                        }
+                        modelShowTableData += "<tr style='background-color: " + statusBackgroundColor + "'><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><input type='checkbox' id='benTableCheckbox" + i + "' name='new_beneficiary' value=" + i + "></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.typeName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fatherName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.bankNo + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.uid + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;' title='" + statusMsg + "'>" + v.message + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.deleteBeneficiaryData(" + i + ")' style='color:red;'>Delete</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.restoreBeneficiaryData(" + i + ")' style='color: black;'>Restore</a></td></tr>";
                     }
                 });
 
@@ -282,8 +314,59 @@ var addBen = {
                 document.getElementById("popup_container").style["overflow"] = "scroll";
                 document.getElementById("popup_container").style["right"] = "100px";
                 document.getElementById("popup_container").style["left"] = "100px";
+                document.getElementById("popup_container").style["top"] = "10px";
+                document.getElementById("popup_content").style["padding"] = "0px";
+                document.getElementById("popup_content").style["background-image"] = "none";
+
+                // Select All Checkbox and Deselect All Checkbox
+                $('#select_all').on('click', function () {
+                    if (this.checked) {
+                        $.each($("input[name='new_beneficiary']"), function () {
+                            $(this).attr("checked", "checked");
+                        });
+                    } else {
+                        $.each($("input[name='new_beneficiary']"), function () {
+                            $(this).removeAttr("checked");
+                        });
+                    }
+                });
             }
         }
+    },
+
+    // Close Model Box
+    closeModel: function () {
+        $('#popup_ok').click();
+    },
+
+    /**
+     * Select Checkbox (success, warning, danger)
+     */
+    selectCustomCheckbox: function () {
+        var select_custom_checkbox = document.getElementById("select_custom_checkbox");
+        var selected = select_custom_checkbox.options[select_custom_checkbox.selectedIndex].value;
+        
+        var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
+        if (benData !== null) {
+            var benJSONData = JSON.parse(benData);
+            if (benJSONData.length === 0) {
+                return false;
+            } else {
+                benJSONData.forEach(function (v, i) {
+                    if (v.status !== undefined && v.status !== "") {
+                        $("#benTableCheckbox" + i).prop('checked', false);
+                        if (v.status === selected) {
+                            $("#benTableCheckbox" + i).prop('checked', true);
+                        } else if (v.status === selected) {
+                            $("#benTableCheckbox" + i).prop('checked', true);
+                        } else if (v.status === selected) {
+                            $("#benTableCheckbox" + i).prop('checked', true);
+                        }
+                    }
+                });
+            }
+        }
+        return false;
     },
 
     /**
@@ -323,6 +406,44 @@ var addBen = {
             }
         }
         return false;
+    },
+
+    /**
+     * Multiple/Single Delete Beneficiary Data
+     */
+    deleteBeneficiaryWithCheckbox: function () {
+        var selectedBen = $("input[name='new_beneficiary']:checked").length;
+        if (selectedBen > 0) {
+            var isDeleteData = confirm("Are you sure delete beneficiary (" + selectedBen + ") data?");
+            if (isDeleteData) {
+                var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
+                if (benData !== null) {
+                    var benJSONData = JSON.parse(benData);
+                    if (benJSONData.length === 0) {
+                        return false;
+                    } else {
+                        var removeValFrom = [];
+                        $.each($("input[name='new_beneficiary']:checked"), function () {
+                            removeValFrom.push(parseInt($(this).val()));
+                        });
+
+                        benJSONData = benJSONData.filter(function (value, index) {
+                            return removeValFrom.indexOf(index) == -1;
+                        });
+
+                        localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", JSON.stringify(benJSONData));
+
+                        addBen.construct();
+
+                        // Model Close Button
+                        $("#popup_ok").click();
+                    }
+                }
+            }
+        } else {
+            alert("Please Select Beneficiary Checkbox.");
+            return false;
+        }
     },
 
     /**
@@ -366,7 +487,7 @@ var addBen = {
 
         var modelShowTableData = '<textarea rows="8" cols="80" id="JSONDataElm" style="border: 1px solid rgba(0, 0, 0, 0.4);" placeholder="Enter Beneficiary JSON Data"></textarea>';
         modelShowTableData += "<br><br>";
-        modelShowTableData += '<a onclick="addBen.importBenLocalData()" style="background-color: #1397ad;border: none;color: white;padding: 6px 13px;text-align: center;text-decoration: none;display: inline-block;font-size: 13px;cursor: pointer;">Import Data</a>';
+        modelShowTableData += '<button id="importBenLocalData" onclick="addBen.importBenLocalData()" style="padding: 6px 13px;font-size: 13px;">Import Data</button>';
         modelShowTableData += "";
 
         jAlert(modelShowTableData, "JSON Beneficiary Data");
@@ -383,6 +504,9 @@ var addBen = {
             try {
                 var jsonData = JSON.parse(jsonDataString);
 
+                // Disable Import Button
+                $("#importBenLocalData").attr('disabled', 'disabled');
+
                 // Check OLD Beneficiary Data
                 var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
                 if (benData !== null) {
@@ -398,11 +522,18 @@ var addBen = {
                     } else {
                         // Insert Data
                         localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", jsonDataString);
+                        alert("JSON Data has been inserted successfully.");
+                        location.reload();
                     }
                 } else {
                     // Insert Data
                     localStorage.setItem("PFMS_ADD_BENEFICIARY_DATA", jsonDataString);
+                    alert("JSON Data has been inserted successfully.");
+                    location.reload();
                 }
+
+                // Remove Disable Attr
+                $("#importBenLocalData").removeAttr('disabled');
 
             } catch (err) {
                 alert("ERROR:: Invalid JSON Data.");
@@ -435,6 +566,43 @@ var addBen = {
         }
         alert("No Data Found!");
         return false;
+    },
+
+    /**
+     * Export Beneficiary Data in JSON Format With Checkbox
+     */
+    exportBenLocalDataWithCheckbox: function () {
+        var selectedBen = $("input[name='new_beneficiary']:checked").length;
+        if (selectedBen > 0) {
+            var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
+            if (benData !== null) {
+                var benJSONData = JSON.parse(benData);
+                if (benJSONData.length === 0) {
+                    return false;
+                } else {
+                    var downloadBenData = [];
+                    $.each($("input[name='new_beneficiary']:checked"), function () {
+                        var isExist = benJSONData[$(this).val()];
+                        if (isExist !== null && isExist !== undefined && isExist !== "") {
+                            // console.log(isExist);
+                            downloadBenData.push(isExist);
+                        } else {
+                            alert("Beneficiary Data Not Found: " + $(this).val());
+                        }
+                    });
+
+                    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(downloadBenData));
+                    var dlAnchorElem = document.getElementById('downloadAnchorElem');
+                    dlAnchorElem.setAttribute("href", dataStr);
+                    dlAnchorElem.setAttribute("download", "beneficiary_data_" + selectedBen + ".json");
+                    dlAnchorElem.click();
+                    return true;
+                }
+            }
+        } else {
+            alert("Please Select Beneficiary Checkbox.");
+            return false;
+        }
     },
 
     /**

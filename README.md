@@ -1,4 +1,4 @@
-# PFMS V.0.1.3
+# PFMS V.0.1.4
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -64,7 +64,24 @@ This extension is powered by `Jeevan Lal`.
 
 * change bank name in update mother account if save bank already save
 * CHANGE PFMS DEFAULT LOADING STYLE
+* Hidden Left Side Menu Bar
+* Change Error and Success Alert Box Style
+
+### **V.0.1.4**
+
+* `New :` Delete Beneficiary Local Data after Make Payment Successful
 * `New :` Rest Automatic Page with Time Difference in the `Add Beneficiary Page`
+* `Update :` Make Beneficiary Payment Script
+* `Update :` Delete Beneficiary Data and Refresh Beneficiary Local DataTable
+* `Update :` Import Beneficiary JSON Data in the LocalStorage Database (AddNewBeneficiary.aspx)
+* `Fix Bug :` Make Beneficiary Payment Script Table Index
+* `New :` Make Payment `status_msg` , `status` 
+```css
+/* status = s,d,w (s = success, d = error, w = warning) */
+background-color: #24e82487; /* (success color) */
+background-color: #f1f142ab; /* (warning color) */
+background-color: #ea292959; /* (danger color) */
+```
 
 ### **V.0.1.3**
 
