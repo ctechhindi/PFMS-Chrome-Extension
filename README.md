@@ -1,4 +1,4 @@
-# PFMS V.0.1.4
+# PFMS V.0.1.5
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -66,6 +66,11 @@ This extension is powered by `Jeevan Lal`.
 * CHANGE PFMS DEFAULT LOADING STYLE
 * Hidden Left Side Menu Bar
 * Change Error and Success Alert Box Style
+
+### **V.0.1.5**
+
+* `New :` Reset Payment Status 
+* `Update :` Fix Table Header in the Local Beneficial Data Model Page
 
 ### **V.0.1.4**
 

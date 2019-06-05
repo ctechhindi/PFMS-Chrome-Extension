@@ -268,9 +268,10 @@ var addBen = {
 
                 var modelShowTableData = "";
                 modelShowTableData += '<table style="padding-left: 20px" cellpadding="2" cellspacing="1" width="100%"><tbody>';
-                modelShowTableData += '<tr><td class="right" width="20%"></td><td class="left" width="30%"></td><td class="right" width="0%" valign="top"></td>';
-                modelShowTableData += '<td class="left" valign="top" width="45%">';
-                modelShowTableData += '<select style="margin-right: 5px;" id="select_custom_checkbox" onchange="addBen.selectCustomCheckbox()"><option value="">Select Checkbox</option><option value="s">Green</option><option value="w">Yellow</option><option value="d">Red</option></select>';
+                modelShowTableData += '<tr><td class="right" width="10%"></td><td class="left" width="30%"></td><td class="right" width="0%" valign="top"></td>';
+                modelShowTableData += '<td class="left" valign="top" width="55%">';
+                modelShowTableData += '<select style="margin-right: 5px;" id="select_custom_checkbox" onchange="addBen.selectCustomCheckbox()"><option value="">Select Checkbox</option><option value="s">Green</option><option value="w">Yellow</option><option value="d">Red</option><option value="empty">Default</option></select>';
+                modelShowTableData += '<button style="margin-right: 5px;" onclick="addBen.copyAadharNoBeneficiaryWithCheckbox()" title="Copy Beneficiary Aadhar No">Copy Aadhar No</button>';
                 modelShowTableData += '<button style="margin-right: 5px;" onclick="addBen.exportBenLocalDataWithCheckbox()" title="Export JSON Data">Download JSON Data</button>';
                 modelShowTableData += '<button onclick="addBen.deleteBeneficiaryWithCheckbox()" title="Multiple Beneficiary Delete">Delete Beneficiary</button>';
                 modelShowTableData += '<button style="margin-left: 5px;" onclick="addBen.closeModel()" title="Close Model">Close</button>';
@@ -278,9 +279,9 @@ var addBen = {
 
                 modelShowTableData += "<table style='background-color:White;border-color:Black;border-width:1px;border-style:Solid;width:100%;border-collapse:collapse;'>";
                 modelShowTableData += "<thead>";
-                modelShowTableData += "<tr><th><input type='checkbox' id='select_all'/></th><th>Type</th><th>Name</th><th>Husband</th><th>Account</th><th>Aadhaar</th><th>Message</th><th>Action</th><th>Action</th></tr>";
+                modelShowTableData += "<tr style='display:block;position:relative;'><th style='width: 42px;'><input type='checkbox' id='select_all'/></th><th style='width: 102px;'>Type</th><th style='width: 118px;'>Name</th><th style='width: 180px;'>Husband</th><th style='width: 110px;'>Account</th><th style='width: 119px;'>Aadhaar</th><th style='width: 271px;'>Message</th><th style='width: 73px;'>Action</th><th style='width: 62px;'>Action</th></tr>";
                 modelShowTableData += "</thead>";
-                modelShowTableData += "<tbody>";
+                modelShowTableData += "<tbody id='benTableTbody' style='display:block;height:500px;overflow:auto;width:100%;'>";
 
                 benJSONData.forEach(function (v, i) {
                     if (v !== undefined && v !== null && v !== "") {
@@ -300,7 +301,7 @@ var addBen = {
                         if (v.status_msg !== undefined && v.status_msg !== "") {
                             statusMsg = v.status_msg;
                         }
-                        modelShowTableData += "<tr style='background-color: " + statusBackgroundColor + "'><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><input type='checkbox' id='benTableCheckbox" + i + "' name='new_beneficiary' value=" + i + "></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.typeName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fatherName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.bankNo + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.uid + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;' title='" + statusMsg + "'>" + v.message + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.deleteBeneficiaryData(" + i + ")' style='color:red;'>Delete</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.restoreBeneficiaryData(" + i + ")' style='color: black;'>Restore</a></td></tr>";
+                        modelShowTableData += "<tr style='background-color: " + statusBackgroundColor + "'><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><input type='checkbox' id='benTableCheckbox" + i + "' name='new_beneficiary' value=" + i + "></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.typeName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.fatherName + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.bankNo + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'>" + v.uid + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px; width: 260px;' title='" + statusMsg + "'>" + v.message + "</td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.deleteBeneficiaryData(" + i + ")' style='color:red;'>Delete</a></td><td style='border: 1px solid #000000;text-align: center;font-size: 14px;padding: 0px 11px 0px;'><a onclick='addBen.restoreBeneficiaryData(" + i + ")' style='color: black;'>Restore</a></td></tr>";
                     }
                 });
 
@@ -311,8 +312,8 @@ var addBen = {
                 $("#popup_message").css('padding-left', '0px');
                 document.getElementById("popup_container").style["max-width"] = "100%";
                 document.getElementById("popup_container").style["height"] = "100%";
-                document.getElementById("popup_container").style["overflow"] = "scroll";
-                document.getElementById("popup_container").style["right"] = "100px";
+                // document.getElementById("popup_container").style["overflow"] = "scroll";
+                // document.getElementById("popup_container").style["right"] = "100px";
                 document.getElementById("popup_container").style["left"] = "100px";
                 document.getElementById("popup_container").style["top"] = "10px";
                 document.getElementById("popup_content").style["padding"] = "0px";
@@ -330,8 +331,32 @@ var addBen = {
                         });
                     }
                 });
+
+                $(window).on("resize", addBen.modelHeightSize);
+                addBen.modelHeightSize();
             }
         }
+    },
+
+    /**
+     * Copy output of a variable to the clipboard
+     * @param {*} text 
+     */
+    copyToClipboard: function (text) {
+        var dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+    },
+
+    /**
+     * Dynamic Model Height Change when changing screen size
+     */
+    modelHeightSize: function () {
+        var s_height = $(window).height();
+        $("#benTableTbody").css('height', (s_height - 125) + 'px');
     },
 
     // Close Model Box
@@ -340,12 +365,40 @@ var addBen = {
     },
 
     /**
+     * Copy Beneficiary Aadhaar No from checkbox
+     */
+    copyAadharNoBeneficiaryWithCheckbox: function () {
+        var selectedBen = $("input[name='new_beneficiary']:checked").length;
+        if (selectedBen > 0) {
+            var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
+            if (benData !== null) {
+                var benJSONData = JSON.parse(benData);
+                if (benJSONData.length === 0) {
+                    return false;
+                } else {
+                    var copyAadharNo = "";
+                    $.each($("input[name='new_beneficiary']:checked"), function () {
+                        var isExist = benJSONData[parseInt($(this).val())];
+                        if (isExist !== null && isExist !== undefined && isExist !== "" && isExist.uid !== "" && isExist.uid !== undefined) {
+                            copyAadharNo += isExist.uid + ",";
+                        }
+                    });
+                    addBen.copyToClipboard(copyAadharNo.slice(0, -1));
+                }
+            }
+        } else {
+            alert("Please Select Beneficiary Checkbox.");
+            return false;
+        }
+    },
+
+    /**
      * Select Checkbox (success, warning, danger)
      */
     selectCustomCheckbox: function () {
         var select_custom_checkbox = document.getElementById("select_custom_checkbox");
         var selected = select_custom_checkbox.options[select_custom_checkbox.selectedIndex].value;
-        
+
         var benData = localStorage.getItem("PFMS_ADD_BENEFICIARY_DATA");
         if (benData !== null) {
             var benJSONData = JSON.parse(benData);
@@ -360,6 +413,12 @@ var addBen = {
                         } else if (v.status === selected) {
                             $("#benTableCheckbox" + i).prop('checked', true);
                         } else if (v.status === selected) {
+                            $("#benTableCheckbox" + i).prop('checked', true);
+                        }
+
+                    } else {
+                        $("#benTableCheckbox" + i).prop('checked', false);
+                        if (selected === "empty") {
                             $("#benTableCheckbox" + i).prop('checked', true);
                         }
                     }
