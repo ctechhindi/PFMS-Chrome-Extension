@@ -49,7 +49,7 @@ var pay = {
     },
 
     /**
-     * Export All Benficiary to Excel
+     * Export All Beneficiary to Excel
      */
     exportBeneficiaryInExcel: function () {
 

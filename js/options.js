@@ -1,13 +1,10 @@
-/**
- * Vue js
- */
 Vue.use(Buefy.default)
 new Vue({
     el: '#app',
     data: {
         title: "PFMS",
         description: "To work smoothly on PFMS",
-        version: "V0.1.5",
+        version: "V0.1.6",
         // Application Status
         appStatus: false,
         // Active Tab

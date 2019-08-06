@@ -34,7 +34,7 @@ chrome.commands.onCommand.addListener(function (command) {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status == "complete") {
-        
+
         /**
          * Add/Update Beneficiary
          * @link: https://pfms.nic.in/BenificaryManagement/AddUpdateBenifeciary.aspx
@@ -48,11 +48,11 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                     console.error(chrome.runtime.lastError.message);
                 }
             });
-        
-        /**
-         * Beneficiaries Pending For Approval
-         * @link: https://pfms.nic.in/BenificaryManagement/MakerSefList.aspx
-         */
+
+            /**
+             * Beneficiaries Pending For Approval
+             * @link: https://pfms.nic.in/BenificaryManagement/MakerSefList.aspx
+             */
         } else if (tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/MakerSefList.aspx\/*/)) {
             chrome.tabs.executeScript(tabId, {
                 file: '/js/main_script/run_common_script.js',
@@ -62,10 +62,10 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                 }
             });
 
-        /**
-         * Search Beneficiary
-         * @link: https://pfms.nic.in/BenificaryManagement/BenificarySearch.aspx
-         */
+            /**
+             * Search Beneficiary
+             * @link: https://pfms.nic.in/BenificaryManagement/BenificarySearch.aspx
+             */
         } else if (tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/BenificarySearch.aspx\/*/)) {
             chrome.tabs.executeScript(tabId, {
                 file: '/js/main_script/run_common_script.js',
@@ -75,10 +75,10 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                 }
             });
 
-        /**
-         * Payment Due Flag Process
-         * @link: https://pfms.nic.in/paymentprocess/ManualPaymentFlag.aspx
-         */
+            /**
+             * Payment Due Flag Process
+             * @link: https://pfms.nic.in/paymentprocess/ManualPaymentFlag.aspx
+             */
         } else if (tab.url.match(/https:\/\/pfms.nic.in\/paymentprocess\/ManualPaymentFlag.aspx\/*/)) {
             chrome.tabs.executeScript(tabId, {
                 file: '/js/main_script/run_common_script.js',
@@ -88,10 +88,10 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                 }
             });
 
-        /**
-         * Beneficiary: Bulk Edit After Approval
-         * @link: https://pfms.nic.in/BenificaryManagement/BulkEditAfterApproval.aspx
-         */
+            /**
+             * Beneficiary: Bulk Edit After Approval
+             * @link: https://pfms.nic.in/BenificaryManagement/BulkEditAfterApproval.aspx
+             */
         } else if (tab.url.match(/https:\/\/pfms.nic.in\/BenificaryManagement\/BulkEditAfterApproval.aspx\/*/)) {
             chrome.tabs.executeScript(tabId, {
                 file: '/js/main_script/run_common_script.js',

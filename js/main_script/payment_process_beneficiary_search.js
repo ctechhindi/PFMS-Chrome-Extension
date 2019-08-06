@@ -59,8 +59,8 @@
     app.checkApplicationStatus().then(function (resp) {
 
         /**
-         * Custom Data : Fetch All Extension Local Storage Key Data
-         */
+        * Custom Data : Fetch All Extension Local Storage Key Data
+        */
         chrome.storage.local.get(app.getDataElement.paymentProcessBeneficiarySearch, function (budget) {
             if (budget.objectVal__paymentProcessBeneficiarySearch !== undefined) {
                 // console.log(budget.objectVal__paymentProcessBeneficiarySearch);
@@ -122,7 +122,7 @@
     },
 
     /**
-     * Export All Benficiary to Excel
+     * Export All Beneficiary to Excel
      */
     exportBeneficiaryInExcel: function () {
 

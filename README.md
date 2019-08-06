@@ -1,4 +1,4 @@
-# PFMS V.0.1.5
+# PFMS V.0.1.6
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -66,6 +66,21 @@ This extension is powered by `Jeevan Lal`.
 * CHANGE PFMS DEFAULT LOADING STYLE
 * Hidden Left Side Menu Bar
 * Change Error and Success Alert Box Style
+
+### **V.0.1.6**
+
+* `New :` Fill Basic Beneficiary Data for Beneficiary Aadhaar No
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<PrintLetterBarcodeData uid="xxxxxxxxxxxx" name="Beneficiary" gender="F" yob="1997" co="S/O: Beneficiary" lm="Address 1" loc="Address 2" vtc="Moradabad" po="Moradabad" dist="Moradabad" subdist="Thakurdwara" state="Uttar Pradesh" pc="244001" dob="03/01/1997"/>
+```
+
+* `New :` Copy Approval Beneficiary Aadhaar No
+    * `FILE : ` beneficiary_approval.js
+    * `URL : ` {pfms}/BenificaryManagement/BenificiaryApproval.aspx
+
+
 
 ### **V.0.1.5**
 

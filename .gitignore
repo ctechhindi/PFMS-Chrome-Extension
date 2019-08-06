@@ -1,2 +1,4 @@
 /version/*
+/node_modules/*
 demo.html
+build.js

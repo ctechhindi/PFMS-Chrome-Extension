@@ -108,6 +108,9 @@ var addBen = {
         id: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtSchemeSpecifiedId"); },
         uid: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtUIDNumber"); },
         address: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtAddress1"); },
+        address2: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtAddress2"); },
+        address3: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtAddress3"); },
+        pinCode: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtPinCode"); },
         bank: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtBank"); },
         bankNo: function () { return $("#ctl00_ctl00_cphBody_cphBody_txtAccountNo"); },
         submit: function () { return $("#ctl00_ctl00_cphBody_cphBody_btnSubmit"); },
@@ -238,7 +241,9 @@ var addBen = {
         $("#aspnetForm > table > tbody > tr.fullh > td.border.vtop.center.fullw > fieldset:nth-child(3) > table > tbody").append('\
 			<tr> \
                 <td class= "right" width = "20%" ></td > \
-                <td class="left" width="30%"></td> \
+                <td class="left" width="30%"> \
+                    <a onclick="addBen.aadharCardBarCodeDataModel()" style="color: mediumvioletred;font-size: 11px; font-weight: 600;">Scan Aadhar Card</a>\
+                </td> \
                 <td style="text-align: right;" width="20%">No of Beneficiary: </td> \
                 <td class="left" width="30%"> \
                     <span id="benLocalData"></span> \
@@ -601,6 +606,116 @@ var addBen = {
             }
         }
         return false;
+    },
+
+    /**
+     * [MODEL] Scan Aadhar Card with Bar Code
+     */
+    aadharCardBarCodeDataModel: function () {
+
+        var modelShowTableData = '<textarea rows="8" cols="80" id="aadharXMLText" style="border: 1px solid rgba(0, 0, 0, 0.4);" placeholder="Scan Aadhaar Bar Code"></textarea>';
+        modelShowTableData += "<br><br>";
+        modelShowTableData += '<button onClick="addBen.importAadhaarXMLData()" style="padding: 6px 13px;font-size: 13px;">Import Data</button>';
+        modelShowTableData += "";
+
+        jAlert(modelShowTableData, "Scan Aadhaar Bar Code");
+        $("#popup_message").css('padding-left', '0px');
+        document.getElementById("popup_container").style["max-width"] = "100%";
+
+        // Handling Enter Key on Textarea
+        $("#aadharXMLText").keyup(function (e) {
+            if ((e.keyCode || e.which) == 13) { //Enter keycode
+                var v = $("#aadharXMLText").val();
+                if (v !== undefined && v !== null && v !== "") {
+                    addBen.importAadhaarXMLData();
+                } else {
+                    alert("ERROR: Invalid Aadhaar XML Code.");
+                }
+            }
+        });
+    },
+
+    /**
+     * Import Aadhaar Bar Code XML Data
+     */
+    importAadhaarXMLData: function () {
+        var v = $("#aadharXMLText").val();
+        if (v !== undefined && v !== null && v !== "") {
+
+            var oParser = new DOMParser();
+            var oDOM = oParser.parseFromString(v, "application/xml");
+            var isValid = oDOM.documentElement.nodeName == "parsererror" ? "error while parsing" : oDOM.documentElement.nodeName;
+
+            if (isValid === "PrintLetterBarcodeData") {
+
+                s = oDOM.getElementsByTagName('PrintLetterBarcodeData');
+                var uid = s[0].getAttribute('uid');
+                var name = s[0].getAttribute('name');
+                var gender = s[0].getAttribute('gender');
+                var yob = s[0].getAttribute('yob');
+                var co = s[0].getAttribute('co');
+                var lm = s[0].getAttribute('lm');
+                var loc = s[0].getAttribute('loc'); // village
+                var street = s[0].getAttribute('street'); // city
+                var vtc = s[0].getAttribute('vtc');
+                var po = s[0].getAttribute('po');
+                var dist = s[0].getAttribute('dist');
+                var subdist = s[0].getAttribute('subdist');
+                var state = s[0].getAttribute('state');
+                var pc = s[0].getAttribute('pc');
+                var dob = s[0].getAttribute('dob');
+
+                // Set Aadhaar Data in Site
+                addBen.el.uid().val(uid);
+                addBen.el.fName().val(name.toUpperCase());
+
+                // Father Name
+                if (co !== null && co !== "") {
+                    var fatherHusbandName = co.split(":")[1];
+                    if (fatherHusbandName !== undefined) {
+                        addBen.el.fatherName().val(fatherHusbandName.toUpperCase().trim());
+                    } else {
+                        var fatherHusbandName = co.replace("W/O ", "");
+                        var fatherHusbandName = fatherHusbandName.replace("S/O ", "");
+                        addBen.el.fatherName().val(fatherHusbandName.toUpperCase());
+                    }
+                }
+
+                // Address
+                if (lm !== null) {
+                    addBen.el.address().val(lm.toUpperCase());
+                    addBen.el.address2().val(vtc.toUpperCase());
+                    addBen.el.address3().val(po.toUpperCase());
+                } else if (loc !== null) {
+                    addBen.el.address().val(loc.toUpperCase());
+                    addBen.el.address2().val(vtc.toUpperCase());
+                    addBen.el.address3().val(po.toUpperCase());
+                } else if (vtc !== null) {
+                    addBen.el.address().val(vtc.toUpperCase());
+                    addBen.el.address2().val(po.toUpperCase());
+                }
+
+                // Address For City
+                if (street !== null) {
+                    addBen.el.address().val(street.toUpperCase());
+                    addBen.el.address2().val(vtc.toUpperCase());
+                    addBen.el.address3().val(po.toUpperCase());
+                }
+
+                addBen.el.pinCode().val(pc);
+
+                // Close Model
+                addBen.closeModel();
+
+                // Focus Field Name
+                addBen.el.bank().focus();
+            } else {
+                alert("ERROR: Invalid Aadhaar XML Code. Type: " + isValid);
+            }
+
+        } else {
+            alert("ERROR: Invalid Aadhaar XML Code.");
+        }
     },
 
     /**
