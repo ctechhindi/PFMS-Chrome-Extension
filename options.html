@@ -927,68 +927,86 @@
                       <b-switch v-model="paymentProcessBeneficiarySearch.isRunScript" size="is-medium" type="is-danger">
                         Run Script </b-switch>
                     </div>
-                    <a target="_blank"
-                      href="https://drive.google.com/file/d/1E6s970fwxgzVXU-c4cFmz9pydid4Mc_5/view">Excel
-                      Simple File</a>
-                    <br>
-                    <a target="_blank" href="https://codebeautify.org/excel-to-json">Excel to Json
-                      Converter</a>
-                    <!-- Json Viewer -->
-                    <b-field label="Json Data">
-                      <b-input id="json-input" v-model="paymentProcessBeneficiarySearch.importBeneficiaryArray"
-                        type="textarea"></b-input>
-                    </b-field>
-                    <button class="button is-success" @click="isValidJsonData()">
-                      <b-icon icon="check"></b-icon>
-                      <span>Check Json is Valid</span>
-                    </button>
-                    <hr>
-                    <p class="jsonError has-text-danger" style="display: none;">There was a problem
-                      with the provided JSON. Please check that the JSON is valid.</p>
-                    <div id="output-container" style="display: none;">
-                      <h3>Output</h3>
-                      <div id="json-container"></div>
-                      <div class="demo-options">
-                        <button @click="jsonDataExpanAll()" class="button is-primary is-small">Expand All</button>
-                        <button @click="jsonDataCollapseAll()" class="button is-success is-small">Collapse All</button>
-                        <button @click="jsonDataExpanLevels()" class="button is-danger is-small">Expand Levels</button>
-                        Levels: <input type="text" id="levels" value="1" />
+                    <div v-show="paymentProcessBeneficiarySearch.isRunScript">
+                      <nav class="level">
+                        <div class="level-left">
+                          <div class="level-item">
+                            <div class="field">
+                              <label class="label is-medium">Select excel (.xlsx) file for Upload : </label>
+                              <input type="file" @change="uploadPaymentExcelSheet($event)">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="level-right">
+                          <p class="level-item">
+                            <a target="_blank"
+                              href="https://drive.google.com/file/d/1E6s970fwxgzVXU-c4cFmz9pydid4Mc_5/view"
+                              class="button is-info">
+                              <b-icon icon="file-excel"></b-icon>
+                              <span> &nbsp;Excel Simple File</span>
+                            </a>
+                          </p>
+                        </div>
+                      </nav>
+                      <!-- Json Viewer -->
+                      <b-field label="Json Data">
+                        <b-input id="json-input" v-model="paymentProcessBeneficiarySearch.importBeneficiaryArray"
+                          type="textarea" disabled></b-input>
+                      </b-field>
+                      <button class="button is-success" @click="isValidJsonData()">
+                        <b-icon icon="check"></b-icon>
+                        <span>Check Json is Valid</span>
+                      </button>
+                      <hr>
+                      <p class="jsonError has-text-danger" style="display: none;">There was a problem
+                        with the provided JSON. Please check that the JSON is valid.</p>
+                      <div id="output-container" style="display: none;">
+                        <h3>Output</h3>
+                        <div id="json-container"></div>
+                        <div class="demo-options">
+                          <button @click="jsonDataExpanAll()" class="button is-primary is-small">Expand All</button>
+                          <button @click="jsonDataCollapseAll()" class="button is-success is-small">Collapse
+                            All</button>
+                          <button @click="jsonDataExpanLevels()" class="button is-danger is-small">Expand
+                            Levels</button>
+                          Levels: <input type="text" id="levels" value="1" />
+                        </div>
                       </div>
-                    </div>
-                    <hr>
-                    <!-- More Settings -->
-                    <div class="columns is-desktop">
-                      <div class="column">
-                        <p class="is-size-6 has-text-danger has-text-weight-bold">Check Records
-                          : </p>
-                        <section>
-                          <div class="field">
-                            <b-switch v-model="paymentProcessBeneficiarySearch.isPFMSId">
-                              PFMS ID</b-switch>
-                          </div>
-                          <div class="field">
-                            <b-switch v-model="paymentProcessBeneficiarySearch.isAadharNo">
-                              Aadhar Number</b-switch>
-                          </div>
-                          <div class="field">
-                            <b-switch v-model="paymentProcessBeneficiarySearch.isAccountNo">
-                              Account Number</b-switch>
-                          </div>
-                        </section>
-                      </div>
-                      <div class="column">
-                        <p class="is-size-6 has-text-danger has-text-weight-bold">Show Import
-                          Data Logs : </p>
-                        <section>
-                          <div class="field">
-                            <b-switch v-model="paymentProcessBeneficiarySearch.isSuccessLogs">
-                              Success Logs</b-switch>
-                          </div>
-                          <div class="field">
-                            <b-switch v-model="paymentProcessBeneficiarySearch.isErrorLogs">
-                              Error Logs</b-switch>
-                          </div>
-                        </section>
+                      <hr>
+                      <!-- More Settings -->
+                      <div class="columns is-desktop">
+                        <div class="column">
+                          <p class="is-size-6 has-text-danger has-text-weight-bold">Check Records
+                            : </p>
+                          <section>
+                            <div class="field">
+                              <b-switch v-model="paymentProcessBeneficiarySearch.isPFMSId">
+                                PFMS ID</b-switch>
+                            </div>
+                            <div class="field">
+                              <b-switch v-model="paymentProcessBeneficiarySearch.isAadharNo">
+                                Aadhar Number</b-switch>
+                            </div>
+                            <div class="field">
+                              <b-switch v-model="paymentProcessBeneficiarySearch.isAccountNo">
+                                Account Number</b-switch>
+                            </div>
+                          </section>
+                        </div>
+                        <div class="column">
+                          <p class="is-size-6 has-text-danger has-text-weight-bold">Show Import
+                            Data Logs : </p>
+                          <section>
+                            <div class="field">
+                              <b-switch v-model="paymentProcessBeneficiarySearch.isSuccessLogs">
+                                Success Logs</b-switch>
+                            </div>
+                            <div class="field">
+                              <b-switch v-model="paymentProcessBeneficiarySearch.isErrorLogs">
+                                Error Logs</b-switch>
+                            </div>
+                          </section>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1023,6 +1041,7 @@
   <script src="js/json/jquery.jsonPresenter.js"></script>
   <script src="js/vue.min.js"></script>
   <script src="js/index.js"></script>
+  <script src="js/xlsx.full.min.js"></script>
   <script src="js/options.min.js"></script>
 </body>
 

@@ -11,6 +11,7 @@
     "cellpadding",
     "cellspacing",
     "cph",
+    "ctechhindi",
     "ctl",
     "data",
     "form",
@@ -38,8 +39,10 @@
     "tehsil",
     "thakurdwara",
     "type",
+    "unsortable",
     "uttar",
     "valign",
-    "vtop"
+    "vtop",
+    "youtube"
   ]
 }

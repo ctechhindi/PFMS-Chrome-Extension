@@ -1,4 +1,4 @@
-# PFMS V.0.1.6
+# PFMS V.0.1.7
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -66,6 +66,12 @@ This extension is powered by `Jeevan Lal`.
 * CHANGE PFMS DEFAULT LOADING STYLE
 * Hidden Left Side Menu Bar
 * Change Error and Success Alert Box Style
+
+### **V.0.1.7**
+
+* `New :` Make Beneficiary Payment with PFMS No and Account Number
+* `Update :` Upload Payment Excel Template in Option Page
+* `Update :` Fix Spelling `setValueINExtensionStrorage`
 
 ### **V.0.1.6**
 
@@ -174,3 +180,7 @@ background-color: #ea292959; /* (danger color) */
 * Know Your Payments
 * Import External Beneficiaries Data
 * Payment Process Beneficiary Search
+
+## Copyright and License
+
+Code copyright 2018-2019 ctechhindi. Code released under the [MIT license.](http://www.opensource.org/licenses/MIT)
