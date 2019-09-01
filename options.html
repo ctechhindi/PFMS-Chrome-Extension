@@ -41,25 +41,25 @@
             </div>
             <!-- Right side -->
             <div class="level-right">
-              <p class="level-item is-shady"><a href="https://bit.ly/ctechhindi-channel" target="_black"
+              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'YouTube Link', 'Click Link')" href="https://bit.ly/ctechhindi-channel" target="_black"
                   title="YouTube">
                   <b-icon icon="youtube-tv" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a href="https://www.facebook.com/speedtypingtutor" target="_black"
+              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Facebook Link', 'Click Link')" href="https://www.facebook.com/speedtypingtutor" target="_black"
                   title="Facebook">
                   <b-icon icon="facebook" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a href="https://github.com/ctechhindi" target="_black" title="GitHub">
+              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Github Link', 'Click Link')" href="https://github.com/ctechhindi" target="_black" title="GitHub">
                   <b-icon icon="github-circle" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a href="https://stackoverflow.com/users/9976176/c-tech-hindi"
+              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Stack-Overflow Link', 'Click Link')" href="https://stackoverflow.com/users/9976176/c-tech-hindi"
                   target="_black" title="Stack Overflow">
                   <b-icon icon="stack-overflow" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a href="https://twitter.com/ctechindi" target="_black" title="Twitter">
+              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Twitter Link', 'Click Link')" href="https://twitter.com/ctechindi" target="_black" title="Twitter">
                   <b-icon icon="twitter" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a href="https://jeevan15498.github.io" target="_black" title="Site">
+              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Web Link', 'Click Link')" href="https://jeevan15498.github.io" target="_black" title="Site">
                   <b-icon icon="web" type="is-white"></b-icon>
                 </a></p>
             </div>
@@ -1044,5 +1044,6 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/options.min.js"></script>
 </body>
+
 
 </html>

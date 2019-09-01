@@ -1,6 +1,6 @@
 {
 	"name": "PFMS",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"description": "To work smoothly on PFMS",
 	"icons": {
 		"16": "img/icon16.png",
@@ -31,6 +31,15 @@
 		"open_in_tab": true
 	},
 	"content_scripts": [
+		{
+			"matches": [
+				"https://pfms.nic.in/Users/LoginDetails/NewLayoutLogin.aspx"
+			],
+			"js": [
+				"js/main_script/user_login.js"
+			],
+			"all_frames": true
+		},
 		{
 			"matches": [
 				"https://pfms.nic.in/BenificaryManagement/AddNewBeneficiary.aspx"
@@ -117,7 +126,7 @@
 		}
 	},
 	"manifest_version": 2,
-	"content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com; object-src 'self'",
+	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'",
 	"web_accessible_resources": [
 		"js/jquery-1.8.3.min.js",
 		"options.html"

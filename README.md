@@ -1,4 +1,4 @@
-# PFMS V.0.1.7
+# PFMS V.0.1.8
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -66,6 +66,10 @@ This extension is powered by `Jeevan Lal`.
 * CHANGE PFMS DEFAULT LOADING STYLE
 * Hidden Left Side Menu Bar
 * Change Error and Success Alert Box Style
+
+### **V.0.1.8**
+
+* `New :` Google Analytics
 
 ### **V.0.1.7**
 

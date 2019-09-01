@@ -5,7 +5,7 @@ new Vue({
   data: {
     title: "PFMS",
     description: "To work smoothly on PFMS",
-    version: "V0.1.7",
+    version: "V0.1.8",
     // Application Status
     appStatus: false,
     // Active Tab
@@ -246,6 +246,25 @@ new Vue({
       }
       catch (e) { console.log('Caught', e); }
     },
+
+    /**
+     * Google Analytics: Send Event
+     */
+    sendAnalyticsEvent: function (hitType, eventCategory, eventAction, eventLabel) {
+      if (!hitType) hitType = 'event'
+      if (!eventCategory) eventCategory = 'Category'
+      if (!eventAction) eventAction = 'Action'
+      if (!eventLabel) eventLabel = 'Label'
+
+      if (ga !== undefined) {
+        ga('send', {
+          'hitType': hitType,
+          'eventCategory': eventCategory,
+          'eventAction': eventAction,
+          'eventLabel': eventLabel,
+        });
+      }
+    }
   },
 
   watch: {
@@ -253,7 +272,7 @@ new Vue({
     appStatus: function (newValue) {
       // console.log(newValue);
       this.setValueINExtensionStorage(newValue, 'switchVal__appStatus');
-
+      this.sendAnalyticsEvent("event", "Option Page", "Application Status", "Status: " + newValue);
       /**
        * Set Badge Text in Google Chrome Status Bar
        */
@@ -273,6 +292,7 @@ new Vue({
     addBeneficiary: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__addBeneficiaryDetails');
+        this.sendAnalyticsEvent("event", "Option Page", "Customized Add Beneficiary Details", "Status: " + newObject.isRunScript);
 
         if (newObject.isRunScript === true) {
           document.getElementById('add_beneficiary').style.display = 'flex';
@@ -283,10 +303,11 @@ new Vue({
       deep: true
     },
 
-    // Create New Vendor
+    // Customized Create New Vendor Details
     createNewVendor: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__createNewVendorDetails');
+        this.sendAnalyticsEvent("event", "Option Page", "Customized Create New Vendor Details", "Status: " + newObject.isRunScript);
 
         if (newObject.isRunScript === true) {
           document.getElementById('create_new_vendor').style.display = 'flex';
@@ -301,6 +322,7 @@ new Vue({
     knowPayment: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__knowPaymentDetails');
+        this.sendAnalyticsEvent("event", "Option Page", "Customized Know Your Payments Details", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
@@ -309,11 +331,10 @@ new Vue({
     makeBeneficiaryPayment: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__makeBeneficiaryPaymentDetails');
+        this.sendAnalyticsEvent("event", "Option Page", "Store Beneficiary Data in Local Storage", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
-
-
 
     // Customized Import External Beneficiaries Data
     importExternalBeneData: {
@@ -325,14 +346,16 @@ new Vue({
           this.importExternalBeneData.isDist = false;
         }
         this.setValueINExtensionStorage(newObject, 'objectVal__importExternalBeneData');
+        this.sendAnalyticsEvent("event", "Option Page", "Customized Import External Beneficiaries Data", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
 
-    // Beneficiary Amount Import with JSON Data
+    // Beneficiary Amount Import with Excel and JSON Data
     paymentProcessBeneficiarySearch: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__paymentProcessBeneficiarySearch');
+        this.sendAnalyticsEvent("event", "Option Page", "Beneficiary Amount Import with Excel and JSON Data", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
@@ -341,6 +364,7 @@ new Vue({
     paymentProcessBeneficiary_BackupImportAmount: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__paymentProcessBeneficiary_BackupImportAmount');
+        this.sendAnalyticsEvent("event", "Option Page", "Backup/Import Fill Beneficiaries Amount", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
@@ -349,6 +373,7 @@ new Vue({
     commonData: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__commonData');
+        this.sendAnalyticsEvent("event", "Option Page", "Common Data", "");
       },
       deep: true
     },
@@ -389,5 +414,17 @@ new Vue({
 
     // Common Data
     this.setDataINVariable('objectVal__commonData', 'commonData');
+
+    // Standard Google Universal Analytics code
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga'); // Note: https protocol here
+
+    ga('create', 'UA-120080017-2', 'auto');
+    ga('set', 'checkProtocolTask', function () { });
+    ga('send', 'pageview', '/options.html');
   }
 });
