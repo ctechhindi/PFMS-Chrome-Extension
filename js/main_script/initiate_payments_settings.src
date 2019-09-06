@@ -29,7 +29,7 @@
          * Get Application Data
          */
         getDataElement: {
-            backupImportSettings: "objectVal__paymentProcessBeneficiary_BackupImportAmount",
+            backupImportSettings: "objectVal__initiatePaymentsSettings",
         },
 
         /**
@@ -57,9 +57,9 @@
          * Custom Data : Fetch All Extension Local Storage Key Data
          */
         chrome.storage.local.get(app.getDataElement.backupImportSettings, function (budget) {
-            if (budget.objectVal__paymentProcessBeneficiary_BackupImportAmount !== undefined) {
-                // console.log(budget.objectVal__paymentProcessBeneficiary_BackupImportAmount);
-                localStorage.setItem("pfms_paymentProcessBeneficiary_BackupImportAmount", JSON.stringify(budget.objectVal__paymentProcessBeneficiary_BackupImportAmount));
+            if (budget.objectVal__initiatePaymentsSettings !== undefined) {
+                // console.log(budget.objectVal__initiatePaymentsSettings);
+                localStorage.setItem("pfms_initiatePaymentsSettings", JSON.stringify(budget.objectVal__initiatePaymentsSettings));
             }
         });
 

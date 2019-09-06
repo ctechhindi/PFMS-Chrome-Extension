@@ -1,4 +1,4 @@
-# PFMS V.0.1.8
+# PFMS V.0.1.9
 This extension is powered by `Jeevan Lal`.
 
 * https://github.com/ctechhindi/PFMS-Chrome-Extension
@@ -14,7 +14,7 @@ This extension is powered by `Jeevan Lal`.
 | Know Your Payments | `pfms_knowPayment` |
 | Beneficiary Amount Import with JSON Data | `pfms_paymentProcessBeneficiarySearch` |
 | Common Data | `pfms_commonData` |
-| Backup/Import Fill Beneficiaries Amount | `pfms_paymentProcessBeneficiary_BackupImportAmount` |
+| Initiate Payments Settings | `pfms_initiatePaymentsSettings` |
 | Store Beneficiary Data in Local Storage and Make Payment in the E-Payment | `pfms_beneficiaryMakePayment` |
 | Create New Vendor | `pfms_createNewVendor_Details` |
 
@@ -32,7 +32,7 @@ This extension is powered by `Jeevan Lal`.
 | Import External Beneficiaries Data | `objectVal__importExternalBeneData` |
 | Beneficiary Amount Import with JSON Data | `objectVal__paymentProcessBeneficiarySearch` |
 | Common Data | `objectVal__commonData` |
-| Backup/Import Fill Beneficiaries Amount | `objectVal__paymentProcessBeneficiary_BackupImportAmount` |
+| Initiate Payments Settings | `objectVal__initiatePaymentsSettings` |
 | Store Beneficiary Data in Local Storage and Make Payment in the E-Payment | `objectVal__makeBeneficiaryPaymentDetails` |
 | Create New Vendor | `objectVal__createNewVendorDetails` |
 
@@ -45,7 +45,6 @@ This extension is powered by `Jeevan Lal`.
 | Name | Variable Name |
 | ---- | ------------- |
 | Developers mode | `switchVal__DevMode` |
-
 
 ## Features
 
@@ -66,6 +65,16 @@ This extension is powered by `Jeevan Lal`.
 * CHANGE PFMS DEFAULT LOADING STYLE
 * Hidden Left Side Menu Bar
 * Change Error and Success Alert Box Style
+
+### **V.0.1.9**
+
+* `New :` ON/OFF Aadhaar QR-Code Scan Option
+* `New :` Get `District, Black/Tehsil, Panchayat/Town, Village/Ward` Code Add New Option
+* `Update :` When closed Aadhaar Card Scan Model then focus Beneficial Name Field
+* `Update :` Change Payment Backup Button Name `Show LocalStorage Data` to `Restore Payment`
+* `Update :` Change file name `js\scripts\payment_process_search.js` to `js\scripts\initiate_payments_settings.js`
+* `Update :` Import Beneficiary Payment for Excel File HTML Template
+* `Remove :` Google Analytics
 
 ### **V.0.1.8**
 

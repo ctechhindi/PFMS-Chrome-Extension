@@ -5,7 +5,7 @@ new Vue({
   data: {
     title: "PFMS",
     description: "To work smoothly on PFMS",
-    version: "V0.1.8",
+    version: "V0.1.9",
     // Application Status
     appStatus: false,
     // Active Tab
@@ -37,6 +37,8 @@ new Vue({
       address1: "Mundapandey",
       isPincode: false,
       pincode: "244001",
+      // Get Address Code
+      isGetAddressCode: false,
       // State
       isState: false,
       state: '31',
@@ -71,6 +73,8 @@ new Vue({
       // Village Name AutoComplete
       isAutoCompleteAdd: false,
       villageDataBase: "AFJALPUR,AHROLA,AKKA DILARI,AKKA PANDAY BHOJPUR,AKKA PANDEY,AKKA RAIPUR,BARWARA KHAS,BHADASANA,BHAEPUR,BHAJAN PURI,BHAYPUR,BHEET KHERA,BHIT KHERA,BIKANPUR,BINA BALA,BIRPUR BARYAN,BIRPUR THAN,BOOJ PUR ASHA,BOOJ PUR MAAN,BUJHPUR ASHA,BUJPUR MAAN,CHAK LAL PUR,CHAMAR PURA DAAN,CHAMARPURA,CHAMRAUA,CHANDAN PUR,CHANDANPUR ISAPUR,CHAPARA,CHATAR NATKA KHERA,DALPATPUR,DAULARA,DAULARI,DAULATPUR,DAULATPUR AZMATPUR,DEVAPUR,DHATURA MEGHA NAGLA,DILARI,DILRA RAIPUR,DUPERA,DUPERA KA MANJHRA,GADAI KHERA,GANESH GHAT,GATAURA,GAUTORA,GHOSHI PURA,GOVERDHANPUR,GOVIND PUR KALA,GOVIND PUR KHURD,HALA NAGLA,HARDIYA PUR,HARSAIN PUR,HASAN GANJ,HEERAN KHERA,HIRAN KHEDA,ILAR RASULABAD,IMLAKH,JAGATPUR,JAGATPUR RAMRAY,JAGRAMPURA,JAIT PUR BISAT,JAITIA SADULLAPUR,JAITPURA BISHAT,JAITYA,JHONDA,KAMRU,KARANPUR,KHABARIYA BHUR,KHAI KHERA,KHAIR KHATA,KHAN PUR,KHANPUR LAKKHI,KHARAGPUR BAZE,KHARAGPUR JAGATPUR,KISVA NAGLA,LADPUR,LAL TIKAR,LALPUR TITRI,LAXMIPUR KATII,LODHI PUR BASU,MAAN PUR PATTI,MACHARIYA,MACHHARIYA,MADNAPUR,MAHESHPUR BHEELA,MANI MATI PUR,MANJHARA JHANDAIL,MANKARA,MANPUR PATTI,MATI URF MAINI,MAULA GARH,MILAK BHOBHI,MILAK BOOJ PUR ASHA,MILAK DAULARI,MILAK DHOBI,MILAK DHOVI VALI,MILAK DILARI,MILAK GAUTORA,MILAK KHADAKPUR BAJE,MILAK KUNDA,MILAK MANKARA,MILAK SAIF PUR PALLA,MILAK SAIJNA,MILAK SIHORA,MILAK KHAIR KHATA,MOHAAMAD KULIPUR URF NAGALA,MOHAMADPUR,MUDIYA ETMALI,MUDIYA MALUKPUR,MUNDAPANDEY,MUNDIYA BAHI PUR,MUNEMPUR,NABABPURA,NABBA NAGLA,NAJAR PUR BHARAT SINGH,NAR KHERA,NARKHERA,NAZARPUR,NIYAMATPUR,PAIPATPURA,PARSUPURA,PARSUPURA BAZE,PEDURIYA,RAFATPUR,RAJHODA,RAMPUR BHEELA,RANIYA THER,RASUL PUR NAGLI,RONDA,RUSTAMPUR BADHMAR,SAHARIYA,SAIFPUR PALLA,SAIJANA,SAKTU NAGLA,SALEMPUR,SAMDA,SAMDA RAM SHAHAY,SAMDI,SARKADA KHAS,SEHARIYA,SHARIYA,SHIVPURI,SIHORA BAJE,SIKANDARPUR PATTI,SIRAS KHEDA,SIRSA INAYATPUR,TAHANAYAK,VEERPUR THAN,VEERPUR VARYAR,VIKAN PUR,JETPUR VISHAT,PEPTPURA,MUNDIYA MALUKPUR",
+      // Scan Aadhaar QR-Code
+      isScanAadhaarNo: false,
     },
 
     /**
@@ -133,9 +137,13 @@ new Vue({
       isErrorLogs: false,
     },
 
-    // Backup/Import Fill Beneficiaries Amount
-    paymentProcessBeneficiary_BackupImportAmount: {
-      isRunScript: false,
+    /**
+     * Initiate Payments Settings
+     * js\scripts\initiate_payments_settings.js [UPDATE]
+     */
+    initiatePaymentsSettings: {
+      isActiveBackupRestore: false,
+      isMakePaymentDifferentMode: false,
     }
   },
 
@@ -245,25 +253,6 @@ new Vue({
         });
       }
       catch (e) { console.log('Caught', e); }
-    },
-
-    /**
-     * Google Analytics: Send Event
-     */
-    sendAnalyticsEvent: function (hitType, eventCategory, eventAction, eventLabel) {
-      if (!hitType) hitType = 'event'
-      if (!eventCategory) eventCategory = 'Category'
-      if (!eventAction) eventAction = 'Action'
-      if (!eventLabel) eventLabel = 'Label'
-
-      if (ga !== undefined) {
-        ga('send', {
-          'hitType': hitType,
-          'eventCategory': eventCategory,
-          'eventAction': eventAction,
-          'eventLabel': eventLabel,
-        });
-      }
     }
   },
 
@@ -272,7 +261,7 @@ new Vue({
     appStatus: function (newValue) {
       // console.log(newValue);
       this.setValueINExtensionStorage(newValue, 'switchVal__appStatus');
-      this.sendAnalyticsEvent("event", "Option Page", "Application Status", "Status: " + newValue);
+
       /**
        * Set Badge Text in Google Chrome Status Bar
        */
@@ -292,7 +281,6 @@ new Vue({
     addBeneficiary: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__addBeneficiaryDetails');
-        this.sendAnalyticsEvent("event", "Option Page", "Customized Add Beneficiary Details", "Status: " + newObject.isRunScript);
 
         if (newObject.isRunScript === true) {
           document.getElementById('add_beneficiary').style.display = 'flex';
@@ -307,7 +295,6 @@ new Vue({
     createNewVendor: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__createNewVendorDetails');
-        this.sendAnalyticsEvent("event", "Option Page", "Customized Create New Vendor Details", "Status: " + newObject.isRunScript);
 
         if (newObject.isRunScript === true) {
           document.getElementById('create_new_vendor').style.display = 'flex';
@@ -322,7 +309,6 @@ new Vue({
     knowPayment: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__knowPaymentDetails');
-        this.sendAnalyticsEvent("event", "Option Page", "Customized Know Your Payments Details", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
@@ -331,7 +317,6 @@ new Vue({
     makeBeneficiaryPayment: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__makeBeneficiaryPaymentDetails');
-        this.sendAnalyticsEvent("event", "Option Page", "Store Beneficiary Data in Local Storage", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
@@ -346,7 +331,6 @@ new Vue({
           this.importExternalBeneData.isDist = false;
         }
         this.setValueINExtensionStorage(newObject, 'objectVal__importExternalBeneData');
-        this.sendAnalyticsEvent("event", "Option Page", "Customized Import External Beneficiaries Data", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
@@ -355,16 +339,14 @@ new Vue({
     paymentProcessBeneficiarySearch: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__paymentProcessBeneficiarySearch');
-        this.sendAnalyticsEvent("event", "Option Page", "Beneficiary Amount Import with Excel and JSON Data", "Status: " + newObject.isRunScript);
       },
       deep: true
     },
 
-    // Backup/Import Fill Beneficiaries Amount
-    paymentProcessBeneficiary_BackupImportAmount: {
+    // Initiate Payments Settings
+    initiatePaymentsSettings: {
       handler: function (newObject) {
-        this.setValueINExtensionStorage(newObject, 'objectVal__paymentProcessBeneficiary_BackupImportAmount');
-        this.sendAnalyticsEvent("event", "Option Page", "Backup/Import Fill Beneficiaries Amount", "Status: " + newObject.isRunScript);
+        this.setValueINExtensionStorage(newObject, 'objectVal__initiatePaymentsSettings');
       },
       deep: true
     },
@@ -373,7 +355,6 @@ new Vue({
     commonData: {
       handler: function (newObject) {
         this.setValueINExtensionStorage(newObject, 'objectVal__commonData');
-        this.sendAnalyticsEvent("event", "Option Page", "Common Data", "");
       },
       deep: true
     },
@@ -409,22 +390,10 @@ new Vue({
     // Import External Beneficiaries Data
     this.setDataINVariable('objectVal__paymentProcessBeneficiarySearch', 'paymentProcessBeneficiarySearch');
 
-    // Backup/Import Fill Beneficiaries Amount
-    this.setDataINVariable('objectVal__paymentProcessBeneficiary_BackupImportAmount', 'paymentProcessBeneficiary_BackupImportAmount');
+    // Initiate Payments Settings
+    this.setDataINVariable('objectVal__initiatePaymentsSettings', 'initiatePaymentsSettings');
 
     // Common Data
     this.setDataINVariable('objectVal__commonData', 'commonData');
-
-    // Standard Google Universal Analytics code
-    (function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga'); // Note: https protocol here
-
-    ga('create', 'UA-120080017-2', 'auto');
-    ga('set', 'checkProtocolTask', function () { });
-    ga('send', 'pageview', '/options.html');
   }
 });

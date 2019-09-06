@@ -22,7 +22,7 @@
 </head>
 
 <body>
-  <div id="app" v-cloak>
+  <footer id="app" v-cloak>
     <section class="hero is-primary is-bold">
       <div class="hero-body">
         <div class="container">
@@ -40,31 +40,30 @@
               </div>
             </div>
             <!-- Right side -->
-            <div class="level-right">
-              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'YouTube Link', 'Click Link')" href="https://bit.ly/ctechhindi-channel" target="_black"
+            <div class="level-right" style="text-align: center;">
+              <p class="level-item is-shady"><a href="https://bit.ly/ctechhindi-channel" target="_black"
                   title="YouTube">
                   <b-icon icon="youtube-tv" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Facebook Link', 'Click Link')" href="https://www.facebook.com/speedtypingtutor" target="_black"
+              <p class="level-item is-shady"><a href="https://www.facebook.com/speedtypingtutor" target="_black"
                   title="Facebook">
                   <b-icon icon="facebook" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Github Link', 'Click Link')" href="https://github.com/ctechhindi" target="_black" title="GitHub">
+              <p class="level-item is-shady"><a href="https://github.com/ctechhindi" target="_black" title="GitHub">
                   <b-icon icon="github-circle" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Stack-Overflow Link', 'Click Link')" href="https://stackoverflow.com/users/9976176/c-tech-hindi"
+              <p class="level-item is-shady"><a href="https://stackoverflow.com/users/9976176/c-tech-hindi"
                   target="_black" title="Stack Overflow">
                   <b-icon icon="stack-overflow" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Twitter Link', 'Click Link')" href="https://twitter.com/ctechindi" target="_black" title="Twitter">
+              <p class="level-item is-shady"><a href="https://twitter.com/ctechindi" target="_black" title="Twitter">
                   <b-icon icon="twitter" type="is-white"></b-icon>
                 </a></p>
-              <p class="level-item is-shady"><a @click="sendAnalyticsEvent('event', 'Option Page', 'Web Link', 'Click Link')" href="https://jeevan15498.github.io" target="_black" title="Site">
+              <p class="level-item is-shady"><a href="https://jeevan15498.github.io" target="_black" title="Site">
                   <b-icon icon="web" type="is-white"></b-icon>
                 </a></p>
             </div>
           </nav>
-          <p style="font-family: cursive; margin: -19px 0px -20px;">@jeevan15498</p>
         </div>
       </div>
     </section>
@@ -267,6 +266,13 @@
               </b-select>
             </b-field>
             <hr>
+            <footer class="footer" style="padding: 1rem 1.5rem 2rem;">
+              <div class="content has-text-centered has-text-dark">
+                <p>It is our policy to respect your privacy regarding any information we may collect from you across our
+                  google extension.</p>
+                Made with <span class="icon has-text-danger"><i class="mdi mdi-heart mdi-24px"></i></span> in India
+              </div>
+            </footer>
           </div>
         </b-tab-item>
 
@@ -590,6 +596,11 @@
                           Details</p>
                         <section>
                           <div class="field">
+                            <b-switch v-model="addBeneficiary.isGetAddressCode">Get District, Black/Tehsil,
+                              Panchayat/Town, Village/Ward Code
+                            </b-switch>
+                          </div>
+                          <div class="field">
                             <b-switch v-model="addBeneficiary.isState">State </b-switch>
                           </div>
                           <b-field v-show="addBeneficiary.isState">
@@ -746,10 +757,14 @@
                         </section>
                       </div>
                     </div>
-                    <hr>
                     <div class="field">
                       <b-switch v-model="makeBeneficiaryPayment.isRunScript" size="is-medium" type="is-danger">Store
                         Beneficiary Data in Local Storage and Make Payment in the E-Payment
+                      </b-switch>
+                    </div>
+                    <div class="field">
+                      <b-switch v-model="addBeneficiary.isScanAadhaarNo" size="is-medium" type="is-danger">
+                        Scan Beneficiary Aadhaar QR Code for Fill Beneficiary Data
                       </b-switch>
                     </div>
                   </div>
@@ -1013,18 +1028,23 @@
                 </div>
               </b-collapse>
 
-              <!-- Backup/Import Fill Beneficiaries Amount :: Details -->
+              <!-- Initiate Payments Settings :: Details -->
               <b-collapse class="panel" :open="false">
                 <div slot="trigger" class="panel-heading notification is-danger">
                   <b-icon icon="database"></b-icon>
-                  <strong> Backup/Import Fill Beneficiaries Amount</strong>
+                  <strong> Initiate Payments Settings</strong>
                 </div>
                 <div class="panel-block">
                   <div class="content is-small" style="width: -webkit-fill-available;">
                     <div class="field">
-                      <b-switch v-model="paymentProcessBeneficiary_BackupImportAmount.isRunScript" size="is-medium"
+                      <b-switch v-model="initiatePaymentsSettings.isActiveBackupRestore" size="is-medium"
                         type="is-danger">
-                        Run Script </b-switch>
+                        Backup/Import Beneficiary Amount in Initiate Payments Page</b-switch>
+                    </div>
+                    <div class="field">
+                      <b-switch v-model="initiatePaymentsSettings.isMakePaymentDifferentMode" size="is-medium"
+                        type="is-danger">
+                        Make Payment With Aadhar, Account, PFMS No in Initiate Payments Page</b-switch>
                     </div>
                   </div>
                 </div>
@@ -1037,12 +1057,12 @@
     <br>
     <br>
     <br>
-  </div>
-  <script src="js/json/jquery.jsonPresenter.js"></script>
-  <script src="js/vue.min.js"></script>
-  <script src="js/index.js"></script>
-  <script src="js/xlsx.full.min.js"></script>
-  <script src="js/options.min.js"></script>
+    </div>
+    <script src="js/json/jquery.jsonPresenter.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/xlsx.full.min.js"></script>
+    <script src="js/options.min.js"></script>
 </body>
 
 

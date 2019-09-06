@@ -1,6 +1,6 @@
 {
-	"name": "PFMS",
-	"version": "0.1.8",
+	"name": "Easily Work in the PFMS ",
+	"version": "0.1.9",
 	"description": "To work smoothly on PFMS",
 	"icons": {
 		"16": "img/icon16.png",
@@ -31,15 +31,6 @@
 		"open_in_tab": true
 	},
 	"content_scripts": [
-		{
-			"matches": [
-				"https://pfms.nic.in/Users/LoginDetails/NewLayoutLogin.aspx"
-			],
-			"js": [
-				"js/main_script/user_login.js"
-			],
-			"all_frames": true
-		},
 		{
 			"matches": [
 				"https://pfms.nic.in/BenificaryManagement/AddNewBeneficiary.aspx"
@@ -78,7 +69,7 @@
 				"https://pfms.nic.in/PaymentProcess/PaymentProcessBeneficiarySearch.aspx*"
 			],
 			"js": [
-				"js/main_script/payment_process_search.js",
+				"js/main_script/initiate_payments_settings.js",
 				"js/main_script/payment_process_beneficiary_search.js",
 				"js/main_script/run_common_script.js",
 				"js/main_script/add_beneficiary_make_payment.js"
